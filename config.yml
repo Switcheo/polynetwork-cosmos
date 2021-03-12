@@ -6,3 +6,5 @@ accounts:
 validator:
   name: alice
   staked: "100000000stake"
+host:
+  frontend: ":8081"

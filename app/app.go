@@ -86,6 +86,9 @@ import (
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
+	"github.com/Switcheo/polynetwork-cosmos/x/btcx"
+	btcxkeeper "github.com/Switcheo/polynetwork-cosmos/x/btcx/keeper"
+	btcxtypes "github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 )
 
 const Name = "polynetworkcosmos"
@@ -133,6 +136,7 @@ var (
 		vesting.AppModuleBasic{},
 		polynetworkcosmos.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+		btcx.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -205,6 +209,7 @@ type App struct {
 
 	polynetworkcosmosKeeper polynetworkcosmoskeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+	btcxKeeper btcxkeeper.Keeper
 
 	// the module manager
 	mm *module.Manager
@@ -235,6 +240,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		polynetworkcosmostypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
+		btcxtypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
@@ -334,6 +340,11 @@ func New(
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
+	app.btcxKeeper = *btcxkeeper.NewKeeper(
+		appCodec,
+		keys[btcxtypes.StoreKey],
+		keys[btcxtypes.MemStoreKey],
+	)
 
 	app.GovKeeper = govkeeper.NewKeeper(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
@@ -371,6 +382,7 @@ func New(
 		transferModule,
 		polynetworkcosmos.NewAppModule(appCodec, app.polynetworkcosmosKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
+		btcx.NewAppModule(appCodec, app.btcxKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -405,6 +417,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		polynetworkcosmostypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
+		btcxtypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -598,6 +611,7 @@ func initParamsKeeper(appCodec codec.BinaryMarshaler, legacyAmino *codec.LegacyA
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
+	paramsKeeper.Subspace(btcxtypes.ModuleName)
 
 	return paramsKeeper
 }
