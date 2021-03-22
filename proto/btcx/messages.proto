@@ -1,0 +1,44 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.btcx;
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
+
+import "cosmos/base/v1beta1/coin.proto";
+// import "gogoproto/gogo.proto";
+
+message DenomInfo {
+  string creator = 1;
+  string id = 2;
+  string denom = 3;
+  string assetHash = 4;
+  cosmos.base.v1beta1.IntProto totalSupply = 5;
+  string redeemScript = 6;
+  string redeemScriptHash = 7;
+}
+
+message DenomCrossChainInfo {
+	DenomInfo denomInfo = 1;
+	uint64 toChainId = 2;
+	string toAssetHash = 3;
+}
+
+message MsgCreateDenom {
+  string creator = 1;
+  string denom = 2;
+  string redeemScript = 3;
+}
+
+message MsgBindAssetHash {
+  string creator = 1;
+	string sourceAssetDenom = 2;
+	uint64 toChainId = 3;
+	bytes toAssetHash = 4;
+}
+
+message MsgLock {
+	string fromAddress = 1;
+	string sourceAssetDenom = 2;
+	uint64 toChainId = 3;
+	bytes toAddressBs = 4;
+	cosmos.base.v1beta1.IntProto value = 5;
+}

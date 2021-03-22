@@ -10,6 +10,14 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	// this line is used by starport scaffolding # genesis/module/init
+	// Set all the DenomInfo
+	for _, elem := range genState.DenomInfoList {
+		k.SetDenomInfo(ctx, *elem)
+	}
+
+	// Set DenomInfo count
+	k.SetDenomInfoCount(ctx, int64(len(genState.DenomInfoList)))
+
 }
 
 // ExportGenesis returns the capability module's exported genesis.
@@ -17,6 +25,12 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 
 	// this line is used by starport scaffolding # genesis/module/export
+	// Get all DenomInfo
+	DenomInfoList := k.GetAllDenomInfo(ctx)
+	for _, elem := range DenomInfoList {
+		elem := elem
+		genesis.DenomInfoList = append(genesis.DenomInfoList, &elem)
+	}
 
 	return genesis
 }
