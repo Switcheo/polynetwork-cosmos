@@ -2,12 +2,13 @@ syntax = "proto3";
 package Switcheo.polynetworkcosmos.btcx;
 
 // this line is used by starport scaffolding # genesis/proto/import
-import "btcx/messages.proto";
+import "btcx/denom_info.proto";
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
 
 // GenesisState defines the btcx module's genesis state.
 message GenesisState {
-    // this line is used by starport scaffolding # genesis/proto/state
-		repeated DenomInfo DenomInfoList = 1; // this line is used by starport scaffolding # genesis/proto/stateField
+  // this line is used by starport scaffolding # genesis/proto/state
+  // this line is used by starport scaffolding # genesis/proto/stateField
+  // this line is used by starport scaffolding # ibc/genesis/proto
 }

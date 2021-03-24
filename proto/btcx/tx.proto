@@ -1,0 +1,43 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.btcx;
+
+import "cosmos/base/v1beta1/coin.proto";
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
+
+// Msg defines the Msg service.
+service Msg {
+    // this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateDenom(MsgCreateDenom) returns (MsgCreateDenomResponse);
+  rpc BindAssetHash(MsgBindAssetHash) returns (MsgBindAssetHashResponse);
+  rpc DeleteRemoveMe(MsgLock) returns (MsgLockResponse);
+}
+
+// this line is used by starport scaffolding # proto/tx/message
+message MsgCreateDenom {
+  string creator = 1;
+  string denom = 2;
+  string redeemScript = 3;
+}
+
+message MsgCreateDenomResponse { }
+
+message MsgBindAssetHash {
+  string creator = 1;
+	string sourceAssetDenom = 2;
+	uint64 toChainId = 3;
+	bytes toAssetHash = 4;
+}
+
+message MsgBindAssetHashResponse { }
+
+message MsgLock {
+	string fromAddress = 1;
+	string sourceAssetDenom = 2;
+	uint64 toChainId = 3;
+	bytes toAddressBs = 4;
+	cosmos.base.v1beta1.IntProto value = 5;
+}
+
+message MsgLockResponse { }

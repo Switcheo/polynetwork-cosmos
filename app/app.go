@@ -89,6 +89,9 @@ import (
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx"
 	btcxkeeper "github.com/Switcheo/polynetwork-cosmos/x/btcx/keeper"
 	btcxtypes "github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
+	"github.com/Switcheo/polynetwork-cosmos/x/ccm"
+	ccmkeeper "github.com/Switcheo/polynetwork-cosmos/x/ccm/keeper"
+	ccmtypes "github.com/Switcheo/polynetwork-cosmos/x/ccm/types"
 )
 
 const Name = "polynetworkcosmos"
@@ -136,6 +139,7 @@ var (
 		vesting.AppModuleBasic{},
 		polynetworkcosmos.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+		ccm.AppModuleBasic{},
 		btcx.AppModuleBasic{},
 	)
 
@@ -209,6 +213,8 @@ type App struct {
 
 	polynetworkcosmosKeeper polynetworkcosmoskeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+
+	ccmKeeper  ccmkeeper.Keeper
 	btcxKeeper btcxkeeper.Keeper
 
 	// the module manager
@@ -240,6 +246,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		polynetworkcosmostypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
+		ccmtypes.StoreKey,
 		btcxtypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -340,6 +347,13 @@ func New(
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
+
+	app.ccmKeeper = *ccmkeeper.NewKeeper(
+		appCodec,
+		keys[ccmtypes.StoreKey],
+		keys[ccmtypes.MemStoreKey],
+	)
+	ccmModule := ccm.NewAppModule(appCodec, app.ccmKeeper)
 	app.btcxKeeper = *btcxkeeper.NewKeeper(
 		appCodec,
 		keys[btcxtypes.StoreKey],
@@ -382,6 +396,7 @@ func New(
 		transferModule,
 		polynetworkcosmos.NewAppModule(appCodec, app.polynetworkcosmosKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
+		ccmModule,
 		btcx.NewAppModule(appCodec, app.btcxKeeper),
 	)
 
@@ -417,6 +432,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		polynetworkcosmostypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
+		ccmtypes.ModuleName,
 		btcxtypes.ModuleName,
 	)
 
@@ -611,6 +627,7 @@ func initParamsKeeper(appCodec codec.BinaryMarshaler, legacyAmino *codec.LegacyA
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
+	paramsKeeper.Subspace(ccmtypes.ModuleName)
 	paramsKeeper.Subspace(btcxtypes.ModuleName)
 
 	return paramsKeeper

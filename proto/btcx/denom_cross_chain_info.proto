@@ -1,0 +1,12 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.btcx;
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
+
+import "btcx/denom_info.proto";
+
+message DenomCrossChainInfo {
+	DenomInfo denomInfo = 1;
+	uint64 toChainId = 2;
+	string toAssetHash = 3;
+}
