@@ -29,24 +29,24 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // this line is used by starport scaffolding # proto/tx/message
-type MsgCreateDenom struct {
+type MsgCreate struct {
 	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Denom        string `protobuf:"bytes,2,opt,name=denom,proto3" json:"denom,omitempty"`
 	RedeemScript string `protobuf:"bytes,3,opt,name=redeemScript,proto3" json:"redeemScript,omitempty"`
 }
 
-func (m *MsgCreateDenom) Reset()         { *m = MsgCreateDenom{} }
-func (m *MsgCreateDenom) String() string { return proto.CompactTextString(m) }
-func (*MsgCreateDenom) ProtoMessage()    {}
-func (*MsgCreateDenom) Descriptor() ([]byte, []int) {
+func (m *MsgCreate) Reset()         { *m = MsgCreate{} }
+func (m *MsgCreate) String() string { return proto.CompactTextString(m) }
+func (*MsgCreate) ProtoMessage()    {}
+func (*MsgCreate) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2cdf236d4e7143ea, []int{0}
 }
-func (m *MsgCreateDenom) XXX_Unmarshal(b []byte) error {
+func (m *MsgCreate) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgCreateDenom) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgCreate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgCreateDenom.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgCreate.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -56,54 +56,54 @@ func (m *MsgCreateDenom) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *MsgCreateDenom) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCreateDenom.Merge(m, src)
+func (m *MsgCreate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreate.Merge(m, src)
 }
-func (m *MsgCreateDenom) XXX_Size() int {
+func (m *MsgCreate) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgCreateDenom) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCreateDenom.DiscardUnknown(m)
+func (m *MsgCreate) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreate.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgCreateDenom proto.InternalMessageInfo
+var xxx_messageInfo_MsgCreate proto.InternalMessageInfo
 
-func (m *MsgCreateDenom) GetCreator() string {
+func (m *MsgCreate) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgCreateDenom) GetDenom() string {
+func (m *MsgCreate) GetDenom() string {
 	if m != nil {
 		return m.Denom
 	}
 	return ""
 }
 
-func (m *MsgCreateDenom) GetRedeemScript() string {
+func (m *MsgCreate) GetRedeemScript() string {
 	if m != nil {
 		return m.RedeemScript
 	}
 	return ""
 }
 
-type MsgCreateDenomResponse struct {
+type MsgCreateResponse struct {
 }
 
-func (m *MsgCreateDenomResponse) Reset()         { *m = MsgCreateDenomResponse{} }
-func (m *MsgCreateDenomResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgCreateDenomResponse) ProtoMessage()    {}
-func (*MsgCreateDenomResponse) Descriptor() ([]byte, []int) {
+func (m *MsgCreateResponse) Reset()         { *m = MsgCreateResponse{} }
+func (m *MsgCreateResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateResponse) ProtoMessage()    {}
+func (*MsgCreateResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2cdf236d4e7143ea, []int{1}
 }
-func (m *MsgCreateDenomResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgCreateResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgCreateDenomResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgCreateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgCreateDenomResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgCreateResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -113,37 +113,37 @@ func (m *MsgCreateDenomResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *MsgCreateDenomResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCreateDenomResponse.Merge(m, src)
+func (m *MsgCreateResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateResponse.Merge(m, src)
 }
-func (m *MsgCreateDenomResponse) XXX_Size() int {
+func (m *MsgCreateResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgCreateDenomResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCreateDenomResponse.DiscardUnknown(m)
+func (m *MsgCreateResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgCreateDenomResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgCreateResponse proto.InternalMessageInfo
 
-type MsgBindAssetHash struct {
+type MsgBind struct {
 	Creator          string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	SourceAssetDenom string `protobuf:"bytes,2,opt,name=sourceAssetDenom,proto3" json:"sourceAssetDenom,omitempty"`
 	ToChainId        uint64 `protobuf:"varint,3,opt,name=toChainId,proto3" json:"toChainId,omitempty"`
 	ToAssetHash      []byte `protobuf:"bytes,4,opt,name=toAssetHash,proto3" json:"toAssetHash,omitempty"`
 }
 
-func (m *MsgBindAssetHash) Reset()         { *m = MsgBindAssetHash{} }
-func (m *MsgBindAssetHash) String() string { return proto.CompactTextString(m) }
-func (*MsgBindAssetHash) ProtoMessage()    {}
-func (*MsgBindAssetHash) Descriptor() ([]byte, []int) {
+func (m *MsgBind) Reset()         { *m = MsgBind{} }
+func (m *MsgBind) String() string { return proto.CompactTextString(m) }
+func (*MsgBind) ProtoMessage()    {}
+func (*MsgBind) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2cdf236d4e7143ea, []int{2}
 }
-func (m *MsgBindAssetHash) XXX_Unmarshal(b []byte) error {
+func (m *MsgBind) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgBindAssetHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgBind) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgBindAssetHash.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgBind.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -153,61 +153,61 @@ func (m *MsgBindAssetHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *MsgBindAssetHash) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBindAssetHash.Merge(m, src)
+func (m *MsgBind) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgBind.Merge(m, src)
 }
-func (m *MsgBindAssetHash) XXX_Size() int {
+func (m *MsgBind) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgBindAssetHash) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBindAssetHash.DiscardUnknown(m)
+func (m *MsgBind) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgBind.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgBindAssetHash proto.InternalMessageInfo
+var xxx_messageInfo_MsgBind proto.InternalMessageInfo
 
-func (m *MsgBindAssetHash) GetCreator() string {
+func (m *MsgBind) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgBindAssetHash) GetSourceAssetDenom() string {
+func (m *MsgBind) GetSourceAssetDenom() string {
 	if m != nil {
 		return m.SourceAssetDenom
 	}
 	return ""
 }
 
-func (m *MsgBindAssetHash) GetToChainId() uint64 {
+func (m *MsgBind) GetToChainId() uint64 {
 	if m != nil {
 		return m.ToChainId
 	}
 	return 0
 }
 
-func (m *MsgBindAssetHash) GetToAssetHash() []byte {
+func (m *MsgBind) GetToAssetHash() []byte {
 	if m != nil {
 		return m.ToAssetHash
 	}
 	return nil
 }
 
-type MsgBindAssetHashResponse struct {
+type MsgBindResponse struct {
 }
 
-func (m *MsgBindAssetHashResponse) Reset()         { *m = MsgBindAssetHashResponse{} }
-func (m *MsgBindAssetHashResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgBindAssetHashResponse) ProtoMessage()    {}
-func (*MsgBindAssetHashResponse) Descriptor() ([]byte, []int) {
+func (m *MsgBindResponse) Reset()         { *m = MsgBindResponse{} }
+func (m *MsgBindResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgBindResponse) ProtoMessage()    {}
+func (*MsgBindResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2cdf236d4e7143ea, []int{3}
 }
-func (m *MsgBindAssetHashResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgBindResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgBindAssetHashResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgBindResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgBindAssetHashResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgBindResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -217,17 +217,17 @@ func (m *MsgBindAssetHashResponse) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgBindAssetHashResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBindAssetHashResponse.Merge(m, src)
+func (m *MsgBindResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgBindResponse.Merge(m, src)
 }
-func (m *MsgBindAssetHashResponse) XXX_Size() int {
+func (m *MsgBindResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgBindAssetHashResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBindAssetHashResponse.DiscardUnknown(m)
+func (m *MsgBindResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgBindResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgBindAssetHashResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgBindResponse proto.InternalMessageInfo
 
 type MsgLock struct {
 	FromAddress      string          `protobuf:"bytes,1,opt,name=fromAddress,proto3" json:"fromAddress,omitempty"`
@@ -342,10 +342,10 @@ func (m *MsgLockResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgLockResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*MsgCreateDenom)(nil), "Switcheo.polynetworkcosmos.btcx.MsgCreateDenom")
-	proto.RegisterType((*MsgCreateDenomResponse)(nil), "Switcheo.polynetworkcosmos.btcx.MsgCreateDenomResponse")
-	proto.RegisterType((*MsgBindAssetHash)(nil), "Switcheo.polynetworkcosmos.btcx.MsgBindAssetHash")
-	proto.RegisterType((*MsgBindAssetHashResponse)(nil), "Switcheo.polynetworkcosmos.btcx.MsgBindAssetHashResponse")
+	proto.RegisterType((*MsgCreate)(nil), "Switcheo.polynetworkcosmos.btcx.MsgCreate")
+	proto.RegisterType((*MsgCreateResponse)(nil), "Switcheo.polynetworkcosmos.btcx.MsgCreateResponse")
+	proto.RegisterType((*MsgBind)(nil), "Switcheo.polynetworkcosmos.btcx.MsgBind")
+	proto.RegisterType((*MsgBindResponse)(nil), "Switcheo.polynetworkcosmos.btcx.MsgBindResponse")
 	proto.RegisterType((*MsgLock)(nil), "Switcheo.polynetworkcosmos.btcx.MsgLock")
 	proto.RegisterType((*MsgLockResponse)(nil), "Switcheo.polynetworkcosmos.btcx.MsgLockResponse")
 }
@@ -353,37 +353,35 @@ func init() {
 func init() { proto.RegisterFile("btcx/tx.proto", fileDescriptor_2cdf236d4e7143ea) }
 
 var fileDescriptor_2cdf236d4e7143ea = []byte{
-	// 468 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0x3d, 0x6f, 0xd3, 0x50,
-	0x14, 0x8d, 0xdb, 0x86, 0xaa, 0x37, 0x6d, 0x29, 0x4f, 0x08, 0x59, 0x16, 0x98, 0xc8, 0x53, 0x84,
-	0x84, 0x4d, 0x9a, 0x01, 0x31, 0x36, 0xcd, 0x40, 0x25, 0x2c, 0x21, 0x77, 0x63, 0xf3, 0xc7, 0xc5,
-	0xb1, 0x1a, 0xfb, 0x5a, 0xbe, 0x2f, 0x1f, 0x1d, 0xf8, 0x0f, 0x8c, 0xfc, 0x24, 0x06, 0x86, 0x8e,
-	0x8c, 0x28, 0x19, 0xf9, 0x13, 0xc8, 0x76, 0x1c, 0x6c, 0x90, 0x20, 0x91, 0x3a, 0xde, 0xe3, 0x73,
-	0xcf, 0x3d, 0xcf, 0xef, 0xdc, 0x07, 0x27, 0x9e, 0xf4, 0x17, 0x96, 0x5c, 0x98, 0x69, 0x46, 0x92,
-	0xc4, 0xf3, 0xeb, 0x79, 0x24, 0xfd, 0x31, 0x92, 0x99, 0xd2, 0xe4, 0x36, 0x41, 0x39, 0xa7, 0xec,
-	0xc6, 0x27, 0x8e, 0x89, 0xcd, 0x9c, 0xa9, 0xe9, 0x65, 0x61, 0x79, 0x2e, 0xa3, 0x35, 0xeb, 0x7b,
-	0x28, 0xdd, 0xbe, 0xe5, 0x53, 0x94, 0x94, 0x02, 0x46, 0x00, 0xa7, 0x36, 0x87, 0x97, 0x19, 0xba,
-	0x12, 0x47, 0x98, 0x50, 0x2c, 0x54, 0x38, 0xf4, 0xf3, 0x92, 0x32, 0x55, 0xe9, 0x2a, 0xbd, 0x23,
-	0xa7, 0x2a, 0xc5, 0x63, 0x68, 0x07, 0x39, 0x45, 0xdd, 0x2b, 0xf0, 0xb2, 0x10, 0x06, 0x1c, 0x67,
-	0x18, 0x20, 0xc6, 0xd7, 0x7e, 0x16, 0xa5, 0x52, 0xdd, 0x2f, 0x3e, 0x36, 0x30, 0x43, 0x85, 0x27,
-	0xcd, 0x29, 0x0e, 0x72, 0x4a, 0x09, 0xa3, 0xf1, 0x45, 0x81, 0x33, 0x9b, 0xc3, 0x61, 0x94, 0x04,
-	0x17, 0xcc, 0x28, 0xdf, 0xba, 0x3c, 0xfe, 0x87, 0x85, 0x17, 0x70, 0xc6, 0x34, 0xcd, 0x7c, 0x2c,
-	0xc8, 0xa3, 0x9a, 0x9b, 0xbf, 0x70, 0xf1, 0x14, 0x8e, 0x24, 0x5d, 0x8e, 0xdd, 0x28, 0xb9, 0x0a,
-	0x0a, 0x57, 0x07, 0xce, 0x6f, 0x40, 0x74, 0xa1, 0x23, 0x69, 0x33, 0x52, 0x3d, 0xe8, 0x2a, 0xbd,
-	0x63, 0xa7, 0x0e, 0x19, 0x1a, 0xa8, 0x7f, 0x3a, 0xdb, 0xd8, 0xfe, 0xa6, 0xc0, 0xa1, 0xcd, 0xe1,
-	0x3b, 0xf2, 0x6f, 0x72, 0xa5, 0x8f, 0x19, 0xc5, 0x17, 0x41, 0x90, 0x21, 0xf3, 0xda, 0x71, 0x1d,
-	0xba, 0x77, 0xd7, 0xa5, 0xec, 0x90, 0x6b, 0xae, 0x2b, 0x48, 0x0c, 0xa0, 0x3d, 0x73, 0x27, 0x53,
-	0x54, 0xdb, 0x5d, 0xa5, 0xd7, 0x39, 0x7f, 0x66, 0x56, 0x69, 0x70, 0x19, 0xcd, 0x75, 0x00, 0xcc,
-	0xab, 0x44, 0xbe, 0xcf, 0xaf, 0xdf, 0x29, 0xb9, 0xc6, 0x23, 0x78, 0xb8, 0x3e, 0x4d, 0x75, 0xc2,
-	0xf3, 0x9f, 0x7b, 0xb0, 0x6f, 0x73, 0x28, 0xe6, 0xd0, 0xa9, 0xa7, 0xc3, 0x32, 0xff, 0x93, 0x38,
-	0xb3, 0x79, 0xd1, 0xda, 0xeb, 0x1d, 0x1b, 0x2a, 0x03, 0xe2, 0x13, 0x9c, 0x34, 0x53, 0xd1, 0xdf,
-	0x46, 0xa9, 0xd1, 0xa2, 0xbd, 0xd9, 0xb9, 0x65, 0x33, 0x7e, 0x02, 0xa7, 0x23, 0x9c, 0xa0, 0x44,
-	0x07, 0x63, 0x9a, 0xa1, 0x8d, 0xa2, 0xb7, 0x8d, 0x58, 0xfe, 0x0f, 0xb5, 0x57, 0xdb, 0x32, 0xab,
-	0x69, 0x43, 0xfb, 0xeb, 0x52, 0x57, 0xee, 0x96, 0xba, 0xf2, 0x63, 0xa9, 0x2b, 0x9f, 0x57, 0x7a,
-	0xeb, 0x6e, 0xa5, 0xb7, 0xbe, 0xaf, 0xf4, 0xd6, 0x87, 0x41, 0x18, 0xc9, 0xf1, 0xd4, 0x33, 0x7d,
-	0x8a, 0xad, 0x4a, 0xd5, 0xaa, 0xa9, 0xbe, 0x5c, 0x2f, 0xf8, 0xc2, 0x2a, 0x5f, 0x86, 0xdb, 0x14,
-	0xd9, 0x7b, 0x50, 0x2c, 0xf7, 0xe0, 0x57, 0x00, 0x00, 0x00, 0xff, 0xff, 0x27, 0xcc, 0xec, 0x90,
-	0x2e, 0x04, 0x00, 0x00,
+	// 441 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x53, 0xcd, 0x6e, 0xd3, 0x40,
+	0x18, 0xcc, 0xb6, 0x49, 0xab, 0x6c, 0x8b, 0xa0, 0x0b, 0x07, 0x2b, 0x02, 0x13, 0xf9, 0x14, 0x55,
+	0x62, 0x4d, 0x93, 0x27, 0x68, 0xca, 0x81, 0x4a, 0x44, 0x42, 0xee, 0x8d, 0x0b, 0xb2, 0xd7, 0x1f,
+	0xb6, 0xd5, 0xda, 0x9f, 0xb5, 0xdf, 0xa6, 0x4d, 0x9f, 0x02, 0xde, 0x86, 0x57, 0xe0, 0xc0, 0x21,
+	0x47, 0x8e, 0x28, 0x79, 0x11, 0xe4, 0xbf, 0x60, 0x84, 0x04, 0x3e, 0xf4, 0xe6, 0x1d, 0x8f, 0x67,
+	0xe6, 0xf3, 0xec, 0xc7, 0x1f, 0x05, 0x46, 0xad, 0x5c, 0xb3, 0x92, 0xb9, 0x46, 0x83, 0xe2, 0xe5,
+	0xd5, 0x5d, 0x62, 0x54, 0x0c, 0x28, 0x73, 0xbc, 0xb9, 0xcf, 0xc0, 0xdc, 0xa1, 0xbe, 0x56, 0x48,
+	0x29, 0x92, 0x2c, 0x98, 0x23, 0xbb, 0x3a, 0xb8, 0x81, 0x4f, 0xe0, 0xde, 0x9e, 0x05, 0x60, 0xfc,
+	0x33, 0x57, 0x61, 0x92, 0x55, 0x02, 0xce, 0x47, 0x3e, 0x5c, 0x50, 0x74, 0xa1, 0xc1, 0x37, 0x20,
+	0x2c, 0x7e, 0xa8, 0x8a, 0x27, 0xd4, 0x16, 0x1b, 0xb3, 0xc9, 0xd0, 0x6b, 0x8e, 0xe2, 0x19, 0x1f,
+	0x84, 0x90, 0x61, 0x6a, 0xed, 0x95, 0x78, 0x75, 0x10, 0x0e, 0x3f, 0xd6, 0x10, 0x02, 0xa4, 0x57,
+	0x4a, 0x27, 0xb9, 0xb1, 0xf6, 0xcb, 0x97, 0x7f, 0x60, 0xce, 0x53, 0x7e, 0xb2, 0x33, 0xf0, 0x80,
+	0x72, 0xcc, 0x08, 0x9c, 0xcf, 0x8c, 0x1f, 0x2e, 0x28, 0x9a, 0x27, 0x59, 0xf8, 0x0f, 0xd3, 0x53,
+	0xfe, 0x84, 0x70, 0xa9, 0x15, 0x9c, 0x13, 0x81, 0x79, 0xd3, 0xf2, 0xff, 0x0b, 0x17, 0xcf, 0xf9,
+	0xd0, 0xe0, 0x45, 0xec, 0x27, 0xd9, 0x65, 0x58, 0xe6, 0xe8, 0x7b, 0xbf, 0x01, 0x31, 0xe6, 0x47,
+	0x06, 0x4b, 0xf6, 0x5b, 0x9f, 0x62, 0xab, 0x3f, 0x66, 0x93, 0x63, 0xaf, 0x0d, 0x39, 0x27, 0xfc,
+	0x71, 0x1d, 0x68, 0x17, 0xf2, 0x7b, 0x15, 0xf2, 0x1d, 0xaa, 0xeb, 0x42, 0xe0, 0x93, 0xc6, 0xf4,
+	0x3c, 0x0c, 0x35, 0x10, 0xd5, 0x41, 0xdb, 0xd0, 0x83, 0x87, 0xad, 0x64, 0xe7, 0xd4, 0x0a, 0xdb,
+	0x40, 0x62, 0xc6, 0x07, 0xb7, 0xfe, 0xcd, 0x12, 0xac, 0xc1, 0x98, 0x4d, 0x8e, 0xa6, 0x2f, 0x64,
+	0xd3, 0xb8, 0x4f, 0x20, 0xeb, 0x92, 0xe5, 0x65, 0x66, 0xde, 0x17, 0x15, 0x7b, 0x15, 0xb7, 0x9e,
+	0xb0, 0x98, 0xa6, 0x99, 0x70, 0xfa, 0x75, 0x8f, 0xef, 0x2f, 0x28, 0x12, 0x31, 0x3f, 0xa8, 0x6f,
+	0xc0, 0xa9, 0xfc, 0xcf, 0x85, 0x92, 0xbb, 0x32, 0x47, 0xd3, 0xee, 0xdc, 0xc6, 0x51, 0x04, 0xbc,
+	0x5f, 0x96, 0x3e, 0xe9, 0xf2, 0x6d, 0xc1, 0x1c, 0xbd, 0xee, 0xca, 0x6c, 0x7b, 0x94, 0x9d, 0x75,
+	0xf2, 0x28, 0x98, 0xdd, 0x3c, 0xda, 0x7f, 0x6e, 0xbe, 0xf8, 0xb6, 0xb1, 0xd9, 0x7a, 0x63, 0xb3,
+	0x9f, 0x1b, 0x9b, 0x7d, 0xd9, 0xda, 0xbd, 0xf5, 0xd6, 0xee, 0xfd, 0xd8, 0xda, 0xbd, 0x0f, 0xb3,
+	0x28, 0x31, 0xf1, 0x32, 0x90, 0x0a, 0x53, 0xb7, 0x51, 0x75, 0x5b, 0xaa, 0xaf, 0xea, 0x85, 0x5c,
+	0xb9, 0xd5, 0x26, 0xdf, 0xe7, 0x40, 0xc1, 0x41, 0xb9, 0x8c, 0xb3, 0x5f, 0x01, 0x00, 0x00, 0xff,
+	0xff, 0x01, 0xaf, 0xa7, 0xf9, 0xde, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -399,9 +397,9 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
 	// this line is used by starport scaffolding # proto/tx/rpc
-	CreateDenom(ctx context.Context, in *MsgCreateDenom, opts ...grpc.CallOption) (*MsgCreateDenomResponse, error)
-	BindAssetHash(ctx context.Context, in *MsgBindAssetHash, opts ...grpc.CallOption) (*MsgBindAssetHashResponse, error)
-	DeleteRemoveMe(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error)
+	Create(ctx context.Context, in *MsgCreate, opts ...grpc.CallOption) (*MsgCreateResponse, error)
+	Bind(ctx context.Context, in *MsgBind, opts ...grpc.CallOption) (*MsgBindResponse, error)
+	Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error)
 }
 
 type msgClient struct {
@@ -412,27 +410,27 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) CreateDenom(ctx context.Context, in *MsgCreateDenom, opts ...grpc.CallOption) (*MsgCreateDenomResponse, error) {
-	out := new(MsgCreateDenomResponse)
-	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.btcx.Msg/CreateDenom", in, out, opts...)
+func (c *msgClient) Create(ctx context.Context, in *MsgCreate, opts ...grpc.CallOption) (*MsgCreateResponse, error) {
+	out := new(MsgCreateResponse)
+	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.btcx.Msg/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) BindAssetHash(ctx context.Context, in *MsgBindAssetHash, opts ...grpc.CallOption) (*MsgBindAssetHashResponse, error) {
-	out := new(MsgBindAssetHashResponse)
-	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.btcx.Msg/BindAssetHash", in, out, opts...)
+func (c *msgClient) Bind(ctx context.Context, in *MsgBind, opts ...grpc.CallOption) (*MsgBindResponse, error) {
+	out := new(MsgBindResponse)
+	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.btcx.Msg/Bind", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) DeleteRemoveMe(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error) {
+func (c *msgClient) Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error) {
 	out := new(MsgLockResponse)
-	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.btcx.Msg/DeleteRemoveMe", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.btcx.Msg/Lock", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -442,79 +440,79 @@ func (c *msgClient) DeleteRemoveMe(ctx context.Context, in *MsgLock, opts ...grp
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// this line is used by starport scaffolding # proto/tx/rpc
-	CreateDenom(context.Context, *MsgCreateDenom) (*MsgCreateDenomResponse, error)
-	BindAssetHash(context.Context, *MsgBindAssetHash) (*MsgBindAssetHashResponse, error)
-	DeleteRemoveMe(context.Context, *MsgLock) (*MsgLockResponse, error)
+	Create(context.Context, *MsgCreate) (*MsgCreateResponse, error)
+	Bind(context.Context, *MsgBind) (*MsgBindResponse, error)
+	Lock(context.Context, *MsgLock) (*MsgLockResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
 type UnimplementedMsgServer struct {
 }
 
-func (*UnimplementedMsgServer) CreateDenom(ctx context.Context, req *MsgCreateDenom) (*MsgCreateDenomResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateDenom not implemented")
+func (*UnimplementedMsgServer) Create(ctx context.Context, req *MsgCreate) (*MsgCreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (*UnimplementedMsgServer) BindAssetHash(ctx context.Context, req *MsgBindAssetHash) (*MsgBindAssetHashResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BindAssetHash not implemented")
+func (*UnimplementedMsgServer) Bind(ctx context.Context, req *MsgBind) (*MsgBindResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Bind not implemented")
 }
-func (*UnimplementedMsgServer) DeleteRemoveMe(ctx context.Context, req *MsgLock) (*MsgLockResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteRemoveMe not implemented")
+func (*UnimplementedMsgServer) Lock(ctx context.Context, req *MsgLock) (*MsgLockResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Lock not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
 	s.RegisterService(&_Msg_serviceDesc, srv)
 }
 
-func _Msg_CreateDenom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgCreateDenom)
+func _Msg_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreate)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).CreateDenom(ctx, in)
+		return srv.(MsgServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Switcheo.polynetworkcosmos.btcx.Msg/CreateDenom",
+		FullMethod: "/Switcheo.polynetworkcosmos.btcx.Msg/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).CreateDenom(ctx, req.(*MsgCreateDenom))
+		return srv.(MsgServer).Create(ctx, req.(*MsgCreate))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_BindAssetHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgBindAssetHash)
+func _Msg_Bind_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgBind)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).BindAssetHash(ctx, in)
+		return srv.(MsgServer).Bind(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Switcheo.polynetworkcosmos.btcx.Msg/BindAssetHash",
+		FullMethod: "/Switcheo.polynetworkcosmos.btcx.Msg/Bind",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).BindAssetHash(ctx, req.(*MsgBindAssetHash))
+		return srv.(MsgServer).Bind(ctx, req.(*MsgBind))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_DeleteRemoveMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Msg_Lock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgLock)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).DeleteRemoveMe(ctx, in)
+		return srv.(MsgServer).Lock(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Switcheo.polynetworkcosmos.btcx.Msg/DeleteRemoveMe",
+		FullMethod: "/Switcheo.polynetworkcosmos.btcx.Msg/Lock",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).DeleteRemoveMe(ctx, req.(*MsgLock))
+		return srv.(MsgServer).Lock(ctx, req.(*MsgLock))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -524,23 +522,23 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateDenom",
-			Handler:    _Msg_CreateDenom_Handler,
+			MethodName: "Create",
+			Handler:    _Msg_Create_Handler,
 		},
 		{
-			MethodName: "BindAssetHash",
-			Handler:    _Msg_BindAssetHash_Handler,
+			MethodName: "Bind",
+			Handler:    _Msg_Bind_Handler,
 		},
 		{
-			MethodName: "DeleteRemoveMe",
-			Handler:    _Msg_DeleteRemoveMe_Handler,
+			MethodName: "Lock",
+			Handler:    _Msg_Lock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "btcx/tx.proto",
 }
 
-func (m *MsgCreateDenom) Marshal() (dAtA []byte, err error) {
+func (m *MsgCreate) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -550,12 +548,12 @@ func (m *MsgCreateDenom) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgCreateDenom) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgCreate) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgCreateDenom) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgCreate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -584,7 +582,7 @@ func (m *MsgCreateDenom) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgCreateDenomResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgCreateResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -594,12 +592,12 @@ func (m *MsgCreateDenomResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgCreateDenomResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgCreateResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgCreateDenomResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgCreateResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -607,7 +605,7 @@ func (m *MsgCreateDenomResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgBindAssetHash) Marshal() (dAtA []byte, err error) {
+func (m *MsgBind) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -617,12 +615,12 @@ func (m *MsgBindAssetHash) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgBindAssetHash) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgBind) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgBindAssetHash) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgBind) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -656,7 +654,7 @@ func (m *MsgBindAssetHash) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgBindAssetHashResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgBindResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -666,12 +664,12 @@ func (m *MsgBindAssetHashResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgBindAssetHashResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgBindResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgBindAssetHashResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgBindResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -774,7 +772,7 @@ func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *MsgCreateDenom) Size() (n int) {
+func (m *MsgCreate) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -795,7 +793,7 @@ func (m *MsgCreateDenom) Size() (n int) {
 	return n
 }
 
-func (m *MsgCreateDenomResponse) Size() (n int) {
+func (m *MsgCreateResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -804,7 +802,7 @@ func (m *MsgCreateDenomResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgBindAssetHash) Size() (n int) {
+func (m *MsgBind) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -828,7 +826,7 @@ func (m *MsgBindAssetHash) Size() (n int) {
 	return n
 }
 
-func (m *MsgBindAssetHashResponse) Size() (n int) {
+func (m *MsgBindResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -880,7 +878,7 @@ func sovTx(x uint64) (n int) {
 func sozTx(x uint64) (n int) {
 	return sovTx(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *MsgCreateDenom) Unmarshal(dAtA []byte) error {
+func (m *MsgCreate) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -903,10 +901,10 @@ func (m *MsgCreateDenom) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCreateDenom: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgCreate: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCreateDenom: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgCreate: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1026,7 +1024,7 @@ func (m *MsgCreateDenom) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgCreateDenomResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgCreateResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1049,10 +1047,10 @@ func (m *MsgCreateDenomResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCreateDenomResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgCreateResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCreateDenomResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgCreateResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -1076,7 +1074,7 @@ func (m *MsgCreateDenomResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgBindAssetHash) Unmarshal(dAtA []byte) error {
+func (m *MsgBind) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1099,10 +1097,10 @@ func (m *MsgBindAssetHash) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBindAssetHash: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgBind: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBindAssetHash: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgBind: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1243,7 +1241,7 @@ func (m *MsgBindAssetHash) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgBindAssetHashResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgBindResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1266,10 +1264,10 @@ func (m *MsgBindAssetHashResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBindAssetHashResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgBindResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBindAssetHashResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgBindResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

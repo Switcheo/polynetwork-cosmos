@@ -8,6 +8,17 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/ccm/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc ProcessCrossChainTx(MsgProcessCrossChainTx) returns (MsgProcessCrossChainTxResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgProcessCrossChainTx {
+  string submitter = 1;
+	uint64 fromChainId = 2;
+	string proof = 3;
+	string header = 4;
+	string headerProof = 5;
+	string curHeader = 6;
+}
+
+message MsgProcessCrossChainTxResponse { }

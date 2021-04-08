@@ -9,28 +9,28 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
-  rpc CreateDenom(MsgCreateDenom) returns (MsgCreateDenomResponse);
-  rpc BindAssetHash(MsgBindAssetHash) returns (MsgBindAssetHashResponse);
-  rpc DeleteRemoveMe(MsgLock) returns (MsgLockResponse);
+  rpc Create(MsgCreate) returns (MsgCreateResponse);
+  rpc Bind(MsgBind) returns (MsgBindResponse);
+  rpc Lock(MsgLock) returns (MsgLockResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
-message MsgCreateDenom {
+message MsgCreate {
   string creator = 1;
   string denom = 2;
   string redeemScript = 3;
 }
 
-message MsgCreateDenomResponse { }
+message MsgCreateResponse { }
 
-message MsgBindAssetHash {
+message MsgBind {
   string creator = 1;
 	string sourceAssetDenom = 2;
 	uint64 toChainId = 3;
 	bytes toAssetHash = 4;
 }
 
-message MsgBindAssetHashResponse { }
+message MsgBindResponse { }
 
 message MsgLock {
 	string fromAddress = 1;

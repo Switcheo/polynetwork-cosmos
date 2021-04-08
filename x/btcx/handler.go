@@ -16,8 +16,14 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 
 		switch msg := msg.(type) {
 		// this line is used by starport scaffolding # 1
-		case *types.MsgCreateDenom:
-			res, err := msgServer.CreateDenom(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgCreate:
+			res, err := msgServer.Create(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgBind:
+			res, err := msgServer.Bind(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgLock:
+			res, err := msgServer.Lock(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 
 		default:

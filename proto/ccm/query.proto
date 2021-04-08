@@ -10,20 +10,19 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/ccm/types";
 // Query defines the gRPC querier service.
 service Query {
   // this line is used by starport scaffolding # 2
-  rpc IfContainToContract(QueryContainToContractParamRequest) returns (QueryContainToContractParamResponse) {
-    option (google.api.http).get = "/Switcheo/polynetworkcosmos/ccm/if_contain_contract/{toContractAddr}/{fromChainId}";
+  rpc CheckModuleContract(QueryCheckModuleContractRequest) returns (QueryCheckModuleContractResponse) {
+    option (google.api.http).get = "/Switcheo/polynetworkcosmos/ccm/check_module_contract/{moduleName}/{toContractAddr}/{fromChainId}";
   }
 }
 
 // this line is used by starport scaffolding # 3
-message QueryContainToContractParamRequest {
-	string keyStore = 1;
+message QueryCheckModuleContractRequest {
+	string moduleName = 1;
   bytes toContractAddr = 2;
   uint64 fromChainId = 3;
 }
 
-message QueryContainToContractParamResponse {
-  string keyStore = 1;
+message QueryCheckModuleContractResponse {
+  string moduleName = 1;
 	bool exist = 2;
-	string info = 3;
 }

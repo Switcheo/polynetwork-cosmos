@@ -9,8 +9,8 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	// this line is used by starport scaffolding # 2
-	cdc.RegisterConcrete(&MsgCreateDenom{}, "btcx/CreateDenom", nil)
-	cdc.RegisterConcrete(&MsgBindAssetHash{}, "btcx/BindAssetHash", nil)
+	cdc.RegisterConcrete(&MsgCreate{}, "btcx/Create", nil)
+	cdc.RegisterConcrete(&MsgBind{}, "btcx/Bind", nil)
 	cdc.RegisterConcrete(&MsgLock{}, "btcx/Lock", nil)
 
 }
@@ -18,8 +18,8 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	// this line is used by starport scaffolding # 3
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateDenom{},
-		&MsgBindAssetHash{},
+		&MsgCreate{},
+		&MsgBind{},
 		&MsgLock{},
 	)
 

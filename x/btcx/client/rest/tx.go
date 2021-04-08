@@ -36,7 +36,7 @@ func createDenomInfoHandler(clientCtx client.Context) http.HandlerFunc {
 
 		parsedRedeemScript := req.RedeemScript
 
-		msg := types.NewMsgCreateDenom(
+		msg := types.NewMsgCreate(
 			req.BaseReq.From,
 			parsedDenom,
 			parsedRedeemScript,

@@ -24,8 +24,3 @@ const (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
-
-const (
-	RemoveMeKey      = "RemoveMe-value-"
-	RemoveMeCountKey = "RemoveMe-count-"
-)

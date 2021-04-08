@@ -4,7 +4,6 @@ package Switcheo.polynetworkcosmos.btcx;
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
 
 import "cosmos/base/v1beta1/coin.proto";
-// import "gogoproto/gogo.proto";
 
 message DenomInfo {
   string creator = 1;

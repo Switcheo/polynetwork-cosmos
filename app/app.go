@@ -85,6 +85,7 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx"
 	btcxkeeper "github.com/Switcheo/polynetwork-cosmos/x/btcx/keeper"
@@ -347,7 +348,6 @@ func New(
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
-
 	app.ccmKeeper = *ccmkeeper.NewKeeper(
 		appCodec,
 		keys[ccmtypes.StoreKey],
@@ -356,9 +356,13 @@ func New(
 	ccmModule := ccm.NewAppModule(appCodec, app.ccmKeeper)
 	app.btcxKeeper = *btcxkeeper.NewKeeper(
 		appCodec,
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.ccmKeeper,
 		keys[btcxtypes.StoreKey],
 		keys[btcxtypes.MemStoreKey],
 	)
+	btcxModule := btcx.NewAppModule(appCodec, app.btcxKeeper)
 
 	app.GovKeeper = govkeeper.NewKeeper(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
@@ -397,7 +401,7 @@ func New(
 		polynetworkcosmos.NewAppModule(appCodec, app.polynetworkcosmosKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
 		ccmModule,
-		btcx.NewAppModule(appCodec, app.btcxKeeper),
+		btcxModule,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that

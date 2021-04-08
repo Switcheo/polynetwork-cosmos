@@ -30,24 +30,24 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // this line is used by starport scaffolding # 3
-type QueryContainToContractParamRequest struct {
-	KeyStore       string `protobuf:"bytes,1,opt,name=keyStore,proto3" json:"keyStore,omitempty"`
+type QueryCheckModuleContractRequest struct {
+	ModuleName     string `protobuf:"bytes,1,opt,name=moduleName,proto3" json:"moduleName,omitempty"`
 	ToContractAddr []byte `protobuf:"bytes,2,opt,name=toContractAddr,proto3" json:"toContractAddr,omitempty"`
 	FromChainId    uint64 `protobuf:"varint,3,opt,name=fromChainId,proto3" json:"fromChainId,omitempty"`
 }
 
-func (m *QueryContainToContractParamRequest) Reset()         { *m = QueryContainToContractParamRequest{} }
-func (m *QueryContainToContractParamRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryContainToContractParamRequest) ProtoMessage()    {}
-func (*QueryContainToContractParamRequest) Descriptor() ([]byte, []int) {
+func (m *QueryCheckModuleContractRequest) Reset()         { *m = QueryCheckModuleContractRequest{} }
+func (m *QueryCheckModuleContractRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryCheckModuleContractRequest) ProtoMessage()    {}
+func (*QueryCheckModuleContractRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bd452b9385aefc5f, []int{0}
 }
-func (m *QueryContainToContractParamRequest) XXX_Unmarshal(b []byte) error {
+func (m *QueryCheckModuleContractRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryContainToContractParamRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryCheckModuleContractRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryContainToContractParamRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryCheckModuleContractRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -57,57 +57,56 @@ func (m *QueryContainToContractParamRequest) XXX_Marshal(b []byte, deterministic
 		return b[:n], nil
 	}
 }
-func (m *QueryContainToContractParamRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryContainToContractParamRequest.Merge(m, src)
+func (m *QueryCheckModuleContractRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryCheckModuleContractRequest.Merge(m, src)
 }
-func (m *QueryContainToContractParamRequest) XXX_Size() int {
+func (m *QueryCheckModuleContractRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryContainToContractParamRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryContainToContractParamRequest.DiscardUnknown(m)
+func (m *QueryCheckModuleContractRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryCheckModuleContractRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryContainToContractParamRequest proto.InternalMessageInfo
+var xxx_messageInfo_QueryCheckModuleContractRequest proto.InternalMessageInfo
 
-func (m *QueryContainToContractParamRequest) GetKeyStore() string {
+func (m *QueryCheckModuleContractRequest) GetModuleName() string {
 	if m != nil {
-		return m.KeyStore
+		return m.ModuleName
 	}
 	return ""
 }
 
-func (m *QueryContainToContractParamRequest) GetToContractAddr() []byte {
+func (m *QueryCheckModuleContractRequest) GetToContractAddr() []byte {
 	if m != nil {
 		return m.ToContractAddr
 	}
 	return nil
 }
 
-func (m *QueryContainToContractParamRequest) GetFromChainId() uint64 {
+func (m *QueryCheckModuleContractRequest) GetFromChainId() uint64 {
 	if m != nil {
 		return m.FromChainId
 	}
 	return 0
 }
 
-type QueryContainToContractParamResponse struct {
-	KeyStore string `protobuf:"bytes,1,opt,name=keyStore,proto3" json:"keyStore,omitempty"`
-	Exist    bool   `protobuf:"varint,2,opt,name=exist,proto3" json:"exist,omitempty"`
-	Info     string `protobuf:"bytes,3,opt,name=info,proto3" json:"info,omitempty"`
+type QueryCheckModuleContractResponse struct {
+	ModuleName string `protobuf:"bytes,1,opt,name=moduleName,proto3" json:"moduleName,omitempty"`
+	Exist      bool   `protobuf:"varint,2,opt,name=exist,proto3" json:"exist,omitempty"`
 }
 
-func (m *QueryContainToContractParamResponse) Reset()         { *m = QueryContainToContractParamResponse{} }
-func (m *QueryContainToContractParamResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryContainToContractParamResponse) ProtoMessage()    {}
-func (*QueryContainToContractParamResponse) Descriptor() ([]byte, []int) {
+func (m *QueryCheckModuleContractResponse) Reset()         { *m = QueryCheckModuleContractResponse{} }
+func (m *QueryCheckModuleContractResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryCheckModuleContractResponse) ProtoMessage()    {}
+func (*QueryCheckModuleContractResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bd452b9385aefc5f, []int{1}
 }
-func (m *QueryContainToContractParamResponse) XXX_Unmarshal(b []byte) error {
+func (m *QueryCheckModuleContractResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryContainToContractParamResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryCheckModuleContractResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryContainToContractParamResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryCheckModuleContractResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -117,73 +116,66 @@ func (m *QueryContainToContractParamResponse) XXX_Marshal(b []byte, deterministi
 		return b[:n], nil
 	}
 }
-func (m *QueryContainToContractParamResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryContainToContractParamResponse.Merge(m, src)
+func (m *QueryCheckModuleContractResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryCheckModuleContractResponse.Merge(m, src)
 }
-func (m *QueryContainToContractParamResponse) XXX_Size() int {
+func (m *QueryCheckModuleContractResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryContainToContractParamResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryContainToContractParamResponse.DiscardUnknown(m)
+func (m *QueryCheckModuleContractResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryCheckModuleContractResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryContainToContractParamResponse proto.InternalMessageInfo
+var xxx_messageInfo_QueryCheckModuleContractResponse proto.InternalMessageInfo
 
-func (m *QueryContainToContractParamResponse) GetKeyStore() string {
+func (m *QueryCheckModuleContractResponse) GetModuleName() string {
 	if m != nil {
-		return m.KeyStore
+		return m.ModuleName
 	}
 	return ""
 }
 
-func (m *QueryContainToContractParamResponse) GetExist() bool {
+func (m *QueryCheckModuleContractResponse) GetExist() bool {
 	if m != nil {
 		return m.Exist
 	}
 	return false
 }
 
-func (m *QueryContainToContractParamResponse) GetInfo() string {
-	if m != nil {
-		return m.Info
-	}
-	return ""
-}
-
 func init() {
-	proto.RegisterType((*QueryContainToContractParamRequest)(nil), "Switcheo.polynetworkcosmos.ccm.QueryContainToContractParamRequest")
-	proto.RegisterType((*QueryContainToContractParamResponse)(nil), "Switcheo.polynetworkcosmos.ccm.QueryContainToContractParamResponse")
+	proto.RegisterType((*QueryCheckModuleContractRequest)(nil), "Switcheo.polynetworkcosmos.ccm.QueryCheckModuleContractRequest")
+	proto.RegisterType((*QueryCheckModuleContractResponse)(nil), "Switcheo.polynetworkcosmos.ccm.QueryCheckModuleContractResponse")
 }
 
 func init() { proto.RegisterFile("ccm/query.proto", fileDescriptor_bd452b9385aefc5f) }
 
 var fileDescriptor_bd452b9385aefc5f = []byte{
-	// 395 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x52, 0x41, 0xab, 0x13, 0x31,
-	0x10, 0x6e, 0xea, 0x7b, 0xf2, 0x5e, 0x14, 0x85, 0xe8, 0xa1, 0x2c, 0xb2, 0x2c, 0x2b, 0x48, 0x11,
-	0xdc, 0xf0, 0x9e, 0xbf, 0xc0, 0xf6, 0x54, 0xf0, 0xa0, 0xdb, 0x9e, 0x7a, 0x91, 0x6c, 0x9a, 0xdd,
-	0x86, 0x76, 0x33, 0xdb, 0x24, 0xb5, 0x5d, 0x4a, 0x2f, 0xe2, 0xc9, 0x93, 0xe0, 0x9f, 0xf2, 0x58,
-	0xf0, 0xe2, 0x51, 0x5a, 0x7f, 0x85, 0x27, 0xd9, 0xac, 0x96, 0x6a, 0xa5, 0x1e, 0xde, 0x29, 0x33,
-	0xc3, 0x37, 0xdf, 0xf7, 0x65, 0x66, 0xf0, 0x7d, 0xce, 0x73, 0x3a, 0x9b, 0x0b, 0x5d, 0x46, 0x85,
-	0x06, 0x0b, 0xc4, 0xef, 0x2f, 0xa4, 0xe5, 0x63, 0x01, 0x51, 0x01, 0xd3, 0x52, 0x09, 0xbb, 0x00,
-	0x3d, 0xe1, 0x60, 0x72, 0x30, 0x11, 0xe7, 0xb9, 0xf7, 0x28, 0x03, 0xc8, 0xa6, 0x82, 0xb2, 0x42,
-	0x52, 0xa6, 0x14, 0x58, 0x66, 0x25, 0x28, 0x53, 0x77, 0x7b, 0x4f, 0x6b, 0x24, 0x4d, 0x98, 0x11,
-	0x35, 0x2d, 0x7d, 0x7b, 0x95, 0x08, 0xcb, 0xae, 0x68, 0xc1, 0x32, 0xa9, 0x1c, 0xb8, 0xc6, 0x86,
-	0x1f, 0x10, 0x0e, 0x5f, 0x57, 0x90, 0x2e, 0x28, 0xcb, 0xa4, 0x1a, 0x40, 0x15, 0x68, 0xc6, 0xed,
-	0x2b, 0xa6, 0x59, 0x1e, 0x8b, 0xd9, 0x5c, 0x18, 0x4b, 0x3c, 0x7c, 0x31, 0x11, 0x65, 0xdf, 0x82,
-	0x16, 0x2d, 0x14, 0xa0, 0xf6, 0x65, 0xbc, 0xcf, 0xc9, 0x13, 0x7c, 0xcf, 0xee, 0xbb, 0x5e, 0x8c,
-	0x46, 0xba, 0xd5, 0x0c, 0x50, 0xfb, 0x6e, 0xfc, 0x57, 0x95, 0x04, 0xf8, 0x4e, 0xaa, 0x21, 0xef,
-	0x8e, 0x99, 0x54, 0xbd, 0x51, 0xeb, 0x56, 0x80, 0xda, 0x67, 0xf1, 0x61, 0x29, 0x9c, 0xe0, 0xc7,
-	0x27, 0xbd, 0x98, 0x02, 0x94, 0x11, 0x27, 0xcd, 0x3c, 0xc4, 0xe7, 0x62, 0x29, 0x8d, 0x75, 0x1e,
-	0x2e, 0xe2, 0x3a, 0x21, 0x04, 0x9f, 0x49, 0x95, 0x82, 0xd3, 0xbc, 0x8c, 0x5d, 0x7c, 0xfd, 0xbe,
-	0x89, 0xcf, 0x9d, 0x1a, 0xf9, 0x81, 0xf0, 0x83, 0x5e, 0x7a, 0x24, 0x4a, 0x3a, 0xd1, 0xe9, 0x35,
-	0x44, 0xff, 0x1f, 0x9c, 0xd7, 0xbd, 0x11, 0x47, 0xfd, 0xe1, 0x70, 0xf8, 0xee, 0xcb, 0xf7, 0x4f,
-	0xcd, 0x01, 0x89, 0xe9, 0x6f, 0x32, 0x7a, 0x44, 0x46, 0xab, 0x1b, 0x92, 0xe9, 0x1b, 0x5e, 0x53,
-	0xb9, 0xb7, 0x62, 0xa2, 0xab, 0x3f, 0xd7, 0xb0, 0xa6, 0xab, 0x83, 0x91, 0xaf, 0x3b, 0x2f, 0x3f,
-	0x6f, 0x7d, 0xb4, 0xd9, 0xfa, 0xe8, 0xdb, 0xd6, 0x47, 0x1f, 0x77, 0x7e, 0x63, 0xb3, 0xf3, 0x1b,
-	0x5f, 0x77, 0x7e, 0x63, 0x78, 0x9d, 0x49, 0x3b, 0x9e, 0x27, 0x11, 0x87, 0xfc, 0x9f, 0xba, 0xcf,
-	0x7e, 0x09, 0x2f, 0x9d, 0xb4, 0x2d, 0x0b, 0x61, 0x92, 0xdb, 0xee, 0xaa, 0x9e, 0xff, 0x0c, 0x00,
-	0x00, 0xff, 0xff, 0x64, 0x8c, 0xe6, 0xac, 0xd2, 0x02, 0x00, 0x00,
+	// 389 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0x4f, 0x6b, 0xdb, 0x30,
+	0x18, 0xc6, 0x23, 0x6f, 0x19, 0x9b, 0x36, 0x36, 0xf0, 0x76, 0x08, 0x61, 0x68, 0x26, 0x87, 0x11,
+	0x06, 0xb3, 0x48, 0xf6, 0x01, 0xf6, 0x27, 0xa7, 0xc1, 0x56, 0xa8, 0x7b, 0x29, 0xbd, 0x04, 0x59,
+	0x56, 0x6d, 0x91, 0x58, 0xaf, 0x63, 0xc9, 0x4d, 0x42, 0xc8, 0xa5, 0x3d, 0x96, 0x42, 0xa1, 0x5f,
+	0xaa, 0xc7, 0x40, 0x2f, 0x3d, 0x96, 0xa4, 0x1f, 0xa4, 0xc4, 0x4e, 0x68, 0xda, 0xa6, 0x0d, 0xf4,
+	0xa8, 0x47, 0xcf, 0xfb, 0xe3, 0x79, 0x1f, 0x5e, 0xfc, 0x81, 0xf3, 0x98, 0xf6, 0x32, 0x91, 0x0e,
+	0xdd, 0x24, 0x05, 0x03, 0x36, 0xd9, 0xe9, 0x4b, 0xc3, 0x23, 0x01, 0x6e, 0x02, 0xdd, 0xa1, 0x12,
+	0xa6, 0x0f, 0x69, 0x87, 0x83, 0x8e, 0x41, 0xbb, 0x9c, 0xc7, 0xd5, 0xcf, 0x21, 0x40, 0xd8, 0x15,
+	0x94, 0x25, 0x92, 0x32, 0xa5, 0xc0, 0x30, 0x23, 0x41, 0xe9, 0x62, 0xba, 0xfa, 0xad, 0x70, 0x52,
+	0x9f, 0x69, 0x51, 0x60, 0xe9, 0x41, 0xc3, 0x17, 0x86, 0x35, 0x68, 0xc2, 0x42, 0xa9, 0x72, 0x73,
+	0xe1, 0xad, 0x1d, 0x23, 0xfc, 0x65, 0x7b, 0x6e, 0x69, 0x45, 0x82, 0x77, 0xfe, 0x43, 0x90, 0x75,
+	0x45, 0x0b, 0x94, 0x49, 0x19, 0x37, 0x9e, 0xe8, 0x65, 0x42, 0x1b, 0x9b, 0x60, 0x1c, 0xe7, 0x1f,
+	0x5b, 0x2c, 0x16, 0x15, 0xe4, 0xa0, 0xfa, 0x1b, 0x6f, 0x45, 0xb1, 0xbf, 0xe2, 0xf7, 0x06, 0x96,
+	0x43, 0xbf, 0x83, 0x20, 0xad, 0x58, 0x0e, 0xaa, 0xbf, 0xf3, 0xee, 0xa9, 0xb6, 0x83, 0xdf, 0xee,
+	0xa7, 0x10, 0xb7, 0x22, 0x26, 0xd5, 0xdf, 0xa0, 0xf2, 0xc2, 0x41, 0xf5, 0x97, 0xde, 0xaa, 0x54,
+	0xdb, 0xc5, 0xce, 0xe3, 0x61, 0x74, 0x02, 0x4a, 0x8b, 0x8d, 0x69, 0x3e, 0xe1, 0xb2, 0x18, 0x48,
+	0x6d, 0xf2, 0x10, 0xaf, 0xbd, 0xe2, 0xd1, 0x3c, 0xb1, 0x70, 0x39, 0x47, 0xdb, 0x47, 0x16, 0xfe,
+	0xb8, 0x86, 0x6f, 0xff, 0x74, 0x9f, 0x2e, 0xdd, 0xdd, 0x50, 0x53, 0xf5, 0xd7, 0xf3, 0x01, 0xc5,
+	0x6a, 0x35, 0x79, 0x78, 0x71, 0x7d, 0x66, 0x71, 0x9b, 0xd1, 0x25, 0x89, 0x3e, 0x20, 0xd1, 0xf9,
+	0xad, 0xf0, 0x39, 0xa4, 0x5d, 0x2c, 0xdd, 0xe6, 0x0b, 0x0c, 0x1d, 0xdd, 0xb6, 0x30, 0xa6, 0xa3,
+	0xbb, 0xe5, 0x8f, 0xe9, 0x68, 0xa5, 0xe8, 0xf1, 0x9f, 0x7f, 0xe7, 0x53, 0x82, 0x26, 0x53, 0x82,
+	0xae, 0xa6, 0x04, 0x9d, 0xce, 0x48, 0x69, 0x32, 0x23, 0xa5, 0xcb, 0x19, 0x29, 0xed, 0x35, 0x43,
+	0x69, 0xa2, 0xcc, 0x77, 0x39, 0xc4, 0x6b, 0x63, 0x7c, 0x5f, 0xe4, 0x18, 0xe4, 0x49, 0xcc, 0x30,
+	0x11, 0xda, 0x7f, 0x95, 0x1f, 0xd3, 0x8f, 0x9b, 0x00, 0x00, 0x00, 0xff, 0xff, 0x36, 0x8c, 0x28,
+	0x98, 0xc9, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -199,7 +191,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
 	// this line is used by starport scaffolding # 2
-	IfContainToContract(ctx context.Context, in *QueryContainToContractParamRequest, opts ...grpc.CallOption) (*QueryContainToContractParamResponse, error)
+	CheckModuleContract(ctx context.Context, in *QueryCheckModuleContractRequest, opts ...grpc.CallOption) (*QueryCheckModuleContractResponse, error)
 }
 
 type queryClient struct {
@@ -210,9 +202,9 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
 }
 
-func (c *queryClient) IfContainToContract(ctx context.Context, in *QueryContainToContractParamRequest, opts ...grpc.CallOption) (*QueryContainToContractParamResponse, error) {
-	out := new(QueryContainToContractParamResponse)
-	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.ccm.Query/IfContainToContract", in, out, opts...)
+func (c *queryClient) CheckModuleContract(ctx context.Context, in *QueryCheckModuleContractRequest, opts ...grpc.CallOption) (*QueryCheckModuleContractResponse, error) {
+	out := new(QueryCheckModuleContractResponse)
+	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.ccm.Query/CheckModuleContract", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -222,35 +214,35 @@ func (c *queryClient) IfContainToContract(ctx context.Context, in *QueryContainT
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// this line is used by starport scaffolding # 2
-	IfContainToContract(context.Context, *QueryContainToContractParamRequest) (*QueryContainToContractParamResponse, error)
+	CheckModuleContract(context.Context, *QueryCheckModuleContractRequest) (*QueryCheckModuleContractResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
 type UnimplementedQueryServer struct {
 }
 
-func (*UnimplementedQueryServer) IfContainToContract(ctx context.Context, req *QueryContainToContractParamRequest) (*QueryContainToContractParamResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IfContainToContract not implemented")
+func (*UnimplementedQueryServer) CheckModuleContract(ctx context.Context, req *QueryCheckModuleContractRequest) (*QueryCheckModuleContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckModuleContract not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
 }
 
-func _Query_IfContainToContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryContainToContractParamRequest)
+func _Query_CheckModuleContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryCheckModuleContractRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).IfContainToContract(ctx, in)
+		return srv.(QueryServer).CheckModuleContract(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Switcheo.polynetworkcosmos.ccm.Query/IfContainToContract",
+		FullMethod: "/Switcheo.polynetworkcosmos.ccm.Query/CheckModuleContract",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).IfContainToContract(ctx, req.(*QueryContainToContractParamRequest))
+		return srv.(QueryServer).CheckModuleContract(ctx, req.(*QueryCheckModuleContractRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -260,15 +252,15 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "IfContainToContract",
-			Handler:    _Query_IfContainToContract_Handler,
+			MethodName: "CheckModuleContract",
+			Handler:    _Query_CheckModuleContract_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "ccm/query.proto",
 }
 
-func (m *QueryContainToContractParamRequest) Marshal() (dAtA []byte, err error) {
+func (m *QueryCheckModuleContractRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -278,12 +270,12 @@ func (m *QueryContainToContractParamRequest) Marshal() (dAtA []byte, err error) 
 	return dAtA[:n], nil
 }
 
-func (m *QueryContainToContractParamRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryCheckModuleContractRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryContainToContractParamRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryCheckModuleContractRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -300,17 +292,17 @@ func (m *QueryContainToContractParamRequest) MarshalToSizedBuffer(dAtA []byte) (
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.KeyStore) > 0 {
-		i -= len(m.KeyStore)
-		copy(dAtA[i:], m.KeyStore)
-		i = encodeVarintQuery(dAtA, i, uint64(len(m.KeyStore)))
+	if len(m.ModuleName) > 0 {
+		i -= len(m.ModuleName)
+		copy(dAtA[i:], m.ModuleName)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.ModuleName)))
 		i--
 		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
 
-func (m *QueryContainToContractParamResponse) Marshal() (dAtA []byte, err error) {
+func (m *QueryCheckModuleContractResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -320,23 +312,16 @@ func (m *QueryContainToContractParamResponse) Marshal() (dAtA []byte, err error)
 	return dAtA[:n], nil
 }
 
-func (m *QueryContainToContractParamResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryCheckModuleContractResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryContainToContractParamResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryCheckModuleContractResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Info) > 0 {
-		i -= len(m.Info)
-		copy(dAtA[i:], m.Info)
-		i = encodeVarintQuery(dAtA, i, uint64(len(m.Info)))
-		i--
-		dAtA[i] = 0x1a
-	}
 	if m.Exist {
 		i--
 		if m.Exist {
@@ -347,10 +332,10 @@ func (m *QueryContainToContractParamResponse) MarshalToSizedBuffer(dAtA []byte) 
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.KeyStore) > 0 {
-		i -= len(m.KeyStore)
-		copy(dAtA[i:], m.KeyStore)
-		i = encodeVarintQuery(dAtA, i, uint64(len(m.KeyStore)))
+	if len(m.ModuleName) > 0 {
+		i -= len(m.ModuleName)
+		copy(dAtA[i:], m.ModuleName)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.ModuleName)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -368,13 +353,13 @@ func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *QueryContainToContractParamRequest) Size() (n int) {
+func (m *QueryCheckModuleContractRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.KeyStore)
+	l = len(m.ModuleName)
 	if l > 0 {
 		n += 1 + l + sovQuery(uint64(l))
 	}
@@ -388,22 +373,18 @@ func (m *QueryContainToContractParamRequest) Size() (n int) {
 	return n
 }
 
-func (m *QueryContainToContractParamResponse) Size() (n int) {
+func (m *QueryCheckModuleContractResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.KeyStore)
+	l = len(m.ModuleName)
 	if l > 0 {
 		n += 1 + l + sovQuery(uint64(l))
 	}
 	if m.Exist {
 		n += 2
-	}
-	l = len(m.Info)
-	if l > 0 {
-		n += 1 + l + sovQuery(uint64(l))
 	}
 	return n
 }
@@ -414,7 +395,7 @@ func sovQuery(x uint64) (n int) {
 func sozQuery(x uint64) (n int) {
 	return sovQuery(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *QueryContainToContractParamRequest) Unmarshal(dAtA []byte) error {
+func (m *QueryCheckModuleContractRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -437,15 +418,15 @@ func (m *QueryContainToContractParamRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryContainToContractParamRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryCheckModuleContractRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryContainToContractParamRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryCheckModuleContractRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field KeyStore", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ModuleName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -473,7 +454,7 @@ func (m *QueryContainToContractParamRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.KeyStore = string(dAtA[iNdEx:postIndex])
+			m.ModuleName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -549,7 +530,7 @@ func (m *QueryContainToContractParamRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *QueryContainToContractParamResponse) Unmarshal(dAtA []byte) error {
+func (m *QueryCheckModuleContractResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -572,15 +553,15 @@ func (m *QueryContainToContractParamResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryContainToContractParamResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryCheckModuleContractResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryContainToContractParamResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryCheckModuleContractResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field KeyStore", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ModuleName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -608,7 +589,7 @@ func (m *QueryContainToContractParamResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.KeyStore = string(dAtA[iNdEx:postIndex])
+			m.ModuleName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
@@ -630,38 +611,6 @@ func (m *QueryContainToContractParamResponse) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.Exist = bool(v != 0)
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Info", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowQuery
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthQuery
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthQuery
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Info = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])

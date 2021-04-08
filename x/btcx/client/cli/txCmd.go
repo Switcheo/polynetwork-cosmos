@@ -17,11 +17,19 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 )
 
-func CmdCreateDenom() *cobra.Command {
+func CmdCreate() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-denom [denom] [assetHash] [redeemScript]",
-		Short: "Creates a new DenomInfo",
-		Args:  cobra.ExactArgs(5),
+		Use:   "create [denom] [redeemScript]",
+		Short: "Creates a new denom for the given redeem script",
+		Long: strings.TrimSpace(
+			fmt.Sprintf(`
+Example:
+$ %s tx %s create btc-111 12345678
+`,
+				version.AppName, types.ModuleName,
+			),
+		),
+		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			argsDenom := string(args[0])
 			argsRedeemScript := string(args[1])
@@ -31,7 +39,7 @@ func CmdCreateDenom() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgCreateDenom(clientCtx.GetFromAddress().String(), string(argsDenom), string(argsRedeemScript))
+			msg := types.NewMsgCreate(clientCtx.GetFromAddress().String(), string(argsDenom), string(argsRedeemScript))
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
@@ -44,21 +52,44 @@ func CmdCreateDenom() *cobra.Command {
 	return cmd
 }
 
-func CmdBindAssetHash() *cobra.Command {
+func CmdBind() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-denom [denom] [assetHash] [redeemScript]",
-		Short: "Creates a new DenomInfo",
-		Args:  cobra.ExactArgs(5),
+		Use:   "bind [denom] [to_chain_id] [to_asset_hash]",
+		Short: "Binds an asset hash to a source denom. Must be an operator.",
+		Long: strings.TrimSpace(
+			fmt.Sprintf(`
+Example:
+$ %s tx %s bind btc-222 3 12341234
+`,
+				version.AppName, types.ModuleName,
+			),
+		),
+		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			argsDenom := string(args[0])
-			argsRedeemScript := string(args[1])
+			sourceAssetDenom := args[0]
+
+			toChainId, err := strconv.ParseUint(args[1], 10, 64)
+			if err != nil {
+				return err
+			}
+
+			toAssetHashStr := args[2]
+			if toAssetHashStr[0:2] == "0x" {
+				toAssetHashStr = toAssetHashStr[2:]
+			}
+
+			toAssetHash, err := hex.DecodeString(toAssetHashStr)
+			if err != nil {
+				return fmt.Errorf("decode hex string 'toAssetHash' error:%v", err)
+			}
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgCreateDenom(clientCtx.GetFromAddress().String(), string(argsDenom), string(argsRedeemScript))
+			// build and sign the transaction, then broadcast to Tendermint
+			msg := types.NewMsgBind(clientCtx.GetFromAddress().String(), sourceAssetDenom, toChainId, toAssetHash)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
@@ -73,12 +104,12 @@ func CmdBindAssetHash() *cobra.Command {
 
 func CmdLock() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "lock [source_asset_denom] [to_chain_id] [to_address] [amount]",
-		Short: "lock amount of source_asset_denom and aim to release amount in to_chain_id chain to to_address",
+		Use:   "lock [denom] [to_chain_id] [to_address] [amount]",
+		Short: "Locks the amount of denom and releases the same amount on to_chain_id chain to to_address",
 		Long: strings.TrimSpace(
 			fmt.Sprintf(`
 Example:
-$ %s tx %s lock btca 3 616f2a4a38396ff203ea01e6c070ae421bb8ce2d 123
+$ %s tx %s lock btc-xxx 3 616f2a4a38396ff203ea01e6c070ae421bb8ce2d 123
 `,
 				version.AppName, types.ModuleName,
 			),

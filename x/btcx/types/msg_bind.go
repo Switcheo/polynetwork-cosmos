@@ -7,25 +7,25 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-var _ sdk.Msg = &MsgBindAssetHash{}
+var _ sdk.Msg = &MsgBind{}
 
-// NewMsgBindAssetHash returns a new MsgBindAssetHash
-func NewMsgBindAssetHash(creator string, sourceAssetDenom string, toChainId uint64, toAssetHash []byte) *MsgBindAssetHash {
-	return &MsgBindAssetHash{creator, sourceAssetDenom, toChainId, toAssetHash}
+// NewMsgBind returns a new MsgBind
+func NewMsgBind(creator string, sourceAssetDenom string, toChainId uint64, toAssetHash []byte) *MsgBind {
+	return &MsgBind{creator, sourceAssetDenom, toChainId, toAssetHash}
 }
 
 // Route implements Msg
-func (msg *MsgBindAssetHash) Route() string {
+func (msg *MsgBind) Route() string {
 	return RouterKey
 }
 
 // Type implements Msg
-func (msg *MsgBindAssetHash) Type() string {
-	return "BindAssetHash"
+func (msg *MsgBind) Type() string {
+	return "Bind"
 }
 
 // GetSigners implements Msg
-func (msg *MsgBindAssetHash) GetSigners() []sdk.AccAddress {
+func (msg *MsgBind) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -34,13 +34,13 @@ func (msg *MsgBindAssetHash) GetSigners() []sdk.AccAddress {
 }
 
 // GetSignBytes implements Msg
-func (msg *MsgBindAssetHash) GetSignBytes() []byte {
+func (msg *MsgBind) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
 // ValidateBasic implements Msg
-func (msg *MsgBindAssetHash) ValidateBasic() error {
+func (msg *MsgBind) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s), error: %v", msg.Creator, err)

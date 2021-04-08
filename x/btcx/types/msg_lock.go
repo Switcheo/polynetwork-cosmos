@@ -26,11 +26,11 @@ func (msg *MsgLock) Type() string {
 
 // GetSigners implements Msg
 func (msg *MsgLock) GetSigners() []sdk.AccAddress {
-	creator, err := sdk.AccAddressFromBech32(msg.FromAddress)
+	fromAddr, err := sdk.AccAddressFromBech32(msg.FromAddress)
 	if err != nil {
 		panic(err)
 	}
-	return []sdk.AccAddress{creator}
+	return []sdk.AccAddress{fromAddr}
 }
 
 // GetSignBytes implements Msg

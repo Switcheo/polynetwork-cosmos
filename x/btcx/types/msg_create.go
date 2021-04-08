@@ -8,11 +8,11 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-var _ sdk.Msg = &MsgCreateDenom{}
+var _ sdk.Msg = &MsgCreate{}
 
-// NewMsgCreateDenom returns a new MsgCreateDenom
-func NewMsgCreateDenom(creator string, denom string, redeemScript string) *MsgCreateDenom {
-	return &MsgCreateDenom{
+// NewMsgCreate returns a new MsgCreate
+func NewMsgCreate(creator string, denom string, redeemScript string) *MsgCreate {
+	return &MsgCreate{
 		Creator:      creator,
 		Denom:        denom,
 		RedeemScript: redeemScript,
@@ -20,17 +20,17 @@ func NewMsgCreateDenom(creator string, denom string, redeemScript string) *MsgCr
 }
 
 // Route implements Msg
-func (msg *MsgCreateDenom) Route() string {
+func (msg *MsgCreate) Route() string {
 	return RouterKey
 }
 
 // Type implements Msg
-func (msg *MsgCreateDenom) Type() string {
-	return "CreateDenom"
+func (msg *MsgCreate) Type() string {
+	return "Create"
 }
 
 // GetSigners implements Msg
-func (msg *MsgCreateDenom) GetSigners() []sdk.AccAddress {
+func (msg *MsgCreate) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -39,13 +39,13 @@ func (msg *MsgCreateDenom) GetSigners() []sdk.AccAddress {
 }
 
 // GetSignBytes implements Msg
-func (msg *MsgCreateDenom) GetSignBytes() []byte {
+func (msg *MsgCreate) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
 // ValidateBasic implements Msg
-func (msg *MsgCreateDenom) ValidateBasic() error {
+func (msg *MsgCreate) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s), error: %v", msg.Creator, err)
