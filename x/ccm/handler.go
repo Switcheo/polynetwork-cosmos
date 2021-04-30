@@ -19,7 +19,7 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		switch msg := msg.(type) {
 		// this line is used by starport scaffolding # 1
 		case *types.MsgProcessCrossChainTx:
-			res, err := msgServer.ProcessCrossChainTx(sdk.WrapSDKContext(ctx), msg)
+			res, err := msgServer.Process(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 
 		default:

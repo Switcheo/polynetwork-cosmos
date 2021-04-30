@@ -150,6 +150,65 @@ func (k Keeper) ProcessRegisterAssetTx(ctx sdk.Context, merkleValue *ccmc.ToMerk
 	return k.ak.RegisterAsset(ctx, merkleValue.FromChainID, merkleValue.MakeTxParam.FromContractAddress, merkleValue.MakeTxParam.ToContractAddress, merkleValue.MakeTxParam.Args)
 }
 
+func (k Keeper) ProcessCrossChainTx(ctx sdk.Context, fromChainId uint64, proofStr string, headerStr, headerProofStr, curHeaderStr string) error {
+	headerToBeVerified := new(polytype.Header)
+	headerBs, err := hex.DecodeString(headerStr)
+	if err != nil {
+		return types.ErrProcessCrossChainTx(fmt.Sprintf("Failed to decode header hex string to bytes: %s, Error: %s ", headerStr, err.Error()))
+	}
+	if err := headerToBeVerified.Deserialization(polycommon.NewZeroCopySource(headerBs)); err != nil {
+		return types.ErrProcessCrossChainTx(fmt.Sprintf("Failed to deserialize header, Error:%s", err.Error()))
+	}
+
+	headerInCurEpoch := new(polytype.Header)
+	curHeaderBs, err := hex.DecodeString(curHeaderStr)
+	if err != nil {
+		headerInCurEpoch = nil
+	} else {
+		if err := headerInCurEpoch.Deserialization(polycommon.NewZeroCopySource(curHeaderBs)); err != nil {
+			headerInCurEpoch = nil
+		}
+	}
+
+	headerProof, err := hex.DecodeString(headerProofStr)
+	if err != nil {
+		headerProof = nil
+	}
+
+	if err := k.hsk.ProcessHeader(ctx, headerToBeVerified, headerProof, headerInCurEpoch); err != nil {
+		return types.ErrProcessCrossChainTx(fmt.Sprintf("ProcessHeader Error, %s", err.Error()))
+	}
+
+	proof, err := hex.DecodeString(proofStr)
+	if err != nil {
+		return types.ErrProcessCrossChainTx(fmt.Sprintf("Failed to decode proof hex string to bytes: %s, Error: %s", proofStr, err.Error()))
+	}
+
+	merkleValue, err := k.VerifyToCosmosTx(ctx, proof, headerToBeVerified)
+	if err != nil {
+		return types.ErrProcessCrossChainTx(fmt.Sprintf("VerifyToCosmostx failed, %s", err.Error()))
+	}
+	currentChainCrossChainId := types.GetChainID()
+	if merkleValue.MakeTxParam.ToChainID != currentChainCrossChainId {
+		return types.ErrProcessCrossChainTx(fmt.Sprintf("toChainId is not for this chain, expect: %d, got: %d", currentChainCrossChainId, merkleValue.MakeTxParam.ToChainID))
+	}
+
+	switch merkleValue.MakeTxParam.Method {
+	case "unlock":
+		if err := k.ProcessUnlockTx(ctx, merkleValue, fromChainId); err != nil {
+			return err
+		}
+	case "registerAsset":
+		if err := k.ProcessRegisterAssetTx(ctx, merkleValue); err != nil {
+			return err
+		}
+	default:
+		return types.ErrProcessCrossChainTx(fmt.Sprintf("unsupported cross-chain method: %s", merkleValue.MakeTxParam.Method))
+	}
+
+	return nil
+}
+
 func (k Keeper) VerifyToCosmosTx(ctx sdk.Context, proof []byte, header *polytype.Header) (*ccmc.ToMerkleValue, error) {
 	value, err := merkle.MerkleProve(proof, header.CrossStateRoot[:])
 	if err != nil {
