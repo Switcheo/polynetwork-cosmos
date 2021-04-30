@@ -87,6 +87,9 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
+		"github.com/Switcheo/polynetwork-cosmos/x/headersync"
+		headersynckeeper "github.com/Switcheo/polynetwork-cosmos/x/headersync/keeper"
+		headersynctypes "github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx"
 	btcxkeeper "github.com/Switcheo/polynetwork-cosmos/x/btcx/keeper"
 	btcxtypes "github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
@@ -140,6 +143,7 @@ var (
 		vesting.AppModuleBasic{},
 		polynetworkcosmos.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+		headersync.AppModuleBasic{},
 		ccm.AppModuleBasic{},
 		btcx.AppModuleBasic{},
 	)
@@ -215,6 +219,8 @@ type App struct {
 
 	polynetworkcosmosKeeper polynetworkcosmoskeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+		
+		headersyncKeeper headersynckeeper.Keeper
 
 	ccmKeeper  ccmkeeper.Keeper
 	btcxKeeper btcxkeeper.Keeper
@@ -248,6 +254,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		polynetworkcosmostypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
+		headersynctypes.StoreKey,
 		ccmtypes.StoreKey,
 		btcxtypes.StoreKey,
 	)
@@ -349,6 +356,14 @@ func New(
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
+		
+		app.headersyncKeeper = *headersynckeeper.NewKeeper(
+			appCodec,
+			keys[headersynctypes.StoreKey],
+			keys[headersynctypes.MemStoreKey],
+			
+		)
+		headersyncModule := headersync.NewAppModule(appCodec, app.headersyncKeeper)
 	app.ccmKeeper = *ccmkeeper.NewKeeper(
 		appCodec,
 		keys[ccmtypes.StoreKey],
@@ -401,6 +416,7 @@ func New(
 		transferModule,
 		polynetworkcosmos.NewAppModule(appCodec, app.polynetworkcosmosKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
+		headersyncModule,
 		ccmModule,
 		btcxModule,
 	)
@@ -437,6 +453,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		polynetworkcosmostypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
+		headersynctypes.ModuleName,
 		ccmtypes.ModuleName,
 		btcxtypes.ModuleName,
 	)
@@ -632,6 +649,7 @@ func initParamsKeeper(appCodec codec.BinaryMarshaler, legacyAmino *codec.LegacyA
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
+		paramsKeeper.Subspace(headersynctypes.ModuleName)
 	paramsKeeper.Subspace(ccmtypes.ModuleName)
 	paramsKeeper.Subspace(btcxtypes.ModuleName)
 

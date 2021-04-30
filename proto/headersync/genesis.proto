@@ -1,0 +1,12 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.headersync;
+
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
+
+// GenesisState defines the headersync module's genesis state.
+message GenesisState {
+    // this line is used by starport scaffolding # genesis/proto/state
+    // this line is used by starport scaffolding # ibc/genesis/proto
+}

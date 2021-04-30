@@ -1,0 +1,26 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.headersync;
+
+import "google/api/annotations.proto";
+// this line is used by starport scaffolding # 1
+import "headersync/consensus_peers.proto";
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
+
+// Query defines the gRPC querier service.
+service Query {
+    // this line is used by starport scaffolding # 2
+  rpc GetConsensusPeers(QueryGetConsensusPeersRequest) returns (QueryGetConsensusPeersResponse) {
+    option (google.api.http).get = "/Switcheo/polynetworkcosmos/headersync/ConsensusPeers";
+  }
+}
+
+// this line is used by starport scaffolding # 3
+
+message QueryGetConsensusPeersRequest {
+  uint64 chainId = 1;
+}
+
+message QueryGetConsensusPeersResponse {
+  ConsensusPeers consensusPeers = 1;
+}

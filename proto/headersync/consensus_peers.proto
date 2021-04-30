@@ -1,0 +1,15 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.headersync;
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
+
+message Peer  {
+	uint32 index = 1;
+  string peerPubKey = 2;
+}
+
+message ConsensusPeers {
+  uint64 chainId = 1;
+	uint32 height = 2;
+  map<string, Peer> peers = 3;
+}

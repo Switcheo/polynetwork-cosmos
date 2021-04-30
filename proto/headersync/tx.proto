@@ -1,0 +1,26 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.headersync;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
+
+// Msg defines the Msg service.
+service Msg {
+    // this line is used by starport scaffolding # proto/tx/rpc
+}
+
+// this line is used by starport scaffolding # proto/tx/message
+message MsgSyncGenesis {
+  string syncer = 1;
+	string genesisHeader = 2;
+}
+
+message MsgSyncGenesisResponse { }
+
+
+message MsgSyncHeaders {
+  repeated string headers = 1;
+}
+
+message MsgSyncHeadersResponse { }
