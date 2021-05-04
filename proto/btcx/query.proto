@@ -14,7 +14,7 @@ service Query {
 		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}";
 	}
   rpc DenomCrossChainInfo(QueryGetDenomCrossChainInfoRequest) returns (QueryGetDenomCrossChainInfoResponse) {
-		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}/{chainId}";
+		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}/{chainID}";
 	}
 
 }
@@ -30,11 +30,11 @@ message QueryGetDenomInfoResponse {
 
 message QueryGetDenomCrossChainInfoRequest {
 	string denom = 1;
-  uint64 chainId = 2;
+  uint64 chainID = 2;
 }
 
 message QueryGetDenomCrossChainInfoResponse {
 	DenomInfo denomInfo = 1;
-	uint64 toChainId = 2;
+	uint64 toChainID = 2;
 	string toAssetHash = 3;
 }

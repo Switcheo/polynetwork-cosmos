@@ -31,7 +31,7 @@ const (
 )
 
 var (
-	ChainIdToAssetHashPrefix       = []byte{0x01}
+	ChainIDToAssetHashPrefix       = []byte{0x01}
 	CreatorDenomToScriptHashPrefix = []byte{0x02}
 	ScriptHashToRedeemScriptPrefix = []byte{0x03}
 	DenomToCreatorPrefix           = []byte{0x04}
@@ -40,10 +40,10 @@ var (
 )
 
 // TODO: delete this method
-func GetScriptHashAndChainIdToAssetHashKey(scriptHash []byte, chainId uint64) []byte {
+func GetScriptHashAndChainIDToAssetHashKey(scriptHash []byte, chainID uint64) []byte {
 	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, chainId)
-	return append(append(ChainIdToAssetHashPrefix, scriptHash...), b...)
+	binary.LittleEndian.PutUint64(b, chainID)
+	return append(append(ChainIDToAssetHashPrefix, scriptHash...), b...)
 }
 
 func GetScriptHashToRedeemScript(scriptHashKeyBs []byte) []byte {
@@ -62,8 +62,8 @@ func GetDenomToRedeemScriptKey(denom string) []byte {
 	return append(DenomToRedeemScriptKey, []byte(denom)...)
 }
 
-func GetBindAssetHashKey(sourceDenomHash []byte, chainId uint64) []byte {
+func GetBindAssetHashKey(sourceDenomHash []byte, chainID uint64) []byte {
 	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, chainId)
+	binary.LittleEndian.PutUint64(b, chainID)
 	return append(append(BindAssetHashPrefix, sourceDenomHash...), b...)
 }

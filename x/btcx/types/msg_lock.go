@@ -10,8 +10,8 @@ import (
 var _ sdk.Msg = &MsgLock{}
 
 // NewMsgLock returns a new MsgLock
-func NewMsgLock(fromAddress string, sourceAssetDenom string, toChainId uint64, toAddress []byte, value sdk.Int) *MsgLock {
-	return &MsgLock{fromAddress, sourceAssetDenom, toChainId, toAddress, &sdk.IntProto{Int: value}}
+func NewMsgLock(fromAddress string, sourceAssetDenom string, toChainID uint64, toAddress []byte, value sdk.Int) *MsgLock {
+	return &MsgLock{fromAddress, sourceAssetDenom, toChainID, toAddress, &sdk.IntProto{Int: value}}
 }
 
 // Route implements Msg
@@ -48,8 +48,8 @@ func (msg *MsgLock) ValidateBasic() error {
 	if err := sdk.ValidateDenom(msg.SourceAssetDenom); err != nil {
 		return sdkerrors.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
 	}
-	if msg.ToChainId == 0 {
-		return sdkerrors.Wrapf(ErrInvalidChainIdType, "invalid chain id (%s)", msg.ToChainId)
+	if msg.ToChainID == 0 {
+		return sdkerrors.Wrapf(ErrInvalidChainIDType, "invalid chain id (%s)", msg.ToChainID)
 	}
 	if len(msg.ToAddressBs) == 0 {
 		return sdkerrors.Wrapf(ErrEmptyToAssetHashType, "invalid to address (%s)", hex.EncodeToString(msg.ToAddressBs))

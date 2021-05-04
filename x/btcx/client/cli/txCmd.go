@@ -68,7 +68,7 @@ $ %s tx %s bind btc-222 3 12341234
 		RunE: func(cmd *cobra.Command, args []string) error {
 			sourceAssetDenom := args[0]
 
-			toChainId, err := strconv.ParseUint(args[1], 10, 64)
+			toChainID, err := strconv.ParseUint(args[1], 10, 64)
 			if err != nil {
 				return err
 			}
@@ -89,7 +89,7 @@ $ %s tx %s bind btc-222 3 12341234
 			}
 
 			// build and sign the transaction, then broadcast to Tendermint
-			msg := types.NewMsgBind(clientCtx.GetFromAddress().String(), sourceAssetDenom, toChainId, toAssetHash)
+			msg := types.NewMsgBind(clientCtx.GetFromAddress().String(), sourceAssetDenom, toChainID, toAssetHash)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
@@ -118,8 +118,8 @@ $ %s tx %s lock btc-xxx 3 616f2a4a38396ff203ea01e6c070ae421bb8ce2d 123
 		RunE: func(cmd *cobra.Command, args []string) error {
 			sourceAssetDenom := args[0]
 
-			toChainIdStr := args[1]
-			toChainId, err := strconv.ParseUint(toChainIdStr, 10, 64)
+			toChainIDStr := args[1]
+			toChainID, err := strconv.ParseUint(toChainIDStr, 10, 64)
 			if err != nil {
 				return err
 			}
@@ -141,7 +141,7 @@ $ %s tx %s lock btc-xxx 3 616f2a4a38396ff203ea01e6c070ae421bb8ce2d 123
 				return err
 			}
 
-			msg := types.NewMsgLock(clientCtx.GetFromAddress().String(), sourceAssetDenom, toChainId, toAddress, value)
+			msg := types.NewMsgLock(clientCtx.GetFromAddress().String(), sourceAssetDenom, toChainID, toAddress, value)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

@@ -8,6 +8,8 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc SyncGenesis(MsgSyncGenesis) returns (MsgSyncGenesisResponse);
+  rpc SyncHeaders(MsgSyncHeaders) returns (MsgSyncHeadersResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
@@ -20,7 +22,8 @@ message MsgSyncGenesisResponse { }
 
 
 message MsgSyncHeaders {
-  repeated string headers = 1;
+  string syncer = 1;
+  repeated string headers = 2;
 }
 
 message MsgSyncHeadersResponse { }

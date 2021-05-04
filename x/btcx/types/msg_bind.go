@@ -10,8 +10,8 @@ import (
 var _ sdk.Msg = &MsgBind{}
 
 // NewMsgBind returns a new MsgBind
-func NewMsgBind(creator string, sourceAssetDenom string, toChainId uint64, toAssetHash []byte) *MsgBind {
-	return &MsgBind{creator, sourceAssetDenom, toChainId, toAssetHash}
+func NewMsgBind(creator string, sourceAssetDenom string, toChainID uint64, toAssetHash []byte) *MsgBind {
+	return &MsgBind{creator, sourceAssetDenom, toChainID, toAssetHash}
 }
 
 // Route implements Msg
@@ -48,8 +48,8 @@ func (msg *MsgBind) ValidateBasic() error {
 	if err := sdk.ValidateDenom(msg.SourceAssetDenom); err != nil {
 		return sdkerrors.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
 	}
-	if msg.ToChainId == 0 {
-		return sdkerrors.Wrapf(ErrInvalidChainIdType, "invalid chain id (%s)", msg.ToChainId)
+	if msg.ToChainID == 0 {
+		return sdkerrors.Wrapf(ErrInvalidChainIDType, "invalid chain id (%s)", msg.ToChainID)
 	}
 	if len(msg.ToAssetHash) == 0 {
 		return sdkerrors.Wrapf(ErrEmptyToAssetHashType, "invalid to asset hash (%s)", hex.EncodeToString(msg.ToAssetHash))

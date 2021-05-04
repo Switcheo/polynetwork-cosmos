@@ -66,15 +66,15 @@ func request_Query_CheckModuleContract_0(ctx context.Context, marshaler runtime.
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "toContractAddr", err)
 	}
 
-	val, ok = pathParams["fromChainId"]
+	val, ok = pathParams["fromChainID"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromChainId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromChainID")
 	}
 
-	protoReq.FromChainId, err = runtime.Uint64(val)
+	protoReq.FromChainID, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromChainId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromChainID", err)
 	}
 
 	msg, err := client.CheckModuleContract(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -115,15 +115,15 @@ func local_request_Query_CheckModuleContract_0(ctx context.Context, marshaler ru
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "toContractAddr", err)
 	}
 
-	val, ok = pathParams["fromChainId"]
+	val, ok = pathParams["fromChainID"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromChainId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromChainID")
 	}
 
-	protoReq.FromChainId, err = runtime.Uint64(val)
+	protoReq.FromChainID, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromChainId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromChainID", err)
 	}
 
 	msg, err := server.CheckModuleContract(ctx, &protoReq)
@@ -225,7 +225,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_CheckModuleContract_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"Switcheo", "polynetworkcosmos", "ccm", "check_module_contract", "moduleName", "toContractAddr", "fromChainId"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_CheckModuleContract_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"Switcheo", "polynetworkcosmos", "ccm", "check_module_contract", "moduleName", "toContractAddr", "fromChainID"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

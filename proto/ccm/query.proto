@@ -11,7 +11,7 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/ccm/types";
 service Query {
   // this line is used by starport scaffolding # 2
   rpc CheckModuleContract(QueryCheckModuleContractRequest) returns (QueryCheckModuleContractResponse) {
-    option (google.api.http).get = "/Switcheo/polynetworkcosmos/ccm/check_module_contract/{moduleName}/{toContractAddr}/{fromChainId}";
+    option (google.api.http).get = "/Switcheo/polynetworkcosmos/ccm/check_module_contract/{moduleName}/{toContractAddr}/{fromChainID}";
   }
 }
 
@@ -19,7 +19,7 @@ service Query {
 message QueryCheckModuleContractRequest {
 	string moduleName = 1;
   bytes toContractAddr = 2;
-  uint64 fromChainId = 3;
+  uint64 fromChainID = 3;
 }
 
 message QueryCheckModuleContractResponse {

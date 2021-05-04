@@ -109,15 +109,15 @@ func request_Query_DenomCrossChainInfo_0(ctx context.Context, marshaler runtime.
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "denom", err)
 	}
 
-	val, ok = pathParams["chainId"]
+	val, ok = pathParams["chainID"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chainId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chainID")
 	}
 
-	protoReq.ChainId, err = runtime.Uint64(val)
+	protoReq.ChainID, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chainId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chainID", err)
 	}
 
 	msg, err := client.DenomCrossChainInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -147,15 +147,15 @@ func local_request_Query_DenomCrossChainInfo_0(ctx context.Context, marshaler ru
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "denom", err)
 	}
 
-	val, ok = pathParams["chainId"]
+	val, ok = pathParams["chainID"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chainId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chainID")
 	}
 
-	protoReq.ChainId, err = runtime.Uint64(val)
+	protoReq.ChainID, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chainId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chainID", err)
 	}
 
 	msg, err := server.DenomCrossChainInfo(ctx, &protoReq)
@@ -302,7 +302,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 var (
 	pattern_Query_DenomInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"Switcheo", "polynetworkcosmos", "btcx", "DenomInfo", "denom"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_DenomCrossChainInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5}, []string{"Switcheo", "polynetworkcosmos", "btcx", "DenomInfo", "denom", "chainId"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_DenomCrossChainInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5}, []string{"Switcheo", "polynetworkcosmos", "btcx", "DenomInfo", "denom", "chainID"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

@@ -10,7 +10,7 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
 // Query defines the gRPC querier service.
 service Query {
     // this line is used by starport scaffolding # 2
-  rpc GetConsensusPeers(QueryGetConsensusPeersRequest) returns (QueryGetConsensusPeersResponse) {
+  rpc ConsensusPeers(QueryGetConsensusPeersRequest) returns (QueryGetConsensusPeersResponse) {
     option (google.api.http).get = "/Switcheo/polynetworkcosmos/headersync/ConsensusPeers";
   }
 }
@@ -18,7 +18,7 @@ service Query {
 // this line is used by starport scaffolding # 3
 
 message QueryGetConsensusPeersRequest {
-  uint64 chainId = 1;
+  uint64 chainID = 1;
 }
 
 message QueryGetConsensusPeersResponse {

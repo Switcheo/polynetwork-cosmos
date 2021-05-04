@@ -36,12 +36,12 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 // GetCmdQueryConsensusPeers queries the current consensus peers for the given chain id.
 func GetCmdQueryConsensusPeers(queryRoute string, cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
-		Use:   "consensus-peers [chainId]",
+		Use:   "consensus-peers [chainID]",
 		Args:  cobra.ExactArgs(2),
-		Short: "Query the consensus peers for a specific chainId",
+		Short: "Query the consensus peers for a specific chainID",
 		Long: strings.TrimSpace(
-			fmt.Sprintf(`Query the current consensus peers info for a specific chainId that is
-already synced from another blockchain into current chain. Typically this would be the polynetwork chain (with chainId=0).
+			fmt.Sprintf(`Query the current consensus peers info for a specific chainID that is
+already synced from another blockchain into current chain. Typically this would be the polynetwork chain (with chainID=0).
 
 Example:
 $ %s query %s consensus-peers 0
@@ -54,17 +54,17 @@ $ %s query %s consensus-peers 0
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			chainIdStr := args[0]
-			chainId, err := strconv.ParseUint(chainIdStr, 10, 64)
+			chainIDStr := args[0]
+			chainID, err := strconv.ParseUint(chainIDStr, 10, 64)
 			if err != nil {
 				return err
 			}
 
 			params := &types.QueryGetConsensusPeersRequest{
-				ChainId: chainId,
+				ChainID: chainID,
 			}
 
-			res, err := queryClient.GetConsensusPeers(context.Background(), params)
+			res, err := queryClient.ConsensusPeers(context.Background(), params)
 			if err != nil {
 				return err
 			}

@@ -119,7 +119,7 @@ func (m *QueryGetDenomInfoResponse) GetDenomInfo() *DenomInfo {
 
 type QueryGetDenomCrossChainInfoRequest struct {
 	Denom   string `protobuf:"bytes,1,opt,name=denom,proto3" json:"denom,omitempty"`
-	ChainId uint64 `protobuf:"varint,2,opt,name=chainId,proto3" json:"chainId,omitempty"`
+	ChainID uint64 `protobuf:"varint,2,opt,name=chainID,proto3" json:"chainID,omitempty"`
 }
 
 func (m *QueryGetDenomCrossChainInfoRequest) Reset()         { *m = QueryGetDenomCrossChainInfoRequest{} }
@@ -162,16 +162,16 @@ func (m *QueryGetDenomCrossChainInfoRequest) GetDenom() string {
 	return ""
 }
 
-func (m *QueryGetDenomCrossChainInfoRequest) GetChainId() uint64 {
+func (m *QueryGetDenomCrossChainInfoRequest) GetChainID() uint64 {
 	if m != nil {
-		return m.ChainId
+		return m.ChainID
 	}
 	return 0
 }
 
 type QueryGetDenomCrossChainInfoResponse struct {
 	DenomInfo   *DenomInfo `protobuf:"bytes,1,opt,name=denomInfo,proto3" json:"denomInfo,omitempty"`
-	ToChainId   uint64     `protobuf:"varint,2,opt,name=toChainId,proto3" json:"toChainId,omitempty"`
+	ToChainID   uint64     `protobuf:"varint,2,opt,name=toChainID,proto3" json:"toChainID,omitempty"`
 	ToAssetHash string     `protobuf:"bytes,3,opt,name=toAssetHash,proto3" json:"toAssetHash,omitempty"`
 }
 
@@ -215,9 +215,9 @@ func (m *QueryGetDenomCrossChainInfoResponse) GetDenomInfo() *DenomInfo {
 	return nil
 }
 
-func (m *QueryGetDenomCrossChainInfoResponse) GetToChainId() uint64 {
+func (m *QueryGetDenomCrossChainInfoResponse) GetToChainID() uint64 {
 	if m != nil {
-		return m.ToChainId
+		return m.ToChainID
 	}
 	return 0
 }
@@ -252,7 +252,7 @@ var fileDescriptor_88feda0db5a084e1 = []byte{
 	0xb1, 0xe8, 0x28, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x15, 0xf2, 0xe0, 0xe2, 0x4c, 0x81, 0x09, 0x82,
 	0xb5, 0x71, 0x1b, 0x69, 0xe9, 0x11, 0x70, 0xb8, 0x1e, 0xc2, 0x18, 0x84, 0x66, 0xa5, 0x10, 0x2e,
 	0x25, 0x14, 0x6b, 0x9c, 0x8b, 0xf2, 0x8b, 0x8b, 0x9d, 0x33, 0x12, 0x33, 0xf3, 0x08, 0x3a, 0x51,
-	0x48, 0x82, 0x8b, 0x3d, 0x19, 0xac, 0x32, 0x45, 0x82, 0x49, 0x81, 0x51, 0x83, 0x25, 0x08, 0xc6,
+	0x48, 0x82, 0x8b, 0x3d, 0x19, 0xac, 0xd2, 0x45, 0x82, 0x49, 0x81, 0x51, 0x83, 0x25, 0x08, 0xc6,
 	0x55, 0x5a, 0xcf, 0xc8, 0xa5, 0x8c, 0xd7, 0x58, 0x6a, 0xfb, 0x43, 0x48, 0x86, 0x8b, 0xb3, 0x24,
 	0xdf, 0x19, 0xc5, 0x35, 0x08, 0x01, 0x21, 0x05, 0x2e, 0xee, 0x92, 0x7c, 0xc7, 0xe2, 0xe2, 0xd4,
 	0x12, 0x8f, 0xc4, 0xe2, 0x0c, 0x09, 0x66, 0xb0, 0x2f, 0x90, 0x85, 0x8c, 0x36, 0x32, 0x73, 0xb1,
@@ -265,7 +265,7 @@ var fileDescriptor_88feda0db5a084e1 = []byte{
 	0x72, 0x8c, 0x0f, 0x1e, 0xc9, 0x31, 0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1, 0xb1, 0x1c, 0xc3, 0x8d,
 	0xc7, 0x72, 0x0c, 0x51, 0xc6, 0xe9, 0x99, 0x25, 0x19, 0xa5, 0x49, 0x7a, 0xc9, 0xf9, 0xb9, 0x58,
 	0x6d, 0xd0, 0x85, 0x5a, 0x51, 0x01, 0xb1, 0xa4, 0xa4, 0xb2, 0x20, 0xb5, 0x38, 0x89, 0x0d, 0x9c,
-	0x55, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x08, 0x1f, 0x7e, 0xbd, 0x14, 0x04, 0x00, 0x00,
+	0x55, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x19, 0xef, 0x39, 0x04, 0x14, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -471,8 +471,8 @@ func (m *QueryGetDenomCrossChainInfoRequest) MarshalToSizedBuffer(dAtA []byte) (
 	_ = i
 	var l int
 	_ = l
-	if m.ChainId != 0 {
-		i = encodeVarintQuery(dAtA, i, uint64(m.ChainId))
+	if m.ChainID != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.ChainID))
 		i--
 		dAtA[i] = 0x10
 	}
@@ -513,8 +513,8 @@ func (m *QueryGetDenomCrossChainInfoResponse) MarshalToSizedBuffer(dAtA []byte) 
 		i--
 		dAtA[i] = 0x1a
 	}
-	if m.ToChainId != 0 {
-		i = encodeVarintQuery(dAtA, i, uint64(m.ToChainId))
+	if m.ToChainID != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.ToChainID))
 		i--
 		dAtA[i] = 0x10
 	}
@@ -580,8 +580,8 @@ func (m *QueryGetDenomCrossChainInfoRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovQuery(uint64(l))
 	}
-	if m.ChainId != 0 {
-		n += 1 + sovQuery(uint64(m.ChainId))
+	if m.ChainID != 0 {
+		n += 1 + sovQuery(uint64(m.ChainID))
 	}
 	return n
 }
@@ -596,8 +596,8 @@ func (m *QueryGetDenomCrossChainInfoResponse) Size() (n int) {
 		l = m.DenomInfo.Size()
 		n += 1 + l + sovQuery(uint64(l))
 	}
-	if m.ToChainId != 0 {
-		n += 1 + sovQuery(uint64(m.ToChainId))
+	if m.ToChainID != 0 {
+		n += 1 + sovQuery(uint64(m.ToChainID))
 	}
 	l = len(m.ToAssetHash)
 	if l > 0 {
@@ -843,9 +843,9 @@ func (m *QueryGetDenomCrossChainInfoRequest) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ChainId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainID", wireType)
 			}
-			m.ChainId = 0
+			m.ChainID = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowQuery
@@ -855,7 +855,7 @@ func (m *QueryGetDenomCrossChainInfoRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ChainId |= uint64(b&0x7F) << shift
+				m.ChainID |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -948,9 +948,9 @@ func (m *QueryGetDenomCrossChainInfoResponse) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ToChainId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ToChainID", wireType)
 			}
-			m.ToChainId = 0
+			m.ToChainID = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowQuery
@@ -960,7 +960,7 @@ func (m *QueryGetDenomCrossChainInfoResponse) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ToChainId |= uint64(b&0x7F) << shift
+				m.ToChainID |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}

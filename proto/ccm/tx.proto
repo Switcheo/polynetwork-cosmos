@@ -14,7 +14,7 @@ service Msg {
 // this line is used by starport scaffolding # proto/tx/message
 message MsgProcessCrossChainTx {
   string submitter = 1;
-	uint64 fromChainId = 2;
+	uint64 fromChainID = 2;
 	string proof = 3;
 	string header = 4;
 	string headerProof = 5;

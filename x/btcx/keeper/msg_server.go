@@ -47,7 +47,7 @@ func (k Keeper) Bind(c context.Context, msg *types.MsgBind) (*types.MsgBindRespo
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
-	if err := k.BindAsset(ctx, creator, msg.SourceAssetDenom, msg.ToChainId, msg.ToAssetHash); err != nil {
+	if err := k.BindAsset(ctx, creator, msg.SourceAssetDenom, msg.ToChainID, msg.ToAssetHash); err != nil {
 		return nil, err
 	}
 
@@ -68,7 +68,7 @@ func (k Keeper) Lock(c context.Context, msg *types.MsgLock) (*types.MsgLockRespo
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
-	if err := k.LockAsset(ctx, fromAddr, msg.SourceAssetDenom, msg.ToChainId, msg.ToAddressBs, msg.Value.Int); err != nil {
+	if err := k.LockAsset(ctx, fromAddr, msg.SourceAssetDenom, msg.ToChainID, msg.ToAddressBs, msg.Value.Int); err != nil {
 		return nil, err
 	}
 

@@ -26,7 +26,7 @@ message MsgCreateResponse { }
 message MsgBind {
   string creator = 1;
 	string sourceAssetDenom = 2;
-	uint64 toChainId = 3;
+	uint64 toChainID = 3;
 	bytes toAssetHash = 4;
 }
 
@@ -35,7 +35,7 @@ message MsgBindResponse { }
 message MsgLock {
 	string fromAddress = 1;
 	string sourceAssetDenom = 2;
-	uint64 toChainId = 3;
+	uint64 toChainID = 3;
 	bytes toAddressBs = 4;
 	cosmos.base.v1beta1.IntProto value = 5;
 }

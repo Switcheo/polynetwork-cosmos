@@ -10,7 +10,7 @@ import (
 
 var _ types.QueryServer = Keeper{}
 
-func (k Keeper) GetConsensusPeers(c context.Context, req *types.QueryGetConsensusPeersRequest) (res *types.QueryGetConsensusPeersResponse, err error) {
+func (k Keeper) ConsensusPeers(c context.Context, req *types.QueryGetConsensusPeersRequest) (res *types.QueryGetConsensusPeersResponse, err error) {
 	if req == nil {
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}

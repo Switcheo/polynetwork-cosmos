@@ -7,6 +7,6 @@ import "btcx/denom_info.proto";
 
 message DenomCrossChainInfo {
 	DenomInfo denomInfo = 1;
-	uint64 toChainId = 2;
+	uint64 toChainID = 2;
 	string toAssetHash = 3;
 }
