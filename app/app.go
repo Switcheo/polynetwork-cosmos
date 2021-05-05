@@ -87,15 +87,18 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
-		"github.com/Switcheo/polynetwork-cosmos/x/headersync"
-		headersynckeeper "github.com/Switcheo/polynetwork-cosmos/x/headersync/keeper"
-		headersynctypes "github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx"
 	btcxkeeper "github.com/Switcheo/polynetwork-cosmos/x/btcx/keeper"
 	btcxtypes "github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 	"github.com/Switcheo/polynetwork-cosmos/x/ccm"
 	ccmkeeper "github.com/Switcheo/polynetwork-cosmos/x/ccm/keeper"
 	ccmtypes "github.com/Switcheo/polynetwork-cosmos/x/ccm/types"
+	"github.com/Switcheo/polynetwork-cosmos/x/headersync"
+	headersynckeeper "github.com/Switcheo/polynetwork-cosmos/x/headersync/keeper"
+	headersynctypes "github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
+	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy"
+	lockproxykeeper "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/keeper"
+	lockproxytypes "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types"
 )
 
 const Name = "polynetworkcosmos"
@@ -143,6 +146,7 @@ var (
 		vesting.AppModuleBasic{},
 		polynetworkcosmos.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+		lockproxy.AppModuleBasic{},
 		headersync.AppModuleBasic{},
 		ccm.AppModuleBasic{},
 		btcx.AppModuleBasic{},
@@ -219,8 +223,10 @@ type App struct {
 
 	polynetworkcosmosKeeper polynetworkcosmoskeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
-		
-		headersyncKeeper headersynckeeper.Keeper
+
+	lockproxyKeeper lockproxykeeper.Keeper
+
+	headersyncKeeper headersynckeeper.Keeper
 
 	ccmKeeper  ccmkeeper.Keeper
 	btcxKeeper btcxkeeper.Keeper
@@ -254,6 +260,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		polynetworkcosmostypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
+		lockproxytypes.StoreKey,
 		headersynctypes.StoreKey,
 		ccmtypes.StoreKey,
 		btcxtypes.StoreKey,
@@ -356,14 +363,13 @@ func New(
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
-		
-		app.headersyncKeeper = *headersynckeeper.NewKeeper(
-			appCodec,
-			keys[headersynctypes.StoreKey],
-			keys[headersynctypes.MemStoreKey],
-			
-		)
-		headersyncModule := headersync.NewAppModule(appCodec, app.headersyncKeeper)
+
+	app.headersyncKeeper = *headersynckeeper.NewKeeper(
+		appCodec,
+		keys[headersynctypes.StoreKey],
+		keys[headersynctypes.MemStoreKey],
+	)
+	headersyncModule := headersync.NewAppModule(appCodec, app.headersyncKeeper)
 	app.ccmKeeper = *ccmkeeper.NewKeeper(
 		appCodec,
 		keys[ccmtypes.StoreKey],
@@ -379,6 +385,15 @@ func New(
 		keys[btcxtypes.MemStoreKey],
 	)
 	btcxModule := btcx.NewAppModule(appCodec, app.btcxKeeper)
+	app.lockproxyKeeper = *lockproxykeeper.NewKeeper(
+		appCodec,
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.ccmKeeper,
+		keys[lockproxytypes.StoreKey],
+		keys[lockproxytypes.MemStoreKey],
+	)
+	lockproxyModule := lockproxy.NewAppModule(appCodec, app.lockproxyKeeper)
 
 	app.GovKeeper = govkeeper.NewKeeper(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
@@ -416,6 +431,7 @@ func New(
 		transferModule,
 		polynetworkcosmos.NewAppModule(appCodec, app.polynetworkcosmosKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
+		lockproxyModule,
 		headersyncModule,
 		ccmModule,
 		btcxModule,
@@ -453,6 +469,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		polynetworkcosmostypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
+		lockproxytypes.ModuleName,
 		headersynctypes.ModuleName,
 		ccmtypes.ModuleName,
 		btcxtypes.ModuleName,
@@ -649,7 +666,8 @@ func initParamsKeeper(appCodec codec.BinaryMarshaler, legacyAmino *codec.LegacyA
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
-		paramsKeeper.Subspace(headersynctypes.ModuleName)
+	paramsKeeper.Subspace(lockproxytypes.ModuleName)
+	paramsKeeper.Subspace(headersynctypes.ModuleName)
 	paramsKeeper.Subspace(ccmtypes.ModuleName)
 	paramsKeeper.Subspace(btcxtypes.ModuleName)
 

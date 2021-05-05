@@ -1,8 +1,8 @@
-package headersync
+package lockproxy
 
 import (
-	"github.com/Switcheo/polynetwork-cosmos/x/headersync/keeper"
-	"github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
+	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/keeper"
+	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

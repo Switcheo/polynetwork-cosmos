@@ -1,4 +1,4 @@
-package headersync
+package lockproxy
 
 import (
 	"encoding/json"
@@ -11,10 +11,10 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/Switcheo/polynetwork-cosmos/x/headersync/client/cli"
-	"github.com/Switcheo/polynetwork-cosmos/x/headersync/client/rest"
-	"github.com/Switcheo/polynetwork-cosmos/x/headersync/keeper"
-	"github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
+	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/client/cli"
+	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/client/rest"
+	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/keeper"
+	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"

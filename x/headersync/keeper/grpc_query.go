@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -14,8 +16,13 @@ func (k Keeper) ConsensusPeers(c context.Context, req *types.QueryGetConsensusPe
 	if req == nil {
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
+	ctx := sdk.UnwrapSDKContext(c)
 
-	// TODO
+	peers, err := k.GetConsensusPeers(ctx, req.ChainID)
+	if err != nil {
+		return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidRequest, "Failed to get consensus peers for chainID: %d, error: %v", req.ChainID, err)
+	}
+	res.ConsensusPeers = peers
 
 	return
 }

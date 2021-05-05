@@ -52,7 +52,7 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
-func (keeper Keeper) SyncGenesisHeader(ctx sdk.Context, genesisHeaderStr string) error {
+func (k Keeper) SyncGenesisHeader(ctx sdk.Context, genesisHeaderStr string) error {
 	genesisHeader := &polytype.Header{}
 
 	genesisHeaderBytes, err := hex.DecodeString(genesisHeaderStr)
@@ -63,20 +63,20 @@ func (keeper Keeper) SyncGenesisHeader(ctx sdk.Context, genesisHeaderStr string)
 	if err := genesisHeader.Deserialization(source); err != nil {
 		return types.ErrDeserializeHeader(err)
 	}
-	if consensusPeer, _ := keeper.GetConsensusPeers(ctx, genesisHeader.ChainID); consensusPeer != nil {
+	if consensusPeer, _ := k.GetConsensusPeers(ctx, genesisHeader.ChainID); consensusPeer != nil {
 		return types.ErrSyncGenesisHeader(fmt.Sprintf("Genesis Header already synced, ConsensusPeers exists: %s", consensusPeer.String()))
 	}
-	if err := keeper.UpdateConsensusPeer(ctx, genesisHeader); err != nil {
+	if err := k.UpdateConsensusPeer(ctx, genesisHeader); err != nil {
 		return err
 	}
 	// Make sure the header contains poly.NewChainConfig info
-	if _, err := keeper.GetConsensusPeers(ctx, genesisHeader.ChainID); err != nil {
+	if _, err := k.GetConsensusPeers(ctx, genesisHeader.ChainID); err != nil {
 		return types.ErrSyncGenesisHeader(fmt.Sprintf("After UpdteConsensusPeer, Get Consensus Peers error: %v", err))
 	}
 	return nil
 }
 
-func (keeper Keeper) SyncBlockHeaders(ctx sdk.Context, headerStrs []string) error {
+func (k Keeper) SyncBlockHeaders(ctx sdk.Context, headerStrs []string) error {
 	for _, headerStr := range headerStrs {
 		header := &polytype.Header{}
 		headerBs, err := hex.DecodeString(headerStr)
@@ -87,39 +87,39 @@ func (keeper Keeper) SyncBlockHeaders(ctx sdk.Context, headerStrs []string) erro
 		if err := header.Deserialization(source); err != nil {
 			return types.ErrDeserializeHeader(err)
 		}
-		if err := keeper.ProcessHeader(ctx, header, nil, nil); err != nil {
+		if err := k.ProcessHeader(ctx, header, nil, nil); err != nil {
 			return types.ErrSyncBlockHeader("ProcessHeader", header.ChainID, header.Height, err)
 		}
 	}
 	return nil
 }
 
-func (keeper Keeper) ProcessHeader(ctx sdk.Context, header *polytype.Header, headerProof []byte, curHeader *polytype.Header) error {
+func (k Keeper) ProcessHeader(ctx sdk.Context, header *polytype.Header, headerProof []byte, curHeader *polytype.Header) error {
 	// header to be checked if containing valid NewChainConfig
 	var cpHeader *polytype.Header
 	if curHeader == nil || headerProof == nil {
-		if err := keeper.VerifyHeaderSig(ctx, header); err != nil {
-			if err := keeper.VerifyHeaderByKeyHeaderHash(ctx, header); err == nil {
+		if err := k.VerifyHeaderSig(ctx, header); err != nil {
+			if err := k.VerifyHeaderByKeyHeaderHash(ctx, header); err == nil {
 				return nil
 			}
 			return err
 		}
 		cpHeader = header
 	} else {
-		if err := keeper.VerifyHistoricalHeader(ctx, header, headerProof, curHeader); err != nil {
+		if err := k.VerifyHistoricalHeader(ctx, header, headerProof, curHeader); err != nil {
 			return err
 		}
 		cpHeader = curHeader
 	}
 
-	if err := keeper.UpdateConsensusPeer(ctx, cpHeader); err != nil {
+	if err := k.UpdateConsensusPeer(ctx, cpHeader); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (keeper Keeper) VerifyHeaderSig(ctx sdk.Context, header *polytype.Header) error {
-	consensusPeer, err := keeper.GetConsensusPeers(ctx, header.ChainID)
+func (k Keeper) VerifyHeaderSig(ctx sdk.Context, header *polytype.Header) error {
+	consensusPeer, err := k.GetConsensusPeers(ctx, header.ChainID)
 	if err != nil {
 		return types.ErrSyncBlockHeader("GetConsensusPeer", header.ChainID, header.Height, err)
 	}
@@ -144,9 +144,9 @@ func (keeper Keeper) VerifyHeaderSig(ctx sdk.Context, header *polytype.Header) e
 	}
 	return nil
 }
-func (keeper Keeper) VerifyHeaderByKeyHeaderHash(ctx sdk.Context, header *polytype.Header) error {
+func (k Keeper) VerifyHeaderByKeyHeaderHash(ctx sdk.Context, header *polytype.Header) error {
 	headerHash := header.Hash()
-	keyHeaderHash, err := keeper.GetKeyHeaderHash(ctx, header.ChainID)
+	keyHeaderHash, err := k.GetKeyHeaderHash(ctx, header.ChainID)
 	if err != nil {
 		return fmt.Errorf("VerifyHeaderByKeyHeaderHash, GetKeyHeaderHash Error: %s", err.Error())
 	}
@@ -156,7 +156,7 @@ func (keeper Keeper) VerifyHeaderByKeyHeaderHash(ctx sdk.Context, header *polyty
 	return fmt.Errorf("VerifyHeaderByKeyHeaderHash, not equal, expect: %s, got: %s", keyHeaderHash.ToArray(), headerHash.ToArray())
 }
 
-func (keeper Keeper) UpdateConsensusPeer(ctx sdk.Context, header *polytype.Header) error {
+func (k Keeper) UpdateConsensusPeer(ctx sdk.Context, header *polytype.Header) error {
 
 	blkInfo := &vconfig.VbftBlockInfo{}
 	if err := json.Unmarshal(header.ConsensusPayload, blkInfo); err != nil {
@@ -171,26 +171,26 @@ func (keeper Keeper) UpdateConsensusPeer(ctx sdk.Context, header *polytype.Heade
 		for _, p := range blkInfo.NewChainConfig.Peers {
 			consensusPeers.Peers[p.ID] = &types.Peer{Index: p.Index, PubKey: p.ID}
 		}
-		if err := keeper.SetConsensusPeers(ctx, *consensusPeers); err != nil {
+		if err := k.SetConsensusPeers(ctx, *consensusPeers); err != nil {
 			return err
 		}
-		if err := keeper.SetKeyHeaderHash(ctx, consensusPeers.ChainID, header.Hash()); err != nil {
+		if err := k.SetKeyHeaderHash(ctx, consensusPeers.ChainID, header.Hash()); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (keeper Keeper) SetConsensusPeers(ctx sdk.Context, consensusPeers types.ConsensusPeers) error {
-	store := ctx.KVStore(keeper.storeKey)
+func (k Keeper) SetConsensusPeers(ctx sdk.Context, consensusPeers types.ConsensusPeers) error {
+	store := ctx.KVStore(k.storeKey)
 	sink := polycommon.NewZeroCopySink(nil)
 	consensusPeers.Serialize(sink)
 	store.Set(GetConsensusPeerKey(consensusPeers.ChainID), sink.Bytes())
 	return nil
 }
 
-func (keeper Keeper) GetConsensusPeers(ctx sdk.Context, chainID uint64) (*types.ConsensusPeers, error) {
-	store := ctx.KVStore(keeper.storeKey)
+func (k Keeper) GetConsensusPeers(ctx sdk.Context, chainID uint64) (*types.ConsensusPeers, error) {
+	store := ctx.KVStore(k.storeKey)
 	consensusPeerBytes := store.Get(GetConsensusPeerKey(chainID))
 	if consensusPeerBytes == nil {
 		return nil, types.ErrGetConsensusPeers(chainID)
@@ -202,14 +202,14 @@ func (keeper Keeper) GetConsensusPeers(ctx sdk.Context, chainID uint64) (*types.
 	return consensusPeers, nil
 }
 
-func (keeper Keeper) SetKeyHeaderHash(ctx sdk.Context, chainID uint64, keyHeaderHash polycommon.Uint256) error {
-	store := ctx.KVStore(keeper.storeKey)
+func (k Keeper) SetKeyHeaderHash(ctx sdk.Context, chainID uint64, keyHeaderHash polycommon.Uint256) error {
+	store := ctx.KVStore(k.storeKey)
 	store.Set(GetKeyHeaderHashKey(chainID), keyHeaderHash.ToArray())
 	return nil
 }
 
-func (keeper Keeper) GetKeyHeaderHash(ctx sdk.Context, chainID uint64) (*polycommon.Uint256, error) {
-	store := ctx.KVStore(keeper.storeKey)
+func (k Keeper) GetKeyHeaderHash(ctx sdk.Context, chainID uint64) (*polycommon.Uint256, error) {
+	store := ctx.KVStore(k.storeKey)
 	headerHashBs := store.Get(GetKeyHeaderHashKey(chainID))
 	if headerHashBs == nil {
 		return nil, types.ErrGetKeyHeaderHash(fmt.Sprintf("Empty key header hash with chainID: %d", chainID))
@@ -221,8 +221,8 @@ func (keeper Keeper) GetKeyHeaderHash(ctx sdk.Context, chainID uint64) (*polycom
 	return &headerHash, nil
 }
 
-func (keeper Keeper) VerifyHistoricalHeader(ctx sdk.Context, header *polytype.Header, headerProof []byte, curHeader *polytype.Header) error {
-	if err := keeper.VerifyHeaderSig(ctx, curHeader); err != nil {
+func (k Keeper) VerifyHistoricalHeader(ctx sdk.Context, header *polytype.Header, headerProof []byte, curHeader *polytype.Header) error {
+	if err := k.VerifyHeaderSig(ctx, curHeader); err != nil {
 		return err
 	}
 	value, err := merkle.MerkleProve(headerProof, curHeader.BlockRoot[:])
@@ -236,14 +236,14 @@ func (keeper Keeper) VerifyHistoricalHeader(ctx sdk.Context, header *polytype.He
 	return nil
 }
 
-func GetConsensusPeerKey(chainId uint64) []byte {
+func GetConsensusPeerKey(chainID uint64) []byte {
 	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, chainId)
+	binary.LittleEndian.PutUint64(b, chainID)
 	return append(ConsensusPeerPrefix, b...)
 }
 
-func GetKeyHeaderHashKey(chainId uint64) []byte {
+func GetKeyHeaderHashKey(chainID uint64) []byte {
 	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, chainId)
+	binary.LittleEndian.PutUint64(b, chainID)
 	return append(KeyHeaderHashPrefix, b...)
 }

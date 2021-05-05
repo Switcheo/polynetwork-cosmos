@@ -19,18 +19,22 @@ import (
 
 type (
 	Keeper struct {
+		cdc      codec.Marshaler
 		ak       types.AccountKeeper
 		bk       types.BankKeeper
 		ck       types.CCMKeeper
-		cdc      codec.Marshaler
 		storeKey sdk.StoreKey
 		memKey   sdk.StoreKey
 	}
 )
 
-func NewKeeper(cdc codec.Marshaler,
-	ak types.AccountKeeper, bk types.BankKeeper, ck types.CCMKeeper,
-	storeKey, memKey sdk.StoreKey) *Keeper {
+func NewKeeper(
+	cdc codec.Marshaler,
+	ak types.AccountKeeper,
+	bk types.BankKeeper,
+	ck types.CCMKeeper,
+	storeKey,
+	memKey sdk.StoreKey) *Keeper {
 
 	// ensure btcx module account is set
 	if addr := ak.GetModuleAddress(types.ModuleName); addr == nil {
