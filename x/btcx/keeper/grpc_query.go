@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
-	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -17,13 +16,10 @@ func (k Keeper) DenomInfo(c context.Context, req *types.QueryGetDenomInfoRequest
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var DenomInfo types.DenomInfo
 	ctx := sdk.UnwrapSDKContext(c)
+	denomInfo := k.GetDenomInfo(ctx, req.Denom)
 
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DenomInfoKey))
-	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.DenomInfoKey+req.Denom)), &DenomInfo)
-
-	return &types.QueryGetDenomInfoResponse{DenomInfo: &DenomInfo}, nil
+	return &types.QueryGetDenomInfoResponse{DenomInfo: denomInfo}, nil
 }
 
 func (k Keeper) DenomCrossChainInfo(c context.Context, req *types.QueryGetDenomCrossChainInfoRequest) (*types.QueryGetDenomCrossChainInfoResponse, error) {
@@ -31,11 +27,12 @@ func (k Keeper) DenomCrossChainInfo(c context.Context, req *types.QueryGetDenomC
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var DenomInfo types.DenomInfo
 	ctx := sdk.UnwrapSDKContext(c)
+	denomCrossChainInfo := k.GetDenomCrossChainInfo(ctx, req.Denom, req.ChainID)
 
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DenomInfoKey))
-	k.cdc.MustUnmarshalBinaryBare(store.Get(types.KeyPrefix(types.DenomInfoKey+req.Denom)), &DenomInfo)
-
-	return &types.QueryGetDenomCrossChainInfoResponse{DenomInfo: &DenomInfo}, nil
+	return &types.QueryGetDenomCrossChainInfoResponse{
+		DenomInfo:   denomCrossChainInfo.DenomInfo,
+		ToChainID:   denomCrossChainInfo.ToChainID,
+		ToAssetHash: denomCrossChainInfo.ToAssetHash,
+	}, nil
 }

@@ -49,7 +49,7 @@ func (msg *MsgBind) ValidateBasic() error {
 		return sdkerrors.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
 	}
 	if msg.ToChainID == 0 {
-		return sdkerrors.Wrapf(ErrInvalidChainIDType, "invalid chain id (%s)", msg.ToChainID)
+		return sdkerrors.Wrapf(ErrInvalidChainIDType, "invalid chain id (%d)", msg.ToChainID)
 	}
 	if len(msg.ToAssetHash) == 0 {
 		return sdkerrors.Wrapf(ErrEmptyToAssetHashType, "invalid to asset hash (%s)", hex.EncodeToString(msg.ToAssetHash))
