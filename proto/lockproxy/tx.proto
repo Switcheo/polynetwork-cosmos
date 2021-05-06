@@ -1,6 +1,7 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.lockproxy;
 
+import "cosmos/base/v1beta1/coin.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
@@ -8,6 +9,41 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc Create(MsgCreate) returns (MsgCreateResponse);
+  rpc Bind(MsgBind) returns (MsgBindResponse);
+  rpc Lock(MsgLock) returns (MsgLockResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgCreate {
+  string creator = 1;
+}
+
+message MsgCreateResponse { }
+
+message MsgBind {
+  string creator = 1;
+  cosmos.base.v1beta1.Coin coin = 2;
+  bytes lockProxyHash = 3;
+  uint64 nativeChainID = 4;
+  bytes nativeLockProxyHash = 5;
+  bytes nativeAssetHash = 6;
+}
+
+message MsgBindResponse { }
+
+message MsgLock {
+  bytes lockProxyHash = 1;
+  string fromAddress = 2;
+  string denom = 3;
+	uint64 toChainId = 4;
+	bytes toChainProxyHash = 5;
+	bytes toChainAssetHash = 6;
+	bytes toAddressBytes = 7;
+	cosmos.base.v1beta1.IntProto value = 8;
+	bool deductFeeInLock = 9;
+	cosmos.base.v1beta1.IntProto feeAmount = 10;
+	string feeAddress = 11;
+}
+
+message MsgLockResponse { }

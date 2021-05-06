@@ -36,5 +36,5 @@ func (k Keeper) Process(c context.Context, req *types.MsgProcessCrossChainTx) (r
 		),
 	)
 
-	return
+	return &types.MsgProcessCrossChainTxResponse{}, nil
 }

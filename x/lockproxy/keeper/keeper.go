@@ -211,9 +211,9 @@ func (k Keeper) getNextNonce(ctx sdk.Context) sdk.Int {
 	return nonce.Int
 }
 
-// Lock sends tokens to this module, releasing it on the toChain.
+// LockAsset sends tokens to this module, releasing it on the toChain.
 // On version > 0, the tokens are burnt to give the correct global supply.
-func (k Keeper) Lock(ctx sdk.Context, lockProxyHash []byte, fromAddress sdk.AccAddress, sourceAssetDenom string,
+func (k Keeper) LockAsset(ctx sdk.Context, lockProxyHash []byte, fromAddress sdk.AccAddress, sourceAssetDenom string,
 	toChainID uint64, toChainProxyHash []byte, toChainAssetHash []byte, toAddressBs []byte,
 	value sdk.Int, deductFeeInLock bool, feeAmount sdk.Int, feeAddress []byte) error {
 	if exist := k.EnsureLockProxyExist(ctx, lockProxyHash); !exist {

@@ -20,12 +20,6 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 var _ types.MsgServer = msgServer{}
 
 func (k Keeper) SyncGenesis(c context.Context, msg *types.MsgSyncGenesis) (*types.MsgSyncGenesisResponse, error) {
-	// XXX: syncer is not used - why?
-	// syncer, err := sdk.AccAddressFromBech32(msg.Syncer)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	ctx := sdk.UnwrapSDKContext(c)
 
 	err := k.SyncGenesisHeader(ctx, msg.GenesisHeader)
@@ -44,12 +38,6 @@ func (k Keeper) SyncGenesis(c context.Context, msg *types.MsgSyncGenesis) (*type
 }
 
 func (k Keeper) SyncHeaders(c context.Context, msg *types.MsgSyncHeaders) (*types.MsgSyncHeadersResponse, error) {
-	// XXX: syncer is not used - why?
-	// syncer, err := sdk.AccAddressFromBech32(msg.Syncer)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	ctx := sdk.UnwrapSDKContext(c)
 
 	err := k.SyncBlockHeaders(ctx, msg.Headers)
