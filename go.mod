@@ -10,6 +10,7 @@ require (
 	github.com/google/go-cmp v0.5.4 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
+	github.com/polynetwork/cosmos-poly-module v0.0.0-20200827085015-12374709b707
 	github.com/polynetwork/poly v0.0.0-20200710095239-0596a3d7afe5
 	github.com/rakyll/statik v0.1.7
 	github.com/spf13/cast v1.3.1

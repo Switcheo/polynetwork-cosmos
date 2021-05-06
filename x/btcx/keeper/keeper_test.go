@@ -23,14 +23,15 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Switcheo/polynetwork-cosmos/simapp"
-	"github.com/Switcheo/polynetwork-cosmos/testutil/testdata"
-	"github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	supply "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+
+	"github.com/Switcheo/polynetwork-cosmos/simapp"
+	"github.com/Switcheo/polynetwork-cosmos/testutil/testdata"
+	"github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 )
 
 // returns context and an app with updated btcx keeper

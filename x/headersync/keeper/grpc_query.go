@@ -22,7 +22,10 @@ func (k Keeper) ConsensusPeers(c context.Context, req *types.QueryGetConsensusPe
 	if err != nil {
 		return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidRequest, "Failed to get consensus peers for chainID: %d, error: %v", req.ChainID, err)
 	}
-	res.ConsensusPeers = peers
+
+	res = &types.QueryGetConsensusPeersResponse{
+		ConsensusPeers: peers,
+	}
 
 	return
 }

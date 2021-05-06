@@ -24,7 +24,11 @@ func (k Keeper) CheckModuleContract(c context.Context, req *types.QueryCheckModu
 		err = types.ErrCheckModuleContract(fmt.Sprintf("map doesnot contain current keystore for moduleName: %s", req.ModuleName))
 		return
 	}
-	res.ModuleName = req.ModuleName
-	res.Exist = unlockKeeper.ContainToContractAddr(ctx, req.ToContractAddr, req.FromChainID)
+
+	res = &types.QueryCheckModuleContractResponse{
+		ModuleName: req.ModuleName,
+		Exist:      unlockKeeper.ContainToContractAddr(ctx, req.ToContractAddr, req.FromChainID),
+	}
+
 	return
 }
