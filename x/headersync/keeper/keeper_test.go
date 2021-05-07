@@ -79,8 +79,8 @@ func Test_headersync_SyncHeaders(t *testing.T) {
 	err = app.HeadersyncKeeper.SyncGenesisHeader(ctx, header0)
 	assert.Nil(t, err, "Sync genesis header fail")
 
-	var chainId uint64 = header.ChainID
-	consensusPeers, err := app.HeadersyncKeeper.GetConsensusPeers(ctx, chainId)
+	var chainID uint64 = header.ChainID
+	consensusPeers, err := app.HeadersyncKeeper.GetConsensusPeers(ctx, chainID)
 	assert.Nil(t, err)
 	fmt.Printf("consensusPeers are %s\n", consensusPeers.String())
 	// the genesis header should contain the consensus peers info, the height may be not ZERO but should be the header contains consensus address of next cycle
@@ -95,10 +95,10 @@ func Test_headersync_SyncHeaders(t *testing.T) {
 	err = app.HeadersyncKeeper.SyncBlockHeaders(ctx, []string{header1, header789, header100, header60000, header60005})
 	assert.Nil(t, err, "Sync Poly Chain block headers fail")
 
-	consensusPeers, err = app.HeadersyncKeeper.GetConsensusPeers(ctx, chainId)
+	consensusPeers, err = app.HeadersyncKeeper.GetConsensusPeers(ctx, chainID)
 	assert.Nil(t, err)
 	fmt.Printf("consensusPeers are %s\n", consensusPeers.String())
-	assert.Equal(t, chainId, consensusPeers.ChainID)
+	assert.Equal(t, chainID, consensusPeers.ChainID)
 	assert.Equal(t, uint32(60000), consensusPeers.Height)
 	resSink = polycommon.NewZeroCopySink(nil)
 	consensusPeers.Serialize(resSink)

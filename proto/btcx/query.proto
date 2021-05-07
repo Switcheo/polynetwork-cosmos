@@ -16,7 +16,6 @@ service Query {
   rpc DenomCrossChainInfo(QueryGetDenomCrossChainInfoRequest) returns (QueryGetDenomCrossChainInfoResponse) {
 		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}/{chainID}";
 	}
-
 }
 
 // this line is used by starport scaffolding # 3

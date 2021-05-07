@@ -11,7 +11,11 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+	io "io"
 	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -25,23 +29,125 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// this line is used by starport scaffolding # 3
+type QueryGetProxyRequest struct {
+	OperatorAddress string `protobuf:"bytes,1,opt,name=operatorAddress,proto3" json:"operatorAddress,omitempty"`
+}
+
+func (m *QueryGetProxyRequest) Reset()         { *m = QueryGetProxyRequest{} }
+func (m *QueryGetProxyRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetProxyRequest) ProtoMessage()    {}
+func (*QueryGetProxyRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e9cd4f1c4abce1dd, []int{0}
+}
+func (m *QueryGetProxyRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetProxyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetProxyRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetProxyRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetProxyRequest.Merge(m, src)
+}
+func (m *QueryGetProxyRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetProxyRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetProxyRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetProxyRequest proto.InternalMessageInfo
+
+func (m *QueryGetProxyRequest) GetOperatorAddress() string {
+	if m != nil {
+		return m.OperatorAddress
+	}
+	return ""
+}
+
+type QueryGetProxyResponse struct {
+	ProxyHash []byte `protobuf:"bytes,1,opt,name=proxyHash,proto3" json:"proxyHash,omitempty"`
+}
+
+func (m *QueryGetProxyResponse) Reset()         { *m = QueryGetProxyResponse{} }
+func (m *QueryGetProxyResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetProxyResponse) ProtoMessage()    {}
+func (*QueryGetProxyResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e9cd4f1c4abce1dd, []int{1}
+}
+func (m *QueryGetProxyResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetProxyResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetProxyResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetProxyResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetProxyResponse.Merge(m, src)
+}
+func (m *QueryGetProxyResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetProxyResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetProxyResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetProxyResponse proto.InternalMessageInfo
+
+func (m *QueryGetProxyResponse) GetProxyHash() []byte {
+	if m != nil {
+		return m.ProxyHash
+	}
+	return nil
+}
+
+func init() {
+	proto.RegisterType((*QueryGetProxyRequest)(nil), "Switcheo.polynetworkcosmos.lockproxy.QueryGetProxyRequest")
+	proto.RegisterType((*QueryGetProxyResponse)(nil), "Switcheo.polynetworkcosmos.lockproxy.QueryGetProxyResponse")
+}
+
 func init() { proto.RegisterFile("lockproxy/query.proto", fileDescriptor_e9cd4f1c4abce1dd) }
 
 var fileDescriptor_e9cd4f1c4abce1dd = []byte{
-	// 203 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x4c, 0xcf, 0xb1, 0x4e, 0x86, 0x30,
-	0x14, 0x05, 0x60, 0x18, 0xd4, 0x84, 0xd1, 0xc4, 0x85, 0x98, 0x4e, 0x4e, 0x26, 0xf6, 0x06, 0x5d,
-	0x9c, 0x7d, 0x03, 0x75, 0x73, 0x6b, 0x9b, 0xa6, 0x34, 0x40, 0x6f, 0x6d, 0x2f, 0x42, 0xdf, 0xc2,
-	0xc7, 0x72, 0x64, 0x74, 0x34, 0xf0, 0x22, 0x46, 0xaa, 0xfe, 0xff, 0xfe, 0xdd, 0x73, 0xce, 0xad,
-	0x2e, 0x7a, 0x54, 0x9d, 0x0f, 0x38, 0x27, 0x78, 0x1d, 0x75, 0x48, 0xdc, 0x07, 0x24, 0x3c, 0xbf,
-	0x7a, 0x9e, 0x2c, 0xa9, 0x56, 0x23, 0xf7, 0xd8, 0x27, 0xa7, 0x69, 0xc2, 0xd0, 0x29, 0x8c, 0x03,
-	0x46, 0xfe, 0x7f, 0x51, 0x5f, 0x1a, 0x44, 0xd3, 0x6b, 0x10, 0xde, 0x82, 0x70, 0x0e, 0x49, 0x90,
-	0x45, 0x17, 0x73, 0x46, 0x7d, 0x9d, 0x3d, 0x48, 0x11, 0x75, 0x0e, 0x87, 0xb7, 0x46, 0x6a, 0x12,
-	0x0d, 0x78, 0x61, 0xac, 0xdb, 0x71, 0xb6, 0xb7, 0x67, 0xd5, 0xc9, 0xe3, 0x8f, 0x78, 0x78, 0xfa,
-	0x58, 0x59, 0xb9, 0xac, 0xac, 0xfc, 0x5a, 0x59, 0xf9, 0xbe, 0xb1, 0x62, 0xd9, 0x58, 0xf1, 0xb9,
-	0xb1, 0xe2, 0xe5, 0xde, 0x58, 0x6a, 0x47, 0xc9, 0x15, 0x0e, 0xf0, 0xb7, 0x0e, 0x8e, 0xd6, 0xdd,
-	0xfc, 0xd6, 0xcd, 0x70, 0x78, 0x89, 0x92, 0xd7, 0x51, 0x9e, 0xee, 0x1d, 0x77, 0xdf, 0x01, 0x00,
-	0x00, 0xff, 0xff, 0x2d, 0x8f, 0x77, 0x90, 0xec, 0x00, 0x00, 0x00,
+	// 325 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x91, 0xcd, 0x4a, 0x33, 0x31,
+	0x14, 0x86, 0x9b, 0x0f, 0xfa, 0x41, 0x83, 0x20, 0x0c, 0x16, 0xa4, 0x94, 0x41, 0x8a, 0x8b, 0x22,
+	0x98, 0x50, 0x45, 0x10, 0x45, 0xfc, 0x01, 0xd1, 0xa5, 0x8e, 0x3b, 0x77, 0x99, 0xe9, 0x61, 0x3a,
+	0xb4, 0xcd, 0x49, 0x93, 0xd4, 0x76, 0x10, 0x37, 0x5e, 0x81, 0xe0, 0x45, 0xe9, 0xb2, 0xe2, 0xc6,
+	0xa5, 0xb4, 0x5e, 0x88, 0x34, 0xa3, 0x56, 0xc6, 0x2e, 0xc4, 0xed, 0xe1, 0x7d, 0x9e, 0xf3, 0x26,
+	0x87, 0x96, 0x3b, 0x18, 0xb5, 0x95, 0xc6, 0x61, 0xca, 0x7b, 0x7d, 0xd0, 0x29, 0x53, 0x1a, 0x2d,
+	0x7a, 0xab, 0x17, 0x83, 0xc4, 0x46, 0x2d, 0x40, 0xa6, 0xb0, 0x93, 0x4a, 0xb0, 0x03, 0xd4, 0xed,
+	0x08, 0x4d, 0x17, 0x0d, 0xfb, 0x22, 0x2a, 0xd5, 0x18, 0x31, 0xee, 0x00, 0x17, 0x2a, 0xe1, 0x42,
+	0x4a, 0xb4, 0xc2, 0x26, 0x28, 0x4d, 0xe6, 0xa8, 0xac, 0x65, 0x79, 0x1e, 0x0a, 0x03, 0x99, 0x9c,
+	0x5f, 0x35, 0x42, 0xb0, 0xa2, 0xc1, 0x95, 0x88, 0x13, 0xe9, 0xc2, 0x59, 0xb6, 0x76, 0x40, 0x97,
+	0xce, 0xa7, 0x89, 0x13, 0xb0, 0x67, 0x53, 0x75, 0x00, 0xbd, 0x3e, 0x18, 0xeb, 0xd5, 0xe9, 0x22,
+	0x2a, 0xd0, 0xc2, 0xa2, 0x3e, 0x6c, 0x36, 0x35, 0x18, 0xb3, 0x4c, 0x56, 0x48, 0xbd, 0x14, 0xe4,
+	0xc7, 0xb5, 0x2d, 0x5a, 0xce, 0x19, 0x8c, 0x42, 0x69, 0xc0, 0xab, 0xd2, 0x92, 0x6b, 0x7b, 0x2a,
+	0x4c, 0xcb, 0xc1, 0x0b, 0xc1, 0x6c, 0xb0, 0xf1, 0x44, 0x68, 0xd1, 0x71, 0xde, 0x03, 0xa1, 0x45,
+	0x47, 0x7a, 0x3b, 0xec, 0x37, 0xaf, 0x67, 0xf3, 0x0a, 0x57, 0x76, 0xff, 0xc4, 0x66, 0x55, 0x6b,
+	0xc7, 0xb7, 0xcf, 0x6f, 0xf7, 0xff, 0xf6, 0xbd, 0x3d, 0xfe, 0x29, 0xe1, 0x3f, 0x24, 0x7c, 0x76,
+	0x30, 0x07, 0xf3, 0xeb, 0xdc, 0x4f, 0xdc, 0x1c, 0x05, 0x8f, 0x63, 0x9f, 0x8c, 0xc6, 0x3e, 0x79,
+	0x1d, 0xfb, 0xe4, 0x6e, 0xe2, 0x17, 0x46, 0x13, 0xbf, 0xf0, 0x32, 0xf1, 0x0b, 0x97, 0xdb, 0x71,
+	0x62, 0x5b, 0xfd, 0x90, 0x45, 0xd8, 0x9d, 0xbb, 0x62, 0xfd, 0x63, 0xc7, 0xf0, 0xdb, 0x16, 0x9b,
+	0x2a, 0x30, 0xe1, 0x7f, 0x77, 0xa7, 0xcd, 0xf7, 0x00, 0x00, 0x00, 0xff, 0xff, 0x4f, 0x33, 0xaf,
+	0xb0, 0x30, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -56,6 +162,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
+	// this line is used by starport scaffolding # 2
+	Proxy(ctx context.Context, in *QueryGetProxyRequest, opts ...grpc.CallOption) (*QueryGetProxyResponse, error)
 }
 
 type queryClient struct {
@@ -66,22 +174,414 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
 }
 
+func (c *queryClient) Proxy(ctx context.Context, in *QueryGetProxyRequest, opts ...grpc.CallOption) (*QueryGetProxyResponse, error) {
+	out := new(QueryGetProxyResponse)
+	err := c.cc.Invoke(ctx, "/Switcheo.polynetworkcosmos.lockproxy.Query/Proxy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
+	// this line is used by starport scaffolding # 2
+	Proxy(context.Context, *QueryGetProxyRequest) (*QueryGetProxyResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
 type UnimplementedQueryServer struct {
 }
 
+func (*UnimplementedQueryServer) Proxy(ctx context.Context, req *QueryGetProxyRequest) (*QueryGetProxyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Proxy not implemented")
+}
+
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
+}
+
+func _Query_Proxy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetProxyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Proxy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Switcheo.polynetworkcosmos.lockproxy.Query/Proxy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Proxy(ctx, req.(*QueryGetProxyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Switcheo.polynetworkcosmos.lockproxy.Query",
 	HandlerType: (*QueryServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "lockproxy/query.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Proxy",
+			Handler:    _Query_Proxy_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "lockproxy/query.proto",
 }
+
+func (m *QueryGetProxyRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetProxyRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetProxyRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.OperatorAddress) > 0 {
+		i -= len(m.OperatorAddress)
+		copy(dAtA[i:], m.OperatorAddress)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.OperatorAddress)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetProxyResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetProxyResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetProxyResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ProxyHash) > 0 {
+		i -= len(m.ProxyHash)
+		copy(dAtA[i:], m.ProxyHash)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.ProxyHash)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
+	offset -= sovQuery(v)
+	base := offset
+	for v >= 1<<7 {
+		dAtA[offset] = uint8(v&0x7f | 0x80)
+		v >>= 7
+		offset++
+	}
+	dAtA[offset] = uint8(v)
+	return base
+}
+func (m *QueryGetProxyRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.OperatorAddress)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetProxyResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.ProxyHash)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func sovQuery(x uint64) (n int) {
+	return (math_bits.Len64(x|1) + 6) / 7
+}
+func sozQuery(x uint64) (n int) {
+	return sovQuery(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *QueryGetProxyRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetProxyRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetProxyRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OperatorAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.OperatorAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetProxyResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetProxyResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetProxyResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProxyHash", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ProxyHash = append(m.ProxyHash[:0], dAtA[iNdEx:postIndex]...)
+			if m.ProxyHash == nil {
+				m.ProxyHash = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func skipQuery(dAtA []byte) (n int, err error) {
+	l := len(dAtA)
+	iNdEx := 0
+	depth := 0
+	for iNdEx < l {
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return 0, ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return 0, io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		wireType := int(wire & 0x7)
+		switch wireType {
+		case 0:
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				iNdEx++
+				if dAtA[iNdEx-1] < 0x80 {
+					break
+				}
+			}
+		case 1:
+			iNdEx += 8
+		case 2:
+			var length int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				length |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if length < 0 {
+				return 0, ErrInvalidLengthQuery
+			}
+			iNdEx += length
+		case 3:
+			depth++
+		case 4:
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupQuery
+			}
+			depth--
+		case 5:
+			iNdEx += 4
+		default:
+			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
+		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthQuery
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
+	}
+	return 0, io.ErrUnexpectedEOF
+}
+
+var (
+	ErrInvalidLengthQuery        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowQuery          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupQuery = fmt.Errorf("proto: unexpected end of group")
+)

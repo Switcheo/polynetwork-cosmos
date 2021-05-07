@@ -116,7 +116,7 @@ func Test_btcx_MsgBind(t *testing.T) {
 	testCases := []struct {
 		creator       sdk.AccAddress
 		denom         string
-		toChainId     uint64
+		toChainID     uint64
 		toAssetHash   []byte
 		expectSucceed bool
 	}{
@@ -126,7 +126,7 @@ func Test_btcx_MsgBind(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		err := app.BtcxKeeper.BindAsset(ctx, testCase.creator, testCase.denom, testCase.toChainId, testCase.toAssetHash)
+		err := app.BtcxKeeper.BindAsset(ctx, testCase.creator, testCase.denom, testCase.toChainID, testCase.toAssetHash)
 		if testCase.expectSucceed {
 			require.Nil(t, err)
 		} else {
@@ -136,7 +136,7 @@ func Test_btcx_MsgBind(t *testing.T) {
 	for _, testCase := range testCases {
 		if testCase.expectSucceed {
 			res, err := queryClient.DenomCrossChainInfo(gocontext.Background(),
-				&types.QueryGetDenomCrossChainInfoRequest{Denom: testCase.denom, ChainID: testCase.toChainId})
+				&types.QueryGetDenomCrossChainInfoRequest{Denom: testCase.denom, ChainID: testCase.toChainID})
 
 			require.NoError(t, err)
 			denomInfo := res.DenomInfo
@@ -145,7 +145,7 @@ func Test_btcx_MsgBind(t *testing.T) {
 			require.Equal(t, hex.EncodeToString([]byte(testCase.denom)), denomInfo.AssetHash, "denom is not correct")
 			require.True(t, denomInfo.TotalSupply.Int.Equal(sdk.ZeroInt()), "total supply is not correct")
 			require.Equal(t, redeemScript, denomInfo.RedeemScript, "redeem script is not correct")
-			require.Equal(t, testCase.toChainId, res.ToChainID, "toChainID is not correct")
+			require.Equal(t, testCase.toChainID, res.ToChainID, "toChainID is not correct")
 			require.Equal(t, hex.EncodeToString(testCase.toAssetHash), res.ToAssetHash, "toAssetHash is not correct")
 		}
 	}
@@ -182,7 +182,7 @@ func Test_btcx_MsgLock(t *testing.T) {
 	testCases := []struct {
 		from          sdk.AccAddress
 		denom         string
-		toChainId     uint64
+		toChainID     uint64
 		toAddr        []byte
 		amount        sdk.Int
 		expectSucceed bool
@@ -194,7 +194,7 @@ func Test_btcx_MsgLock(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		err := app.BtcxKeeper.LockAsset(ctx, testCase.from, testCase.denom, testCase.toChainId, testCase.toAddr, testCase.amount)
+		err := app.BtcxKeeper.LockAsset(ctx, testCase.from, testCase.denom, testCase.toChainID, testCase.toAddr, testCase.amount)
 		if testCase.expectSucceed {
 			require.Nil(t, err)
 		} else {

@@ -50,7 +50,7 @@ func (k Keeper) Bind(c context.Context, req *types.MsgBind) (res *types.MsgBindR
 
 	ctx := sdk.UnwrapSDKContext(c)
 
-	if err := k.CreateCoinAndDelegateToProxy(ctx, creator, *req.Coin, req.LockProxyHash,
+	if err := k.CreateCoinAndDelegateToProxy(ctx, creator, req.Denom, req.LockProxyHash,
 		req.NativeChainID, req.NativeLockProxyHash, req.NativeAssetHash); err != nil {
 		return nil, err
 	}
@@ -72,14 +72,14 @@ func (k Keeper) Lock(c context.Context, req *types.MsgLock) (res *types.MsgLockR
 	}
 
 	feeAddress, err := sdk.AccAddressFromBech32(req.FeeAddress)
-	if err != nil {
+	if req.DeductFeeInLock && err != nil {
 		return nil, err
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
 
 	if err := k.LockAsset(ctx, req.LockProxyHash, fromAddress, req.Denom,
-		req.ToChainId, req.ToChainProxyHash, req.ToChainAssetHash, req.ToAddressBytes,
+		req.ToChainID, req.ToChainProxyHash, req.ToChainAssetHash, req.ToAddressBytes,
 		req.Value.Int, req.DeductFeeInLock, req.FeeAmount.Int, feeAddress); err != nil {
 		return nil, err
 	}

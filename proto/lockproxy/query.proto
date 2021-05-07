@@ -10,6 +10,16 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 // Query defines the gRPC querier service.
 service Query {
     // this line is used by starport scaffolding # 2
+	rpc Proxy(QueryGetProxyRequest) returns (QueryGetProxyResponse) {
+		option (google.api.http).get = "/Switcheo/polynetworkcosmos/lockproxy/Proxy/{operatorAddress}";
+	}
 }
 
 // this line is used by starport scaffolding # 3
+message QueryGetProxyRequest {
+	string operatorAddress = 1;
+}
+
+message QueryGetProxyResponse {
+	bytes proxyHash = 1;
+}

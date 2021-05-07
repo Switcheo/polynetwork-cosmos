@@ -23,7 +23,7 @@ message MsgCreateResponse { }
 
 message MsgBind {
   string creator = 1;
-  cosmos.base.v1beta1.Coin coin = 2;
+  string denom = 2;
   bytes lockProxyHash = 3;
   uint64 nativeChainID = 4;
   bytes nativeLockProxyHash = 5;
@@ -36,7 +36,7 @@ message MsgLock {
   bytes lockProxyHash = 1;
   string fromAddress = 2;
   string denom = 3;
-	uint64 toChainId = 4;
+	uint64 toChainID = 4;
 	bytes toChainProxyHash = 5;
 	bytes toChainAssetHash = 6;
 	bytes toAddressBytes = 7;
