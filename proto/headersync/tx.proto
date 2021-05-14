@@ -1,6 +1,7 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.headersync;
 
+import "gogoproto/gogo.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
@@ -14,14 +15,18 @@ service Msg {
 
 // this line is used by starport scaffolding # proto/tx/message
 message MsgSyncGenesis {
+  option (gogoproto.goproto_getters) = false;
+
   string syncer = 1;
-	string genesisHeader = 2;
+	string genesis_header = 2 [(gogoproto.moretags) = "yaml:\"genesis_header\""];
 }
 
 message MsgSyncGenesisResponse { }
 
 
 message MsgSyncHeaders {
+  option (gogoproto.goproto_getters) = false;
+
   string syncer = 1;
   repeated string headers = 2;
 }

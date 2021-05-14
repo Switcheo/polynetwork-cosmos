@@ -7,8 +7,8 @@ import (
 )
 
 // NewMsgProcessCrossChainTx returns a new MsgProcessCrossChainTx
-func NewMsgProcessCrossChainTx(submitter string, fromChainID uint64, proof string, header string, headerProof string, curHeader string) *MsgProcessCrossChainTx {
-	return &MsgProcessCrossChainTx{submitter, fromChainID, proof, header, headerProof, curHeader}
+func NewMsgProcessCrossChainTx(submitter string, fromChainId uint64, proof string, header string, headerProof string, curHeader string) *MsgProcessCrossChainTx {
+	return &MsgProcessCrossChainTx{submitter, fromChainId, proof, header, headerProof, curHeader}
 }
 
 // Route implements Msg

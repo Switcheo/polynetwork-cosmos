@@ -33,16 +33,16 @@ var (
 	CrossChainDoneTxPrefix   = []byte{0x02}
 	DenomToCreatorPrefix     = []byte{0x03}
 
-	CrossChainIDKey = []byte("crosschainid")
+	CrossChainIdKey = []byte("crosschainid")
 )
 
 func GetCrossChainTxKey(crossChainTxSum []byte) []byte {
 	return append(CrossChainTxDetailPrefix, crossChainTxSum...)
 }
 
-func GetDoneTxKey(fromChainID uint64, crossChainid []byte) []byte {
+func GetDoneTxKey(fromChainId uint64, crossChainid []byte) []byte {
 	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, fromChainID)
+	binary.LittleEndian.PutUint64(b, fromChainId)
 	return append(append(CrossChainDoneTxPrefix, b...), crossChainid...)
 }
 

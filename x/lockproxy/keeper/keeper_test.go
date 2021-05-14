@@ -80,7 +80,7 @@ func Test_lockproxy_Bind(t *testing.T) {
 		address             sdk.AccAddress
 		denom               string
 		lockProxy           []byte
-		nativeChainID       uint64
+		nativeChainId       uint64
 		nativeLockProxyHash []byte
 		nativeAssetHash     []byte
 		expectSucceed       bool
@@ -98,7 +98,7 @@ func Test_lockproxy_Bind(t *testing.T) {
 	for _, testCase := range testCases {
 		err = app.LockproxyKeeper.CreateCoinAndDelegateToProxy(ctx,
 			testCase.address, testCase.denom,
-			testCase.lockProxy, testCase.nativeChainID,
+			testCase.lockProxy, testCase.nativeChainId,
 			testCase.nativeLockProxyHash, testCase.nativeAssetHash,
 		)
 

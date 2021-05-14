@@ -42,7 +42,7 @@ func TestN_headersync_Querier(t *testing.T) {
 	assert.Nil(t, err, "Sync genesis header fail")
 
 	// query synced Poly Chain consensus peer
-	res, err := queryClient.ConsensusPeers(gocontext.Background(), &types.QueryGetConsensusPeersRequest{ChainID: h0.ChainID})
+	res, err := queryClient.ConsensusPeers(gocontext.Background(), &types.QueryGetConsensusPeersRequest{ChainId: h0.ChainID})
 	require.NoError(t, err)
 
 	consensusPeersBs, err := ExtractChainConfig(h0)

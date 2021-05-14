@@ -1,6 +1,7 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.ccm;
 
+import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
@@ -11,18 +12,22 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/ccm/types";
 service Query {
   // this line is used by starport scaffolding # 2
   rpc CheckModuleContract(QueryCheckModuleContractRequest) returns (QueryCheckModuleContractResponse) {
-    option (google.api.http).get = "/Switcheo/polynetworkcosmos/ccm/CheckModuleContract/{moduleName}/{toContractAddr}/{fromChainID}";
+    option (google.api.http).get = "/Switcheo/polynetworkcosmos/ccm/CheckModuleContract/{module_name}/{to_contract_address}/{from_chain_id}";
   }
 }
 
 // this line is used by starport scaffolding # 3
 message QueryCheckModuleContractRequest {
-	string moduleName = 1;
-  bytes toContractAddr = 2;
-  uint64 fromChainID = 3;
+  option (gogoproto.goproto_getters) = false;
+
+	string module_name = 1;
+  bytes to_contract_address = 2;
+  uint64 from_chain_id = 3;
 }
 
 message QueryCheckModuleContractResponse {
-  string moduleName = 1;
+  option (gogoproto.goproto_getters) = false;
+
+  string module_name = 1;
 	bool exist = 2;
 }

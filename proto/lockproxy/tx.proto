@@ -1,6 +1,7 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.lockproxy;
 
+import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
@@ -16,34 +17,48 @@ service Msg {
 
 // this line is used by starport scaffolding # proto/tx/message
 message MsgCreate {
+  option (gogoproto.goproto_getters) = false;
+
   string creator = 1;
 }
 
 message MsgCreateResponse { }
 
 message MsgBind {
+  option (gogoproto.goproto_getters) = false;
+
   string creator = 1;
   string denom = 2;
-  bytes lockProxyHash = 3;
-  uint64 nativeChainID = 4;
-  bytes nativeLockProxyHash = 5;
-  bytes nativeAssetHash = 6;
+  bytes lock_proxy_hash = 3 [(gogoproto.moretags) = "yaml:\"lock_proxy_hash\""];
+  uint64 native_chain_id = 4 [(gogoproto.moretags) = "yaml:\"native_chain_id\""];
+  bytes native_lock_proxy_hash = 5 [(gogoproto.moretags) = "yaml:\"native_lock_proxy_hash\""];
+  bytes native_asset_hash = 6 [(gogoproto.moretags) = "yaml:\"native_asset_hash\""];
 }
 
 message MsgBindResponse { }
 
 message MsgLock {
-  bytes lockProxyHash = 1;
-  string fromAddress = 2;
+  option (gogoproto.goproto_getters) = false;
+
+  bytes lock_proxy_hash = 1 [(gogoproto.moretags) = "yaml:\"lock_proxy_hash\""];
+  string from_address = 2 [(gogoproto.moretags) = "yaml:\"from_address\""];
   string denom = 3;
-	uint64 toChainID = 4;
-	bytes toChainProxyHash = 5;
-	bytes toChainAssetHash = 6;
-	bytes toAddressBytes = 7;
-	cosmos.base.v1beta1.IntProto value = 8;
-	bool deductFeeInLock = 9;
-	cosmos.base.v1beta1.IntProto feeAmount = 10;
-	string feeAddress = 11;
+	uint64 to_chain_id = 4 [(gogoproto.moretags) = "yaml:\"to_chain_id\""];
+	bytes to_chain_proxy_hash = 5 [(gogoproto.moretags) = "yaml:\"to_chain_proxy_hash\""];
+	bytes to_chain_asset_hash = 6 [(gogoproto.moretags) = "yaml:\"to_chain_asset_hash\""];
+	bytes to_address_bytes = 7 [(gogoproto.moretags) = "yaml:\"to_address_bytes\""];
+  string value = 8 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.moretags)   = "yaml:\"value\"",
+    (gogoproto.nullable)   = false
+  ];
+	bool deduct_fee_in_lock = 9;
+	string fee_amount = 10 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.moretags)   = "yaml:\"fee_amount\"",
+    (gogoproto.nullable)   = false
+  ];
+	string fee_address = 11  [(gogoproto.moretags) = "yaml:\"fee_address\""];
 }
 
 message MsgLockResponse { }

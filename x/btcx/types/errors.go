@@ -10,7 +10,7 @@ import (
 
 // x/btcx module sentinel errors
 var (
-	ErrInvalidChainIDType      = sdkerrors.Register(ModuleName, 1, "ErrInvalidChainIDType")
+	ErrInvalidChainIdType      = sdkerrors.Register(ModuleName, 1, "ErrInvalidChainIdType")
 	ErrInvalidRedeemScriptType = sdkerrors.Register(ModuleName, 2, "ErrInvalidRedeemScriptType")
 	ErrEmptyToAssetHashType    = sdkerrors.Register(ModuleName, 3, "ErrEmptyToAssetHashType")
 	ErrCreateDenomType         = sdkerrors.Register(ModuleName, 4, "ErrCreateDenomType")
@@ -21,8 +21,8 @@ var (
 	ErrMintCoinsType           = sdkerrors.Register(ModuleName, 9, "ErrMintCoinsType")
 )
 
-func ErrInvalidChainID(chainID uint64) error {
-	return sdkerrors.Wrapf(ErrInvalidChainIDType, fmt.Sprintf("Unknown chainID with id: %d", chainID))
+func ErrInvalidChainId(chainID uint64) error {
+	return sdkerrors.Wrapf(ErrInvalidChainIdType, fmt.Sprintf("Unknown chainID with id: %d", chainID))
 }
 
 func ErrInvalidRedeemScript(reason string) error {

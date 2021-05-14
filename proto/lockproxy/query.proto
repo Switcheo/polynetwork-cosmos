@@ -1,6 +1,7 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.lockproxy;
 
+import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
@@ -11,15 +12,19 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 service Query {
     // this line is used by starport scaffolding # 2
 	rpc Proxy(QueryGetProxyRequest) returns (QueryGetProxyResponse) {
-		option (google.api.http).get = "/Switcheo/polynetworkcosmos/lockproxy/Proxy/{operatorAddress}";
+		option (google.api.http).get = "/Switcheo/polynetworkcosmos/lockproxy/Proxy/{operator_address}";
 	}
 }
 
 // this line is used by starport scaffolding # 3
 message QueryGetProxyRequest {
-	string operatorAddress = 1;
+  option (gogoproto.goproto_getters) = false;
+
+	string operator_address = 1;
 }
 
 message QueryGetProxyResponse {
-	bytes proxyHash = 1;
+  option (gogoproto.goproto_getters) = false;
+
+	bytes proxy_hash = 1;
 }

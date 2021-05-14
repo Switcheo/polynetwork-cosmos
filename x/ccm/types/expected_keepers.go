@@ -18,11 +18,11 @@ type BankKeeper interface {
 
 // UnlockKeeper defines the expected unlock keeper
 type UnlockKeeper interface {
-	Unlock(ctx sdk.Context, fromChainID uint64, fromContractAddr sdk.AccAddress, toContractAddr []byte, argsBs []byte) error
-	ContainToContractAddr(ctx sdk.Context, toContractAddr []byte, fromChainID uint64) bool
+	Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk.AccAddress, toContractAddr []byte, argsBs []byte) error
+	ContainToContractAddr(ctx sdk.Context, toContractAddr []byte, fromChainId uint64) bool
 }
 
 // AssetKeeper defines the expected asset keeper
 type AssetKeeper interface {
-	RegisterAsset(ctx sdk.Context, fromChainID uint64, fromContractAddr []byte, toContractAddr []byte, argsBs []byte) error
+	RegisterAsset(ctx sdk.Context, fromChainId uint64, fromContractAddr []byte, toContractAddr []byte, argsBs []byte) error
 }

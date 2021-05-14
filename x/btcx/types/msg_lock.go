@@ -10,8 +10,8 @@ import (
 var _ sdk.Msg = &MsgLock{}
 
 // NewMsgLock returns a new MsgLock
-func NewMsgLock(fromAddress string, sourceAssetDenom string, toChainID uint64, toAddress []byte, value sdk.Int) *MsgLock {
-	return &MsgLock{fromAddress, sourceAssetDenom, toChainID, toAddress, &sdk.IntProto{Int: value}}
+func NewMsgLock(fromAddress string, sourceAssetDenom string, toChainId uint64, toAddress []byte, value sdk.Int) *MsgLock {
+	return &MsgLock{fromAddress, sourceAssetDenom, toChainId, toAddress, value}
 }
 
 // Route implements Msg
@@ -48,13 +48,13 @@ func (msg *MsgLock) ValidateBasic() error {
 	if err := sdk.ValidateDenom(msg.SourceAssetDenom); err != nil {
 		return sdkerrors.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
 	}
-	if msg.ToChainID == 0 {
-		return sdkerrors.Wrapf(ErrInvalidChainIDType, "invalid chain id (%d)", msg.ToChainID)
+	if msg.ToChainId == 0 {
+		return sdkerrors.Wrapf(ErrInvalidChainIdType, "invalid chain id (%d)", msg.ToChainId)
 	}
-	if len(msg.ToAddressBs) == 0 {
-		return sdkerrors.Wrapf(ErrEmptyToAssetHashType, "invalid to address (%s)", hex.EncodeToString(msg.ToAddressBs))
+	if len(msg.ToAddressBytes) == 0 {
+		return sdkerrors.Wrapf(ErrEmptyToAssetHashType, "invalid to address (%s)", hex.EncodeToString(msg.ToAddressBytes))
 	}
-	if msg.Value.Int.IsNegative() {
+	if msg.Value.IsNegative() {
 		return sdkerrors.Wrapf(ErrLockType, "invalid value (%s)", msg.Value)
 	}
 	return nil

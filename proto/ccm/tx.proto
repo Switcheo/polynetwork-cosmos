@@ -1,6 +1,7 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.ccm;
 
+import "gogoproto/gogo.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/ccm/types";
@@ -13,12 +14,14 @@ service Msg {
 
 // this line is used by starport scaffolding # proto/tx/message
 message MsgProcessCrossChainTx {
+  option (gogoproto.goproto_getters) = false;
+
   string submitter = 1;
-	uint64 fromChainID = 2;
+	uint64 from_chain_id = 2 [(gogoproto.moretags) = "yaml:\"from_chain_id\""];
 	string proof = 3;
 	string header = 4;
-	string headerProof = 5;
-	string curHeader = 6;
+	string header_proof = 5 [(gogoproto.moretags) = "yaml:\"header_proof\""];
+	string current_header = 6 [(gogoproto.moretags) = "yaml:\"current_header\""];
 }
 
 message MsgProcessCrossChainTxResponse { }

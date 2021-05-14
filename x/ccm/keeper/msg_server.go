@@ -22,7 +22,7 @@ var _ types.MsgServer = msgServer{}
 func (k Keeper) Process(c context.Context, req *types.MsgProcessCrossChainTx) (res *types.MsgProcessCrossChainTxResponse, err error) {
 	ctx := sdk.UnwrapSDKContext(c)
 
-	err = k.ProcessCrossChainTx(ctx, req.FromChainID, req.Proof, req.Header, req.HeaderProof, req.CurHeader)
+	err = k.ProcessCrossChainTx(ctx, req.FromChainId, req.Proof, req.Header, req.HeaderProof, req.CurrentHeader)
 	if err != nil {
 		return nil, err
 	}

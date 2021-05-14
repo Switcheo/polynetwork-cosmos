@@ -27,7 +27,7 @@ func (k Keeper) CheckModuleContract(c context.Context, req *types.QueryCheckModu
 
 	res = &types.QueryCheckModuleContractResponse{
 		ModuleName: req.ModuleName,
-		Exist:      unlockKeeper.ContainToContractAddr(ctx, req.ToContractAddr, req.FromChainID),
+		Exist:      unlockKeeper.ContainToContractAddr(ctx, req.ToContractAddress, req.FromChainId),
 	}
 
 	return

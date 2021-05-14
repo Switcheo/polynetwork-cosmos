@@ -84,7 +84,7 @@ func Test_headersync_SyncHeaders(t *testing.T) {
 	assert.Nil(t, err)
 	fmt.Printf("consensusPeers are %s\n", consensusPeers.String())
 	// the genesis header should contain the consensus peers info, the height may be not ZERO but should be the header contains consensus address of next cycle
-	assert.Equal(t, header.ChainID, consensusPeers.ChainID)
+	assert.Equal(t, header.ChainID, consensusPeers.ChainId)
 	assert.Equal(t, header.Height, consensusPeers.Height)
 	cpBs, err := ExtractChainConfig(header)
 	assert.Nil(t, err)
@@ -98,7 +98,7 @@ func Test_headersync_SyncHeaders(t *testing.T) {
 	consensusPeers, err = app.HeadersyncKeeper.GetConsensusPeers(ctx, chainID)
 	assert.Nil(t, err)
 	fmt.Printf("consensusPeers are %s\n", consensusPeers.String())
-	assert.Equal(t, chainID, consensusPeers.ChainID)
+	assert.Equal(t, chainID, consensusPeers.ChainId)
 	assert.Equal(t, uint32(60000), consensusPeers.Height)
 	resSink = polycommon.NewZeroCopySink(nil)
 	consensusPeers.Serialize(resSink)
@@ -120,12 +120,12 @@ func ExtractChainConfig(header *polytype.Header) ([]byte, error) {
 	}
 	if blkInfo.NewChainConfig != nil {
 		consensusPeers := &types.ConsensusPeers{
-			ChainID: header.ChainID,
+			ChainId: header.ChainID,
 			Height:  header.Height,
 			Peers:   make(map[string]*types.Peer),
 		}
 		for _, p := range blkInfo.NewChainConfig.Peers {
-			consensusPeers.Peers[p.ID] = &types.Peer{Index: p.Index, PubKey: p.ID}
+			consensusPeers.Peers[p.ID] = &types.Peer{Index: p.Index, Pubkey: p.ID}
 		}
 		sink := polycommon.NewZeroCopySink(nil)
 		consensusPeers.Serialize(sink)

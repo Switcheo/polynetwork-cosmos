@@ -37,7 +37,7 @@ import (
 	// this line is used by starport scaffolding # stargate/root/import
 )
 
-var ChainID string
+var ChainId string
 
 // NewRootCmd creates a new root command for simd. It is called once in the
 // main function.
@@ -70,7 +70,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 	initRootCmd(rootCmd, encodingConfig)
 	overwriteFlagDefaults(rootCmd, map[string]string{
-		flags.FlagChainID:        ChainID,
+		flags.FlagChainID:        ChainId,
 		flags.FlagKeyringBackend: "test",
 	})
 

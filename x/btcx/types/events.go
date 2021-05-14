@@ -11,7 +11,7 @@ const (
 
 	EventTypeBindAsset      = "bind_asset"
 	AttributeKeyCreator     = "creator"
-	AttributeKeyToChainID   = "to_chain_id"
+	AttributeKeyToChainId   = "to_chain_id"
 	AttributeKeyToAssetHash = "to_asset_hash"
 
 	EventTypeLockAsset      = "lock_asset"

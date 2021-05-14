@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	BtcChainID = uint64(1)
+	BtcChainId = uint64(1)
 )
 
 type ToBTCArgs struct {

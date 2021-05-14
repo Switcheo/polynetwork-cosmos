@@ -28,11 +28,11 @@ func (k Keeper) DenomCrossChainInfo(c context.Context, req *types.QueryGetDenomC
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
-	denomCrossChainInfo := k.GetDenomCrossChainInfo(ctx, req.Denom, req.ChainID)
+	denomCrossChainInfo := k.GetDenomCrossChainInfo(ctx, req.Denom, req.ChainId)
 
 	return &types.QueryGetDenomCrossChainInfoResponse{
 		DenomInfo:   denomCrossChainInfo.DenomInfo,
-		ToChainID:   denomCrossChainInfo.ToChainID,
+		ToChainId:   denomCrossChainInfo.ToChainId,
 		ToAssetHash: denomCrossChainInfo.ToAssetHash,
 	}, nil
 }

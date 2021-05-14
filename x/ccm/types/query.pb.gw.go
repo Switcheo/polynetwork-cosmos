@@ -44,37 +44,37 @@ func request_Query_CheckModuleContract_0(ctx context.Context, marshaler runtime.
 		_   = err
 	)
 
-	val, ok = pathParams["moduleName"]
+	val, ok = pathParams["module_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "moduleName")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "module_name")
 	}
 
 	protoReq.ModuleName, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "moduleName", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "module_name", err)
 	}
 
-	val, ok = pathParams["toContractAddr"]
+	val, ok = pathParams["to_contract_address"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "toContractAddr")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "to_contract_address")
 	}
 
-	protoReq.ToContractAddr, err = runtime.Bytes(val)
+	protoReq.ToContractAddress, err = runtime.Bytes(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "toContractAddr", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "to_contract_address", err)
 	}
 
-	val, ok = pathParams["fromChainID"]
+	val, ok = pathParams["from_chain_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromChainID")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "from_chain_id")
 	}
 
-	protoReq.FromChainID, err = runtime.Uint64(val)
+	protoReq.FromChainId, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromChainID", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "from_chain_id", err)
 	}
 
 	msg, err := client.CheckModuleContract(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -93,37 +93,37 @@ func local_request_Query_CheckModuleContract_0(ctx context.Context, marshaler ru
 		_   = err
 	)
 
-	val, ok = pathParams["moduleName"]
+	val, ok = pathParams["module_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "moduleName")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "module_name")
 	}
 
 	protoReq.ModuleName, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "moduleName", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "module_name", err)
 	}
 
-	val, ok = pathParams["toContractAddr"]
+	val, ok = pathParams["to_contract_address"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "toContractAddr")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "to_contract_address")
 	}
 
-	protoReq.ToContractAddr, err = runtime.Bytes(val)
+	protoReq.ToContractAddress, err = runtime.Bytes(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "toContractAddr", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "to_contract_address", err)
 	}
 
-	val, ok = pathParams["fromChainID"]
+	val, ok = pathParams["from_chain_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromChainID")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "from_chain_id")
 	}
 
-	protoReq.FromChainID, err = runtime.Uint64(val)
+	protoReq.FromChainId, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromChainID", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "from_chain_id", err)
 	}
 
 	msg, err := server.CheckModuleContract(ctx, &protoReq)
@@ -225,7 +225,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_CheckModuleContract_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"Switcheo", "polynetworkcosmos", "ccm", "CheckModuleContract", "moduleName", "toContractAddr", "fromChainID"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_CheckModuleContract_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"Switcheo", "polynetworkcosmos", "ccm", "CheckModuleContract", "module_name", "to_contract_address", "from_chain_id"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

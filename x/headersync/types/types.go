@@ -9,7 +9,7 @@ import (
 
 func (this *Peer) Serialize(sink *polycommon.ZeroCopySink) {
 	sink.WriteUint32(this.Index)
-	sink.WriteVarBytes([]byte(this.PubKey))
+	sink.WriteVarBytes([]byte(this.Pubkey))
 }
 
 func (this *Peer) Deserialize(source *polycommon.ZeroCopySource) error {
@@ -17,17 +17,17 @@ func (this *Peer) Deserialize(source *polycommon.ZeroCopySource) error {
 	if eof {
 		return fmt.Errorf("utils.DecodeVarUint, Deserialize index error")
 	}
-	PubKey, eof := source.NextString()
+	Pubkey, eof := source.NextString()
 	if eof {
-		return fmt.Errorf("utils.DecodeString, Deserialize PubKey error")
+		return fmt.Errorf("utils.DecodeString, Deserialize Pubkey error")
 	}
 	this.Index = uint32(index)
-	this.PubKey = PubKey
+	this.Pubkey = Pubkey
 	return nil
 }
 
 func (this *ConsensusPeers) Serialize(sink *polycommon.ZeroCopySink) {
-	sink.WriteUint64(this.ChainID)
+	sink.WriteUint64(this.ChainId)
 	sink.WriteUint32(this.Height)
 	sink.WriteVarUint(uint64(len(this.Peers)))
 	var peerList []*Peer
@@ -35,7 +35,7 @@ func (this *ConsensusPeers) Serialize(sink *polycommon.ZeroCopySink) {
 		peerList = append(peerList, v)
 	}
 	sort.SliceStable(peerList, func(i, j int) bool {
-		return peerList[i].PubKey > peerList[j].PubKey
+		return peerList[i].Pubkey > peerList[j].Pubkey
 	})
 	for _, v := range peerList {
 		v.Serialize(sink)
@@ -61,9 +61,9 @@ func (this *ConsensusPeers) Deserialize(source *polycommon.ZeroCopySource) error
 		if err := peer.Deserialize(source); err != nil {
 			return fmt.Errorf("Deserialize peer error: %v", err)
 		}
-		Peers[peer.PubKey] = peer
+		Peers[peer.Pubkey] = peer
 	}
-	this.ChainID = chainID
+	this.ChainId = chainID
 	this.Height = uint32(height)
 	this.Peers = Peers
 	return nil

@@ -27,7 +27,7 @@ import (
 func TestPeer_Serialization(t *testing.T) {
 	paramSerialize := new(Peer)
 	paramSerialize.Index = 1
-	paramSerialize.PubKey = "abcdefg"
+	paramSerialize.Pubkey = "abcdefg"
 	sink := common.NewZeroCopySink(nil)
 	paramSerialize.Serialize(sink)
 
@@ -40,12 +40,12 @@ func TestPeer_Serialization(t *testing.T) {
 func TestConsensusPeers_Serialization(t *testing.T) {
 	paramSerialize := new(ConsensusPeers)
 	paramSerialize.Height = 1
-	paramSerialize.ChainID = 0
-	peer1 := &Peer{Index: 1, PubKey: "abcd"}
-	peer2 := &Peer{Index: 2, PubKey: "efgh"}
+	paramSerialize.ChainId = 0
+	peer1 := &Peer{Index: 1, Pubkey: "abcd"}
+	peer2 := &Peer{Index: 2, Pubkey: "efgh"}
 	paramSerialize.Peers = make(map[string]*Peer)
-	paramSerialize.Peers[peer1.PubKey] = peer1
-	paramSerialize.Peers[peer2.PubKey] = peer2
+	paramSerialize.Peers[peer1.Pubkey] = peer1
+	paramSerialize.Peers[peer2.Pubkey] = peer2
 	sink := common.NewZeroCopySink(nil)
 	paramSerialize.Serialize(sink)
 

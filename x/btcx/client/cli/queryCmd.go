@@ -52,15 +52,15 @@ $ %s query %s denom-info btcx
 	return cmd
 }
 
-// CmdQueryDenomInfoWithChainID returns the command that queries a denom with chain id
-func CmdQueryDenomInfoWithChainID() *cobra.Command {
+// CmdQueryDenomInfoWithChainId returns the command that queries a denom with chain id
+func CmdQueryDenomInfoWithChainId() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "denom-cc-info [denom] [chain_id]",
 		Short: "Query denom info correlated with a specific chainID",
 		Args:  cobra.ExactArgs(2),
 		Long: strings.TrimSpace(
 			fmt.Sprintf(`Query a specific denom or coin info correlated with a specific chainID incluing the coin creator,  coin total supply, the
-redeem script and redeem script hash, toChainID and the corresponding toAssetHash in hex format
+redeem script and redeem script hash, toChainId and the corresponding toAssetHash in hex format
 
 Example:
 $ %s query %s denom-cc-info btcx 2
@@ -80,7 +80,7 @@ $ %s query %s denom-cc-info btcx 2
 
 			params := &types.QueryGetDenomCrossChainInfoRequest{
 				Denom:   args[0],
-				ChainID: chainID,
+				ChainId: chainID,
 			}
 
 			res, err := queryClient.DenomCrossChainInfo(context.Background(), params)

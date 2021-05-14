@@ -18,13 +18,13 @@ func (k Keeper) ConsensusPeers(c context.Context, req *types.QueryGetConsensusPe
 	}
 	ctx := sdk.UnwrapSDKContext(c)
 
-	peers, err := k.GetConsensusPeers(ctx, req.ChainID)
+	peers, err := k.GetConsensusPeers(ctx, req.ChainId)
 	if err != nil {
-		return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidRequest, "Failed to get consensus peers for chainID: %d, error: %v", req.ChainID, err)
+		return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidRequest, "Failed to get consensus peers for chainID: %d, error: %v", req.ChainId, err)
 	}
 
 	res = &types.QueryGetConsensusPeersResponse{
-		ConsensusPeers: peers,
+		ConsensusPeers: *peers,
 	}
 
 	return

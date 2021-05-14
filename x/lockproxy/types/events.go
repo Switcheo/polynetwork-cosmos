@@ -29,7 +29,7 @@ const (
 
 	EventTypeBindProxy           = "bind_proxy_hash"
 	AttributeKeyLockProxy        = "lock_proxy_hash"
-	AttributeKeyToChainID        = "to_chain_id"
+	AttributeKeyToChainId        = "to_chain_id"
 	AttributeKeyToChainProxyHash = "to_chain_proxy_hash"
 
 	EventTypeBindAsset           = "bind_asset_hash"
@@ -44,7 +44,7 @@ const (
 	AttributeKeyFeeAmount        = "fee_amount"
 	AttributeKeyNonce            = "nonce"
 
-	AttributeKeyFromChainID = "from_chain_id"
+	AttributeKeyFromChainId = "from_chain_id"
 
 	EventTypeUnlock              = "unlock"
 	AttributeKeyFromContractHash = "from_contract_hash"

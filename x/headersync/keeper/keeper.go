@@ -164,17 +164,17 @@ func (k Keeper) UpdateConsensusPeer(ctx sdk.Context, header *polytype.Header) er
 	}
 	if blkInfo.NewChainConfig != nil {
 		consensusPeers := &types.ConsensusPeers{
-			ChainID: header.ChainID,
+			ChainId: header.ChainID,
 			Height:  header.Height,
 			Peers:   make(map[string]*types.Peer),
 		}
 		for _, p := range blkInfo.NewChainConfig.Peers {
-			consensusPeers.Peers[p.ID] = &types.Peer{Index: p.Index, PubKey: p.ID}
+			consensusPeers.Peers[p.ID] = &types.Peer{Index: p.Index, Pubkey: p.ID}
 		}
 		if err := k.SetConsensusPeers(ctx, *consensusPeers); err != nil {
 			return err
 		}
-		if err := k.SetKeyHeaderHash(ctx, consensusPeers.ChainID, header.Hash()); err != nil {
+		if err := k.SetKeyHeaderHash(ctx, consensusPeers.ChainId, header.Hash()); err != nil {
 			return err
 		}
 	}
@@ -185,7 +185,7 @@ func (k Keeper) SetConsensusPeers(ctx sdk.Context, consensusPeers types.Consensu
 	store := ctx.KVStore(k.storeKey)
 	sink := polycommon.NewZeroCopySink(nil)
 	consensusPeers.Serialize(sink)
-	store.Set(GetConsensusPeerKey(consensusPeers.ChainID), sink.Bytes())
+	store.Set(GetConsensusPeerKey(consensusPeers.ChainId), sink.Bytes())
 	return nil
 }
 

@@ -10,7 +10,7 @@ import (
 
 // x/lockproxy module sentinel errors
 var (
-	ErrInvalidChainIDType               = sdkerrors.Register(ModuleName, 1, "ErrInvalidChainIDType")
+	ErrInvalidChainIdType               = sdkerrors.Register(ModuleName, 1, "ErrInvalidChainIdType")
 	ErrMsgBindType                      = sdkerrors.Register(ModuleName, 2, "ErrMsgBindType")
 	ErrMsgLockType                      = sdkerrors.Register(ModuleName, 3, "ErrMsgLockType")
 	ErrLockType                         = sdkerrors.Register(ModuleName, 4, "ErrLockType")
@@ -21,8 +21,8 @@ var (
 	// this line is used by starport scaffolding # ibc/errors
 )
 
-func ErrInvalidChainID(chainID uint64) error {
-	return sdkerrors.Wrapf(ErrInvalidChainIDType, fmt.Sprintf("Reason: invalid chainID with id: %d", chainID))
+func ErrInvalidChainId(chainID uint64) error {
+	return sdkerrors.Wrapf(ErrInvalidChainIdType, fmt.Sprintf("Reason: invalid chainID with id: %d", chainID))
 }
 
 func ErrMsgBind(reason string) error {

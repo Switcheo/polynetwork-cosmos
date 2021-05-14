@@ -44,15 +44,15 @@ func request_Query_Proxy_0(ctx context.Context, marshaler runtime.Marshaler, cli
 		_   = err
 	)
 
-	val, ok = pathParams["operatorAddress"]
+	val, ok = pathParams["operator_address"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "operatorAddress")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "operator_address")
 	}
 
 	protoReq.OperatorAddress, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "operatorAddress", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "operator_address", err)
 	}
 
 	msg, err := client.Proxy(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -71,15 +71,15 @@ func local_request_Query_Proxy_0(ctx context.Context, marshaler runtime.Marshale
 		_   = err
 	)
 
-	val, ok = pathParams["operatorAddress"]
+	val, ok = pathParams["operator_address"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "operatorAddress")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "operator_address")
 	}
 
 	protoReq.OperatorAddress, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "operatorAddress", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "operator_address", err)
 	}
 
 	msg, err := server.Proxy(ctx, &protoReq)
@@ -181,7 +181,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_Proxy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"Switcheo", "polynetworkcosmos", "lockproxy", "Proxy", "operatorAddress"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Proxy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"Switcheo", "polynetworkcosmos", "lockproxy", "Proxy", "operator_address"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

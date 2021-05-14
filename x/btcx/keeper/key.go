@@ -31,7 +31,7 @@ const (
 )
 
 var (
-	ChainIDToAssetHashPrefix       = []byte{0x01}
+	ChainIdToAssetHashPrefix       = []byte{0x01}
 	CreatorDenomToScriptHashPrefix = []byte{0x02}
 	ScriptHashToRedeemScriptPrefix = []byte{0x03}
 	DenomToCreatorPrefix           = []byte{0x04}

@@ -61,7 +61,7 @@ $ %s query %s consensus-peers 0
 			}
 
 			params := &types.QueryGetConsensusPeersRequest{
-				ChainID: chainID,
+				ChainId: chainID,
 			}
 
 			res, err := queryClient.ConsensusPeers(context.Background(), params)

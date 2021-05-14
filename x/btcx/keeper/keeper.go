@@ -84,7 +84,7 @@ func (k Keeper) CreateAsset(ctx sdk.Context, creator sdk.AccAddress, denom strin
 	return nil
 }
 
-func (k Keeper) BindAsset(ctx sdk.Context, creator sdk.AccAddress, sourceAssetDenom string, toChainID uint64, toAssetHash []byte) error {
+func (k Keeper) BindAsset(ctx sdk.Context, creator sdk.AccAddress, sourceAssetDenom string, toChainId uint64, toAssetHash []byte) error {
 	if !k.ValidCreator(ctx, sourceAssetDenom, creator) {
 		return types.ErrBindAssetHash(fmt.Sprintf("BindAssetHash, creator is not valid, expect:%s, got:%s", k.ck.GetDenomCreator(ctx, sourceAssetDenom).String(), creator.String()))
 	}
@@ -92,40 +92,40 @@ func (k Keeper) BindAsset(ctx sdk.Context, creator sdk.AccAddress, sourceAssetDe
 	if !bytes.Equal(creator.Bytes(), store.Get(GetDenomToCreatorKey(sourceAssetDenom))) {
 		return types.ErrBindAssetHash(fmt.Sprintf("BindAssetHash, creator: %s created Denom: %s, yet not in %s module", creator.String(), sourceAssetDenom, types.ModuleName))
 	}
-	store.Set(GetBindAssetHashKey([]byte(sourceAssetDenom), toChainID), toAssetHash)
+	store.Set(GetBindAssetHashKey([]byte(sourceAssetDenom), toChainId), toAssetHash)
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
 			types.EventTypeBindAsset,
 			sdk.NewAttribute(types.AttributeKeyCreator, creator.String()),
 			sdk.NewAttribute(types.AttributeKeySourceAssetDenom, sourceAssetDenom),
 			sdk.NewAttribute(types.AttributeKeyFromAssetHash, hex.EncodeToString(sdk.AccAddress(sourceAssetDenom))),
-			sdk.NewAttribute(types.AttributeKeyToChainID, strconv.FormatUint(toChainID, 10)),
+			sdk.NewAttribute(types.AttributeKeyToChainId, strconv.FormatUint(toChainId, 10)),
 			sdk.NewAttribute(types.AttributeKeyToAssetHash, hex.EncodeToString(toAssetHash)),
 		),
 	})
 	return nil
 }
 
-func (k Keeper) LockAsset(ctx sdk.Context, fromAddr sdk.AccAddress, sourceAssetDenom string, toChainID uint64, toAddr []byte, amount sdk.Int) error {
+func (k Keeper) LockAsset(ctx sdk.Context, fromAddr sdk.AccAddress, sourceAssetDenom string, toChainId uint64, toAddr []byte, amount sdk.Int) error {
 	// transfer back to btc
 	store := ctx.KVStore(k.storeKey)
-	toAssetHash := store.Get(GetBindAssetHashKey([]byte(sourceAssetDenom), toChainID))
+	toAssetHash := store.Get(GetBindAssetHashKey([]byte(sourceAssetDenom), toChainId))
 	if toAssetHash == nil {
-		return types.ErrLock(fmt.Sprintf("Invoke Lock of `btcx` module for denom: %s is illgeal due to toAssetHash empty for chainID: %d", sourceAssetDenom, toChainID))
+		return types.ErrLock(fmt.Sprintf("Invoke Lock of `btcx` module for denom: %s is illgeal due to toAssetHash empty for chainID: %d", sourceAssetDenom, toChainId))
 	}
 	if amount.GTE(sdk.NewIntFromUint64(math.MaxUint64)) {
 		return types.ErrLock(fmt.Sprintf("Invoke Lock of `btcx` module, amount: %s too big than MaxUint64", amount.String()))
 	}
 	sink := polycommon.NewZeroCopySink(nil)
 	// construct args bytes
-	if toChainID == types.BtcChainID {
+	if toChainId == types.BtcChainId {
 		creator := k.ck.GetDenomCreator(ctx, sourceAssetDenom)
 		if creator.Empty() {
 			return types.ErrLock(fmt.Sprintf("Creator of denom: %s is Empty", sourceAssetDenom))
 		}
 		redeemScript := store.Get(GetScriptHashToRedeemScript(store.Get(GetCreatorDenomToScriptHashKey(creator, sourceAssetDenom))))
 		if len(redeemScript) == 0 {
-			return types.ErrLock(fmt.Sprintf("Invoke Lock of `btcx` module, denom: %s, toChainID: %d, redeemScript not exist", sourceAssetDenom, toChainID))
+			return types.ErrLock(fmt.Sprintf("Invoke Lock of `btcx` module, denom: %s, toChainId: %d, redeemScript not exist", sourceAssetDenom, toChainId))
 		}
 		toBtcArgs := types.ToBTCArgs{
 			ToBtcAddress: toAddr,
@@ -146,7 +146,7 @@ func (k Keeper) LockAsset(ctx sdk.Context, fromAddr sdk.AccAddress, sourceAssetD
 	}
 
 	// invoke cross_chain_manager module to construct cosmos proof
-	if err := k.ck.CreateCrossChainTx(ctx, fromAddr, toChainID, []byte(sourceAssetDenom), toAssetHash, "unlock", sink.Bytes()); err != nil {
+	if err := k.ck.CreateCrossChainTx(ctx, fromAddr, toChainId, []byte(sourceAssetDenom), toAssetHash, "unlock", sink.Bytes()); err != nil {
 		return types.ErrLock(fmt.Sprintf("Lock, CreateCrossChainTx Error:%s", err.Error()))
 	}
 	// burn coins from fromAddr
@@ -161,7 +161,7 @@ func (k Keeper) LockAsset(ctx sdk.Context, fromAddr sdk.AccAddress, sourceAssetD
 		sdk.NewEvent(
 			types.EventTypeLockAsset,
 			sdk.NewAttribute(types.AttributeKeyFromAssetHash, hex.EncodeToString([]byte(sourceAssetDenom))),
-			sdk.NewAttribute(types.AttributeKeyToChainID, strconv.FormatUint(toChainID, 10)),
+			sdk.NewAttribute(types.AttributeKeyToChainId, strconv.FormatUint(toChainId, 10)),
 			sdk.NewAttribute(types.AttributeKeyToAssetHash, hex.EncodeToString(toAssetHash)),
 			sdk.NewAttribute(types.AttributeKeyFromAddress, fromAddr.String()),
 			sdk.NewAttribute(types.AttributeKeyToAddress, hex.EncodeToString(toAddr)),
@@ -171,15 +171,15 @@ func (k Keeper) LockAsset(ctx sdk.Context, fromAddr sdk.AccAddress, sourceAssetD
 	return nil
 }
 
-func (k Keeper) Unlock(ctx sdk.Context, fromChainID uint64, fromContractAddr sdk.AccAddress, toContractAddr []byte, argsBs []byte) error {
+func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk.AccAddress, toContractAddr []byte, argsBs []byte) error {
 	var args types.BTCArgs
 	if err := args.Deserialization(polycommon.NewZeroCopySource(argsBs)); err != nil {
 		return types.ErrUnlock(fmt.Sprintf("Deserialize args Error: %s", err))
 	}
 	store := ctx.KVStore(k.storeKey)
-	fromAssetHash := store.Get(GetBindAssetHashKey(toContractAddr, fromChainID))
+	fromAssetHash := store.Get(GetBindAssetHashKey(toContractAddr, fromChainId))
 	if len(fromAssetHash) == 0 {
-		return types.ErrUnlock(fmt.Sprintf("fromAssetHash not exist for toContractAddr: %x, fromChainID: %d", toContractAddr, fromChainID))
+		return types.ErrUnlock(fmt.Sprintf("fromAssetHash not exist for toContractAddr: %x, fromChainId: %d", toContractAddr, fromChainId))
 	}
 	if !bytes.Equal(fromContractAddr, fromAssetHash) {
 		return types.ErrUnlock(fmt.Sprintf("fromContractaddr: %x is not the stored assetHash: %x", fromContractAddr, fromAssetHash))
@@ -207,34 +207,32 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainID uint64, fromContractAddr sdk
 	return nil
 }
 
-func (k Keeper) GetDenomInfo(ctx sdk.Context, denom string) *types.DenomInfo {
+func (k Keeper) GetDenomInfo(ctx sdk.Context, denom string) (denomInfo types.DenomInfo) {
 	store := ctx.KVStore(k.storeKey)
 	operator := k.ck.GetDenomCreator(ctx, denom)
 	if len(operator) == 0 {
-		return nil
+		return denomInfo
 	}
-	denomInfo := new(types.DenomInfo)
 	denomInfo.Creator = operator.String()
 	denomInfo.Denom = denom
 	denomInfo.AssetHash = hex.EncodeToString([]byte(denom))
-	denomInfo.TotalSupply = &sdk.IntProto{Int: k.bk.GetSupply(ctx).GetTotal().AmountOf(denom)}
+	denomInfo.TotalSupply = k.bk.GetSupply(ctx).GetTotal().AmountOf(denom)
 	redeemHash := store.Get(GetCreatorDenomToScriptHashKey(store.Get(GetDenomToCreatorKey(denom)), denom))
 	denomInfo.RedeemScriptHash = hex.EncodeToString(redeemHash)
 	denomInfo.RedeemScript = hex.EncodeToString(store.Get(GetScriptHashToRedeemScript(redeemHash)))
 	return denomInfo
 }
 
-func (k Keeper) GetDenomCrossChainInfo(ctx sdk.Context, denom string, toChainID uint64) *types.DenomCrossChainInfo {
-	denomInfo := new(types.DenomCrossChainInfo)
+func (k Keeper) GetDenomCrossChainInfo(ctx sdk.Context, denom string, toChainId uint64) (denomInfo types.DenomCrossChainInfo) {
 	denomInfo.DenomInfo = k.GetDenomInfo(ctx, denom)
-	denomInfo.ToChainID = toChainID
+	denomInfo.ToChainId = toChainId
 	store := ctx.KVStore(k.storeKey)
-	denomInfo.ToAssetHash = hex.EncodeToString(store.Get(GetBindAssetHashKey([]byte(denom), toChainID)))
-	return denomInfo
+	denomInfo.ToAssetHash = hex.EncodeToString(store.Get(GetBindAssetHashKey([]byte(denom), toChainId)))
+	return
 }
 
-func (k Keeper) ContainToContractAddr(ctx sdk.Context, toContractAddr []byte, fromChainID uint64) bool {
-	return ctx.KVStore(k.storeKey).Get((GetBindAssetHashKey(toContractAddr, fromChainID))) != nil
+func (k Keeper) ContainToContractAddr(ctx sdk.Context, toContractAddr []byte, fromChainId uint64) bool {
+	return ctx.KVStore(k.storeKey).Get((GetBindAssetHashKey(toContractAddr, fromChainId))) != nil
 }
 
 func (k Keeper) ValidCreator(ctx sdk.Context, denom string, creator sdk.AccAddress) bool {

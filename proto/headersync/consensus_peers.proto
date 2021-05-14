@@ -1,15 +1,21 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.headersync;
 
+import "gogoproto/gogo.proto";
+
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
 
 message Peer  {
+  option (gogoproto.goproto_getters) = false;
+
 	uint32 index = 1;
-  string pubKey = 2;
+  string pubkey = 2;
 }
 
 message ConsensusPeers {
-  uint64 chainID = 1;
+  option (gogoproto.goproto_getters) = false;
+
+  uint64 chain_id = 1 [(gogoproto.moretags) = "yaml:\"chain_id\""];
 	uint32 height = 2;
   map<string, Peer> peers = 3;
 }

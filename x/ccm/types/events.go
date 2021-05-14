@@ -25,8 +25,8 @@ const (
 	AttributeKeyStatus          = "status"
 	AttributeKeyFromAddress     = "from_address"
 	AttributeKeyFromContract    = "from_contract"
-	AttributeKeyToChainID       = "to_chain_id"
-	AttributeCrossChainID       = "cross_chainID"
+	AttributeKeyToChainId       = "to_chain_id"
+	AttributeCrossChainId       = "cross_chainID"
 	AttributeKeyTxParamHash     = "make_tx_param_hash"
 	AttributeKeyMakeTxParam     = "make_tx_param"
 
@@ -34,5 +34,5 @@ const (
 	AttributeKeyMerkleValueTxHash                       = "merkle_value:txhash"
 	AttributeKeyMerkleValueMakeTxParamTxHash            = "merkle_value:make_tx_param:txhash"
 	AttributeKeyMerkleValueMakeTxParamToContractAddress = "merkle_value:make_tx_param:to_contract_address"
-	AttributeKeyFromChainID                             = "from_chain_id"
+	AttributeKeyFromChainId                             = "from_chain_id"
 )
