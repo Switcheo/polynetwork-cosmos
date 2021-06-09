@@ -5,6 +5,7 @@ package types
 
 import (
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
@@ -24,6 +25,10 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // GenesisState defines the headersync module's genesis state.
 type GenesisState struct {
+	// Peers for each PoS chain by chain ID.
+	ConsensusPeers map[string]*ConsensusPeers `protobuf:"bytes,1,rep,name=consensus_peers,json=consensusPeers,proto3" json:"consensus_peers,omitempty" yaml:"consensus_peers" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// Header hash for blocks where consensus public keys is updated for PoS chain by chain ID.
+	CheckpointHashes map[string][]byte `protobuf:"bytes,2,rep,name=checkpoint_hashes,json=checkpointHashes,proto3" json:"checkpoint_hashes,omitempty" yaml:"checkpoint_hashes" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *GenesisState) Reset()         { *m = GenesisState{} }
@@ -61,22 +66,38 @@ var xxx_messageInfo_GenesisState proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterType((*GenesisState)(nil), "Switcheo.polynetworkcosmos.headersync.GenesisState")
+	proto.RegisterMapType((map[string][]byte)(nil), "Switcheo.polynetworkcosmos.headersync.GenesisState.CheckpointHashesEntry")
+	proto.RegisterMapType((map[string]*ConsensusPeers)(nil), "Switcheo.polynetworkcosmos.headersync.GenesisState.ConsensusPeersEntry")
 }
 
 func init() { proto.RegisterFile("headersync/genesis.proto", fileDescriptor_2a5fa5849ae09e1b) }
 
 var fileDescriptor_2a5fa5849ae09e1b = []byte{
-	// 158 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0xc8, 0x48, 0x4d, 0x4c,
-	0x49, 0x2d, 0x2a, 0xae, 0xcc, 0x4b, 0xd6, 0x4f, 0x4f, 0xcd, 0x4b, 0x2d, 0xce, 0x2c, 0xd6, 0x2b,
-	0x28, 0xca, 0x2f, 0xc9, 0x17, 0x52, 0x0d, 0x2e, 0xcf, 0x2c, 0x49, 0xce, 0x48, 0xcd, 0xd7, 0x2b,
-	0xc8, 0xcf, 0xa9, 0xcc, 0x4b, 0x2d, 0x29, 0xcf, 0x2f, 0xca, 0x4e, 0xce, 0x2f, 0xce, 0xcd, 0x2f,
-	0xd6, 0x43, 0x68, 0x52, 0xe2, 0xe3, 0xe2, 0x71, 0x87, 0xe8, 0x0b, 0x2e, 0x49, 0x2c, 0x49, 0x75,
-	0x0a, 0x3e, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23, 0x39, 0xc6, 0x07, 0x8f, 0xe4, 0x18, 0x27, 0x3c,
-	0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1, 0xc6, 0x63, 0x39, 0x86, 0x28, 0xcb, 0xf4, 0xcc, 0x92,
-	0x8c, 0xd2, 0x24, 0xbd, 0xe4, 0xfc, 0x5c, 0x7d, 0x98, 0xd9, 0xfa, 0x48, 0x66, 0xeb, 0x42, 0x0c,
-	0xd7, 0xaf, 0xd0, 0x47, 0x72, 0x53, 0x49, 0x65, 0x41, 0x6a, 0x71, 0x12, 0x1b, 0xd8, 0x49, 0xc6,
-	0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x49, 0xc3, 0xc1, 0x47, 0xae, 0x00, 0x00, 0x00,
+	// 372 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0xb1, 0x4e, 0xc2, 0x50,
+	0x14, 0x86, 0x7b, 0x41, 0x4d, 0xbc, 0x10, 0xc5, 0x8a, 0xa6, 0x69, 0x4c, 0x69, 0x9a, 0x98, 0xb0,
+	0xd8, 0x26, 0x18, 0x13, 0x65, 0x84, 0x18, 0x34, 0x2e, 0xa6, 0x6c, 0x2e, 0xa4, 0x5c, 0x4f, 0xda,
+	0x06, 0xe8, 0x6d, 0x7a, 0x2f, 0x42, 0xdf, 0xc0, 0xc1, 0xc1, 0xc1, 0x07, 0xf0, 0x71, 0x1c, 0x19,
+	0x9d, 0x88, 0x81, 0x37, 0x60, 0x73, 0x33, 0xb4, 0xa0, 0xa5, 0x61, 0x20, 0x6e, 0x67, 0x38, 0xff,
+	0xf7, 0x7f, 0x27, 0x39, 0x58, 0x72, 0xc0, 0x7a, 0x84, 0x80, 0x85, 0x1e, 0x31, 0x6c, 0xf0, 0x80,
+	0xb9, 0x4c, 0xf7, 0x03, 0xca, 0xa9, 0x78, 0xda, 0x1c, 0xb8, 0x9c, 0x38, 0x40, 0x75, 0x9f, 0x76,
+	0x43, 0x0f, 0xf8, 0x80, 0x06, 0x1d, 0x42, 0x59, 0x8f, 0x32, 0xfd, 0x2f, 0x24, 0x17, 0x6d, 0x6a,
+	0xd3, 0x28, 0x61, 0xcc, 0xa7, 0x38, 0x2c, 0xab, 0x09, 0x2c, 0xa1, 0x1e, 0x03, 0x8f, 0xf5, 0x59,
+	0xcb, 0x07, 0x08, 0x16, 0x78, 0xed, 0x3b, 0x8b, 0xf3, 0x8d, 0xb8, 0xb0, 0xc9, 0x2d, 0x0e, 0xe2,
+	0x0b, 0xc2, 0xfb, 0xa9, 0x55, 0x09, 0xa9, 0xd9, 0x72, 0xae, 0xd2, 0xd0, 0x37, 0x52, 0xd1, 0x93,
+	0x38, 0xbd, 0xbe, 0x44, 0xdd, 0xcf, 0x49, 0xd7, 0x1e, 0x0f, 0xc2, 0x9a, 0x3c, 0x1b, 0x97, 0x8e,
+	0x43, 0xab, 0xd7, 0xad, 0x6a, 0xa9, 0x26, 0xcd, 0xdc, 0x23, 0x2b, 0x01, 0xf1, 0x0d, 0xe1, 0x03,
+	0xe2, 0x00, 0xe9, 0xf8, 0xd4, 0xf5, 0x78, 0xcb, 0xb1, 0x98, 0x03, 0x4c, 0xca, 0x44, 0x42, 0xb7,
+	0xff, 0x12, 0xfa, 0x85, 0xdd, 0x44, 0xac, 0x58, 0xe9, 0x64, 0x36, 0x2e, 0x49, 0x0b, 0xa5, 0x74,
+	0x9b, 0x66, 0x16, 0x48, 0x2a, 0x24, 0x0f, 0xf1, 0xe1, 0x9a, 0xcb, 0xc4, 0x02, 0xce, 0x76, 0x20,
+	0x94, 0x90, 0x8a, 0xca, 0xbb, 0xe6, 0x7c, 0x14, 0xef, 0xf0, 0xf6, 0x93, 0xd5, 0xed, 0x83, 0x94,
+	0x51, 0x51, 0x39, 0x57, 0xb9, 0xd8, 0x50, 0x79, 0x15, 0x6e, 0xc6, 0x8c, 0x6a, 0xe6, 0x12, 0xc9,
+	0x75, 0x7c, 0xb4, 0xf6, 0x84, 0x35, 0xdd, 0xc5, 0x64, 0x77, 0x3e, 0x01, 0xa9, 0x6e, 0x3d, 0xbf,
+	0x97, 0x84, 0x5a, 0xf3, 0x63, 0xa2, 0xa0, 0xd1, 0x44, 0x41, 0x5f, 0x13, 0x05, 0xbd, 0x4e, 0x15,
+	0x61, 0x34, 0x55, 0x84, 0xcf, 0xa9, 0x22, 0x3c, 0x5c, 0xd9, 0x2e, 0x77, 0xfa, 0x6d, 0x9d, 0xd0,
+	0x9e, 0xb1, 0x14, 0x36, 0x12, 0xc2, 0x67, 0xb1, 0xb1, 0x31, 0x34, 0x12, 0x0f, 0xc6, 0x43, 0x1f,
+	0x58, 0x7b, 0x27, 0xfa, 0xab, 0xf3, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x55, 0x00, 0x8c, 0xfa,
+	0xd2, 0x02, 0x00, 0x00,
 }
 
 func (m *GenesisState) Marshal() (dAtA []byte, err error) {
@@ -99,6 +120,53 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.CheckpointHashes) > 0 {
+		for k := range m.CheckpointHashes {
+			v := m.CheckpointHashes[k]
+			baseI := i
+			if len(v) > 0 {
+				i -= len(v)
+				copy(dAtA[i:], v)
+				i = encodeVarintGenesis(dAtA, i, uint64(len(v)))
+				i--
+				dAtA[i] = 0x12
+			}
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintGenesis(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintGenesis(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if len(m.ConsensusPeers) > 0 {
+		for k := range m.ConsensusPeers {
+			v := m.ConsensusPeers[k]
+			baseI := i
+			if v != nil {
+				{
+					size, err := v.MarshalToSizedBuffer(dAtA[:i])
+					if err != nil {
+						return 0, err
+					}
+					i -= size
+					i = encodeVarintGenesis(dAtA, i, uint64(size))
+				}
+				i--
+				dAtA[i] = 0x12
+			}
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintGenesis(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintGenesis(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0xa
+		}
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -119,6 +187,31 @@ func (m *GenesisState) Size() (n int) {
 	}
 	var l int
 	_ = l
+	if len(m.ConsensusPeers) > 0 {
+		for k, v := range m.ConsensusPeers {
+			_ = k
+			_ = v
+			l = 0
+			if v != nil {
+				l = v.Size()
+				l += 1 + sovGenesis(uint64(l))
+			}
+			mapEntrySize := 1 + len(k) + sovGenesis(uint64(len(k))) + l
+			n += mapEntrySize + 1 + sovGenesis(uint64(mapEntrySize))
+		}
+	}
+	if len(m.CheckpointHashes) > 0 {
+		for k, v := range m.CheckpointHashes {
+			_ = k
+			_ = v
+			l = 0
+			if len(v) > 0 {
+				l = 1 + len(v) + sovGenesis(uint64(len(v)))
+			}
+			mapEntrySize := 1 + len(k) + sovGenesis(uint64(len(k))) + l
+			n += mapEntrySize + 1 + sovGenesis(uint64(mapEntrySize))
+		}
+	}
 	return n
 }
 
@@ -157,6 +250,263 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GenesisState: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ConsensusPeers", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ConsensusPeers == nil {
+				m.ConsensusPeers = make(map[string]*ConsensusPeers)
+			}
+			var mapkey string
+			var mapvalue *ConsensusPeers
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowGenesis
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowGenesis
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var mapmsglen int
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowGenesis
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapmsglen |= int(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					if mapmsglen < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					postmsgIndex := iNdEx + mapmsglen
+					if postmsgIndex < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					if postmsgIndex > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = &ConsensusPeers{}
+					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
+						return err
+					}
+					iNdEx = postmsgIndex
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipGenesis(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.ConsensusPeers[mapkey] = mapvalue
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CheckpointHashes", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.CheckpointHashes == nil {
+				m.CheckpointHashes = make(map[string][]byte)
+			}
+			var mapkey string
+			mapvalue := []byte{}
+			for iNdEx < postIndex {
+				entryPreIndex := iNdEx
+				var wire uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowGenesis
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					wire |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				fieldNum := int32(wire >> 3)
+				if fieldNum == 1 {
+					var stringLenmapkey uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowGenesis
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						stringLenmapkey |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intStringLenmapkey := int(stringLenmapkey)
+					if intStringLenmapkey < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					postStringIndexmapkey := iNdEx + intStringLenmapkey
+					if postStringIndexmapkey < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					if postStringIndexmapkey > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
+					iNdEx = postStringIndexmapkey
+				} else if fieldNum == 2 {
+					var mapbyteLen uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowGenesis
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						mapbyteLen |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					intMapbyteLen := int(mapbyteLen)
+					if intMapbyteLen < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					postbytesIndex := iNdEx + intMapbyteLen
+					if postbytesIndex < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					if postbytesIndex > l {
+						return io.ErrUnexpectedEOF
+					}
+					mapvalue = make([]byte, mapbyteLen)
+					copy(mapvalue, dAtA[iNdEx:postbytesIndex])
+					iNdEx = postbytesIndex
+				} else {
+					iNdEx = entryPreIndex
+					skippy, err := skipGenesis(dAtA[iNdEx:])
+					if err != nil {
+						return err
+					}
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
+						return ErrInvalidLengthGenesis
+					}
+					if (iNdEx + skippy) > postIndex {
+						return io.ErrUnexpectedEOF
+					}
+					iNdEx += skippy
+				}
+			}
+			m.CheckpointHashes[mapkey] = mapvalue
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipGenesis(dAtA[iNdEx:])

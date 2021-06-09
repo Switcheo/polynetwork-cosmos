@@ -1,12 +1,23 @@
 syntax = "proto3";
 package Switcheo.polynetworkcosmos.headersync;
 
+import "gogoproto/gogo.proto";
+import "headersync/consensus_peers.proto";
+
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
 
 // GenesisState defines the headersync module's genesis state.
 message GenesisState {
-    // this line is used by starport scaffolding # genesis/proto/state
-    // this line is used by starport scaffolding # ibc/genesis/proto
+  option (gogoproto.goproto_getters) = false;
+
+  // Peers for each PoS chain by chain ID.
+  map<string, ConsensusPeers> consensus_peers = 1 [(gogoproto.moretags) = "yaml:\"consensus_peers\""];
+
+  // Header hash for blocks where consensus public keys is updated for PoS chain by chain ID.
+  map<string, bytes> checkpoint_hashes = 2 [(gogoproto.moretags) = "yaml:\"checkpoint_hashes\""];
+
+  // this line is used by starport scaffolding # genesis/proto/state
+  // this line is used by starport scaffolding # ibc/genesis/proto
 }

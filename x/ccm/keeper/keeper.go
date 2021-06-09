@@ -65,6 +65,17 @@ func (k *Keeper) MountAssetKeeper(assetKeeper types.AssetKeeper) {
 	k.ak = assetKeeper
 }
 
+// Store fetches the main kv store
+func (k Keeper) Store(ctx sdk.Context) sdk.KVStore {
+	return ctx.KVStore(k.storeKey)
+}
+
+// StoreIterator returns the iterator for the store
+func (k Keeper) StoreIterator(ctx sdk.Context, prefix []byte) sdk.Iterator {
+	store := ctx.KVStore(k.storeKey)
+	return sdk.KVStorePrefixIterator(store, prefix)
+}
+
 func (k Keeper) SetDenomCreator(ctx sdk.Context, denom string, creator sdk.AccAddress) {
 	ctx.KVStore(k.storeKey).Set(GetDenomToCreatorKey(denom), creator.Bytes())
 }
@@ -89,11 +100,11 @@ func (k Keeper) ExistDenom(ctx sdk.Context, denom string) (string, bool) {
 }
 
 func (k Keeper) CreateCrossChainTx(ctx sdk.Context, fromAddr sdk.AccAddress, toChainId uint64, fromContractHash, toContractHash []byte, method string, args []byte) error {
-	crossChainId, err := k.getCrossChainId(ctx)
+	crossChainId, err := k.GetCrossChainId(ctx)
 	if err != nil {
 		return err
 	}
-	if err := k.setCrossChainId(ctx, crossChainId.Add(sdk.NewInt(1))); err != nil {
+	if err := k.SetCrossChainId(ctx, crossChainId.Add(sdk.NewInt(1))); err != nil {
 		return err
 	}
 
@@ -228,7 +239,7 @@ func (k Keeper) VerifyToCosmosTx(ctx sdk.Context, proof []byte, header *polytype
 		return nil, types.ErrVerifyToCosmosTx(fmt.Sprintf("check if this tx has been done, Error: %s", err.Error()))
 	}
 
-	k.putDoneTx(ctx, merkleValue.FromChainID, merkleValue.MakeTxParam.CrossChainID)
+	k.PutDoneTx(ctx, merkleValue.FromChainID, merkleValue.MakeTxParam.CrossChainID)
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
@@ -256,12 +267,12 @@ func (k Keeper) checkDoneTx(ctx sdk.Context, fromChainId uint64, crossChainId []
 	return nil
 }
 
-func (k Keeper) putDoneTx(ctx sdk.Context, fromChainId uint64, crossChainId []byte) {
+func (k Keeper) PutDoneTx(ctx sdk.Context, fromChainId uint64, crossChainId []byte) {
 	store := ctx.KVStore(k.storeKey)
 	store.Set(GetDoneTxKey(fromChainId, crossChainId), crossChainId)
 }
 
-func (k Keeper) getCrossChainId(ctx sdk.Context) (sdk.Int, error) {
+func (k Keeper) GetCrossChainId(ctx sdk.Context) (sdk.Int, error) {
 	store := ctx.KVStore(k.storeKey)
 	bz := store.Get(CrossChainIdKey)
 	if bz == nil {
@@ -275,7 +286,7 @@ func (k Keeper) getCrossChainId(ctx sdk.Context) (sdk.Int, error) {
 	return crossChainId, nil
 }
 
-func (k Keeper) setCrossChainId(ctx sdk.Context, crossChainId sdk.Int) error {
+func (k Keeper) SetCrossChainId(ctx sdk.Context, crossChainId sdk.Int) error {
 	store := ctx.KVStore(k.storeKey)
 	bz, err := crossChainId.Marshal()
 	if err != nil {

@@ -63,6 +63,17 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
+// Store fetches the main kv store
+func (k Keeper) Store(ctx sdk.Context) sdk.KVStore {
+	return ctx.KVStore(k.storeKey)
+}
+
+// StoreIterator returns the iterator for the store
+func (k Keeper) StoreIterator(ctx sdk.Context, prefix []byte) sdk.Iterator {
+	store := ctx.KVStore(k.storeKey)
+	return sdk.KVStorePrefixIterator(store, prefix)
+}
+
 func (k Keeper) ContainToContractAddr(ctx sdk.Context, toContractAddr []byte, fromChainId uint64) bool {
 	return ctx.KVStore(k.storeKey).Get((GetBindChainIdKey(toContractAddr, fromChainId))) != nil
 }
@@ -169,24 +180,31 @@ func (k Keeper) CreateCoinAndDelegateToProxy(ctx sdk.Context, creator sdk.AccAdd
 	return nil
 }
 
-func (k Keeper) getNextNonce(ctx sdk.Context) sdk.Int {
+func (k Keeper) GetNonce(ctx sdk.Context) sdk.Int {
 	store := ctx.KVStore(k.storeKey)
 
-	var nonce sdk.Int
+	nonce := sdk.ZeroInt()
 	nonceBz := store.Get(NonceKey)
-	err := nonce.Unmarshal(nonceBz)
-	if err != nil {
-		panic(err)
-	}
+	nonce.Unmarshal(nonceBz)
 
-	nonce = nonce.Add(sdk.OneInt())
-	newNonceBz, err := nonce.Marshal()
+	return nonce
+}
+
+func (k Keeper) SetNonce(ctx sdk.Context, x sdk.Int) {
+	store := ctx.KVStore(k.storeKey)
+	newNonceBz, err := x.Marshal()
 	if err != nil {
 		panic(err)
 	}
 	store.Set(NonceKey, newNonceBz)
+}
 
-	return nonce
+func (k Keeper) getNextNonce(ctx sdk.Context) sdk.Int {
+	nonce := k.GetNonce(ctx)
+	newNonce := nonce.Add(sdk.NewInt(1))
+	k.SetNonce(ctx, newNonce)
+
+	return newNonce
 }
 
 // LockAsset sends tokens to this module, releasing it on the toChain.

@@ -9,6 +9,8 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
+		ConsensusPeers:   make(map[string]*ConsensusPeers),
+		CheckpointHashes: make(map[string][]byte),
 		// this line is used by starport scaffolding # ibc/genesistype/default
 		// this line is used by starport scaffolding # genesis/types/default
 	}

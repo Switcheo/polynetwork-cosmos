@@ -48,6 +48,12 @@ func NewKeeper(
 	}
 }
 
+// StoreIterator returns the iterator for the store
+func (k Keeper) StoreIterator(ctx sdk.Context, prefix []byte) sdk.Iterator {
+	store := ctx.KVStore(k.storeKey)
+	return sdk.KVStorePrefixIterator(store, prefix)
+}
+
 func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
