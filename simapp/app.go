@@ -379,7 +379,7 @@ func NewSimApp(
 		keys[lockproxytypes.StoreKey],
 		keys[lockproxytypes.MemStoreKey],
 	)
-	lockproxyModule := lockproxy.NewAppModule(appCodec, app.LockproxyKeeper)
+	lockproxyModule := lockproxy.NewAppModule(appCodec, app.LockproxyKeeper, app.AccountKeeper)
 	app.CcmKeeper.MountUnlockKeeperMap(map[string]ccmtypes.UnlockKeeper{
 		btcxtypes.ModuleName:      app.BtcxKeeper,
 		lockproxytypes.ModuleName: app.LockproxyKeeper,

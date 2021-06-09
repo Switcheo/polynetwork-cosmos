@@ -1,6 +1,8 @@
 package lockproxy
 
 import (
+	"bytes"
+	"encoding/hex"
 	"fmt"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/keeper"
@@ -10,7 +12,48 @@ import (
 
 // InitGenesis initializes the capability module's state from a provided genesis
 // state.
-func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
+func InitGenesis(ctx sdk.Context, ak types.AccountKeeper, k keeper.Keeper, genState types.GenesisState) {
+	// check if the module account exists
+	moduleAcc := ak.GetModuleAddress(types.ModuleName)
+	if moduleAcc == nil {
+		panic(fmt.Sprintf("initGenesis error: %s module account has not been set", types.ModuleName))
+	}
+
+	store := k.Store(ctx)
+
+	k.SetNonce(ctx, genState.Nonce)
+
+	for _k, v := range genState.Operators {
+		operator, err := sdk.AccAddressFromBech32(_k)
+		if err != nil {
+			panic(err)
+		}
+
+		if bytes.Compare(operator.Bytes(), v) != 0 {
+			panic("Invalid operator bytes in init genesis!")
+		}
+
+		store.Set(keeper.GetOperatorToLockProxyKey(operator), v)
+	}
+
+	// set chain ids directly
+	for _k, v := range genState.ChainIds {
+		key, err := hex.DecodeString(_k)
+		if err != nil {
+			panic(err)
+		}
+		store.Set(key, v)
+	}
+
+	// set registries directly
+	for _k, v := range genState.Registries {
+		key, err := hex.DecodeString(_k)
+		if err != nil {
+			panic(err)
+		}
+		store.Set(key, v)
+	}
+
 	// this line is used by starport scaffolding # genesis/module/init
 
 	// this line is used by starport scaffolding # ibc/genesis/init

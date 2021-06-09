@@ -26,6 +26,7 @@ const (
 	AttributeKeyProxyHash    = "lock_proxy_hash"
 
 	EventTypeCreateAndDelegateCoinToProxy = "create_and_delegate_coin_to_proxy"
+	EventTypeSyncRegisteredAsset          = "sync_registered_asset"
 
 	EventTypeBindProxy           = "bind_proxy_hash"
 	AttributeKeyLockProxy        = "lock_proxy_hash"

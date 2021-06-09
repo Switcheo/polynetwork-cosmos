@@ -3,6 +3,7 @@ package lockproxy
 import (
 	"encoding/json"
 	"fmt"
+
 	// this line is used by starport scaffolding # 1
 
 	"github.com/gorilla/mux"
@@ -102,13 +103,15 @@ func (AppModuleBasic) GetQueryCmd() *cobra.Command {
 type AppModule struct {
 	AppModuleBasic
 
-	keeper keeper.Keeper
+	keeper        keeper.Keeper
+	accountKeeper types.AccountKeeper
 }
 
-func NewAppModule(cdc codec.Marshaler, keeper keeper.Keeper) AppModule {
+func NewAppModule(cdc codec.Marshaler, keeper keeper.Keeper, ak types.AccountKeeper) AppModule {
 	return AppModule{
 		AppModuleBasic: NewAppModuleBasic(cdc),
 		keeper:         keeper,
+		accountKeeper:  ak,
 	}
 }
 
@@ -146,7 +149,7 @@ func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONMarshaler, gs jso
 	// Initialize global index to index in genesis state
 	cdc.MustUnmarshalJSON(gs, &genState)
 
-	InitGenesis(ctx, am.keeper, genState)
+	InitGenesis(ctx, am.accountKeeper, am.keeper, genState)
 
 	return []abci.ValidatorUpdate{}
 }

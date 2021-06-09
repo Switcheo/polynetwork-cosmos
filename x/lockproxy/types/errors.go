@@ -19,6 +19,7 @@ var (
 	ErrAlreadyCreatedType               = sdkerrors.Register(ModuleName, 7, "ErrAlreadyCreatedType")
 	ErrAlreadyRegisteredType            = sdkerrors.Register(ModuleName, 8, "ErrAlreadyRegisteredType")
 	ErrRegisterAssetType                = sdkerrors.Register(ModuleName, 9, "ErrRegisterAssetType")
+	ErrSyncRegisteredAssetType          = sdkerrors.Register(ModuleName, 10, "ErrSyncRegisteredAssetType")
 	// this line is used by starport scaffolding # ibc/errors
 )
 
@@ -56,4 +57,8 @@ func ErrAlreadyRegistered(reason string) error {
 
 func ErrRegisterAsset(reason string) error {
 	return sdkerrors.Wrapf(ErrRegisterAssetType, fmt.Sprintf("Reason: %s", reason))
+}
+
+func ErrSyncRegisteredAsset(reason string) error {
+	return sdkerrors.Wrapf(ErrSyncRegisteredAssetType, fmt.Sprintf("Reason: %s", reason))
 }
