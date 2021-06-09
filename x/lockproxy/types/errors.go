@@ -18,6 +18,7 @@ var (
 	ErrCreateCoinAndDelegateToProxyType = sdkerrors.Register(ModuleName, 6, "ErrCreateCoinAndDelegateToProxyType")
 	ErrAlreadyCreatedType               = sdkerrors.Register(ModuleName, 7, "ErrAlreadyCreatedType")
 	ErrAlreadyRegisteredType            = sdkerrors.Register(ModuleName, 8, "ErrAlreadyRegisteredType")
+	ErrRegisterAssetType                = sdkerrors.Register(ModuleName, 9, "ErrRegisterAssetType")
 	// this line is used by starport scaffolding # ibc/errors
 )
 
@@ -51,4 +52,8 @@ func ErrAlreadyCreated(reason string) error {
 
 func ErrAlreadyRegistered(reason string) error {
 	return sdkerrors.Wrapf(ErrAlreadyRegisteredType, fmt.Sprintf("Reason: %s", reason))
+}
+
+func ErrRegisterAsset(reason string) error {
+	return sdkerrors.Wrapf(ErrRegisterAssetType, fmt.Sprintf("Reason: %s", reason))
 }

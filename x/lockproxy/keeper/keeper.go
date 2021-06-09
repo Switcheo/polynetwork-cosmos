@@ -131,6 +131,13 @@ func (k Keeper) updateRegistry(ctx sdk.Context, lockProxyHash []byte, assetHash 
 	return nil
 }
 
+// RegisterAsset registers an asset based on the polynetwork lock proxy architecture. However,
+// this lockproxy uses the PIP-1 implementation for permssionless registration, and registerations
+// from a non-source chain is disallowed. As such this method will always returns an error.
+func (k Keeper) RegisterAsset(ctx sdk.Context, fromChainID uint64, fromContractAddr []byte, toContractAddr []byte, argsBs []byte) error {
+	return types.ErrRegisterAsset("asset registration disallowed")
+}
+
 // AssetIsRegistered returns whether the given assetID, chainID, denom, denom creator tuple has been registered.
 func (k Keeper) AssetIsRegistered(ctx sdk.Context, lockProxyHash []byte, assetHash []byte,
 	nativeChainId uint64, nativeLockProxyHash []byte, nativeAssetHash []byte) bool {
