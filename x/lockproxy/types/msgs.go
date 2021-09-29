@@ -117,21 +117,23 @@ func (msg *MsgBind) GetSignBytes() []byte {
 }
 
 // NewMsgLock returns a new MsgLock.
-func NewMsgLock(lockProxyHash []byte, fromAddress string, denom string, toChainId uint64,
-	toChainProxyHash []byte, toChainAssetHash []byte, toAddressBytes []byte,
-	value sdk.Int, deductFeeInLock bool, feeAmount sdk.Int, feeAddress string) *MsgLock {
+func NewMsgLock(denom string,
+	fromLockProxy, fromAssetId []byte, fromAddress string,
+	toChainId uint64, toLockProxy, toAssetId, toAddress []byte,
+	amount sdk.Int, deductFeeInLock bool, feeAmount sdk.Int, feeAddress string) *MsgLock {
 	return &MsgLock{
-		LockProxyHash:    lockProxyHash,
-		FromAddress:      fromAddress,
-		Denom:            denom,
-		ToChainId:        toChainId,
-		ToChainProxyHash: toChainProxyHash,
-		ToChainAssetHash: toChainAssetHash,
-		ToAddressBytes:   toAddressBytes,
-		Value:            value,
-		DeductFeeInLock:  deductFeeInLock,
-		FeeAmount:        feeAmount,
-		FeeAddress:       feeAddress,
+		Denom:           denom,
+		FromLockProxy:   fromLockProxy,
+		FromAssetId:     fromAssetId,
+		FromAddress:     fromAddress,
+		ToChainId:       toChainId,
+		ToLockProxy:     toLockProxy,
+		ToAssetId:       toAssetId,
+		ToAddress:       toAddress,
+		Amount:          amount,
+		DeductFeeInLock: deductFeeInLock,
+		FeeAmount:       feeAmount,
+		FeeAddress:      feeAddress,
 	}
 }
 
@@ -143,37 +145,40 @@ func (msg *MsgLock) Type() string { return "Lock" }
 
 // ValidateBasic implements Msg.
 func (msg *MsgLock) ValidateBasic() error {
-	if len(msg.LockProxyHash) == 0 {
-		return ErrMsgLock("Empty LockProxyHash")
+	if msg.Denom == "" {
+		return ErrMsgLock("Empty Denom")
+	}
+	if len(msg.FromLockProxy) == 0 {
+		return ErrMsgLock("Empty FromLockProxy")
+	}
+	if len(msg.FromAssetId) == 0 {
+		return ErrMsgLock("Empty FromAssetId")
 	}
 	_, err := sdk.AccAddressFromBech32(msg.FromAddress)
 	if err != nil {
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid from address (%s), error: %v", msg.FromAddress, err))
 	}
-	if msg.Denom == "" {
-		return ErrMsgLock("Empty Denom")
-	}
 	if msg.ToChainId <= 0 {
 		return ErrInvalidChainId(msg.ToChainId)
 	}
-	if len(msg.ToChainProxyHash) == 0 {
-		return ErrMsgLock("Empty ToChainProxyHash")
+	if len(msg.ToLockProxy) == 0 {
+		return ErrMsgLock("Empty ToLockProxy")
 	}
-	if len(msg.ToChainAssetHash) == 0 {
-		return ErrMsgLock("Empty ToChainAssetHash")
+	if len(msg.ToAssetId) == 0 {
+		return ErrMsgLock("Empty ToAssetId")
 	}
-	if len(msg.ToAddressBytes) == 0 {
-		return ErrMsgLock("Empty ToAssetHash")
+	if len(msg.ToAddress) == 0 {
+		return ErrMsgLock("Empty ToAddress")
 	}
-	if !msg.Value.IsPositive() {
-		return ErrMsgLock(fmt.Sprintf("value (%s) should be positive", msg.Value.String()))
+	if !msg.Amount.IsPositive() {
+		return ErrMsgLock(fmt.Sprintf("amount (%s) should be positive", msg.Amount.String()))
 	}
 	if msg.DeductFeeInLock {
 		if !msg.FeeAmount.IsPositive() {
 			return ErrMsgLock(fmt.Sprintf("feeAmount (%s) should be negative when deducting fee in lock", msg.FeeAmount.String()))
 		}
-		if msg.FeeAmount.LTE(msg.Value) {
-			return ErrMsgLock(fmt.Sprintf("feeAmount (%s) should be more than value (%s)", msg.FeeAmount.String(), msg.Value.String()))
+		if msg.FeeAmount.LTE(msg.Amount) {
+			return ErrMsgLock(fmt.Sprintf("feeAmount (%s) should be more than amount (%s)", msg.FeeAmount.String(), msg.Amount.String()))
 		}
 		_, err = sdk.AccAddressFromBech32(msg.FeeAddress)
 		if err != nil {

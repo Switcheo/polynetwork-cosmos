@@ -26,7 +26,7 @@ const (
 	AttributeKeyFromAddress     = "from_address"
 	AttributeKeyFromContract    = "from_contract"
 	AttributeKeyToChainId       = "to_chain_id"
-	AttributeCrossChainId       = "cross_chainID"
+	AttributeCrossChainId       = "cross_chain_id"
 	AttributeKeyTxParamHash     = "make_tx_param_hash"
 	AttributeKeyMakeTxParam     = "make_tx_param"
 

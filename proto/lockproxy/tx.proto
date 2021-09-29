@@ -40,25 +40,26 @@ message MsgBindResponse { }
 message MsgLock {
   option (gogoproto.goproto_getters) = false;
 
-  bytes lock_proxy_hash = 1 [(gogoproto.moretags) = "yaml:\"lock_proxy_hash\""];
-  string from_address = 2 [(gogoproto.moretags) = "yaml:\"from_address\""];
-  string denom = 3;
-	uint64 to_chain_id = 4 [(gogoproto.moretags) = "yaml:\"to_chain_id\""];
-	bytes to_chain_proxy_hash = 5 [(gogoproto.moretags) = "yaml:\"to_chain_proxy_hash\""];
-	bytes to_chain_asset_hash = 6 [(gogoproto.moretags) = "yaml:\"to_chain_asset_hash\""];
-	bytes to_address_bytes = 7 [(gogoproto.moretags) = "yaml:\"to_address_bytes\""];
-  string value = 8 [
+  string denom = 1;
+  bytes from_lock_proxy = 2 [(gogoproto.moretags) = "yaml:\"from_lock_proxy\""];
+  string from_address = 3 [(gogoproto.moretags) = "yaml:\"from_address\""];
+  bytes from_asset_id = 4 [(gogoproto.moretags) = "yaml:\"from_asset_id\""];
+	uint64 to_chain_id = 5 [(gogoproto.moretags) = "yaml:\"to_chain_id\""];
+	bytes to_lock_proxy = 6 [(gogoproto.moretags) = "yaml:\"to_lock_proxy\""];
+	bytes to_asset_id = 7 [(gogoproto.moretags) = "yaml:\"to_asset_id\""];
+	bytes to_address = 8 [(gogoproto.moretags) = "yaml:\"to_address\""];
+  string amount = 9 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
-    (gogoproto.moretags)   = "yaml:\"value\"",
+    (gogoproto.moretags)   = "yaml:\"amount\"",
     (gogoproto.nullable)   = false
   ];
-	bool deduct_fee_in_lock = 9;
-	string fee_amount = 10 [
+	bool deduct_fee_in_lock = 10;
+	string fee_amount = 11 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.moretags)   = "yaml:\"fee_amount\"",
     (gogoproto.nullable)   = false
   ];
-	string fee_address = 11  [(gogoproto.moretags) = "yaml:\"fee_address\""];
+	string fee_address = 12  [(gogoproto.moretags) = "yaml:\"fee_address\""];
 }
 
 message MsgLockResponse { }

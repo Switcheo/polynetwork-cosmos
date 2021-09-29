@@ -109,7 +109,7 @@ func (k Keeper) GetLockProxy(ctx sdk.Context, operator sdk.AccAddress) []byte {
 	return proxyBytes
 }
 
-func (k Keeper) updateRegistry(ctx sdk.Context, lockProxyHash []byte, assetHash []byte,
+func (k Keeper) updateRegistry(ctx sdk.Context, denom string, lockProxyHash []byte, assetHash []byte,
 	nativeChainId uint64, nativeLockProxyHash []byte, nativeAssetHash []byte) error {
 	if k.AssetIsRegistered(ctx, lockProxyHash, assetHash, nativeChainId, nativeLockProxyHash, nativeAssetHash) {
 		return types.ErrAlreadyRegistered(
@@ -118,7 +118,7 @@ func (k Keeper) updateRegistry(ctx sdk.Context, lockProxyHash []byte, assetHash 
 
 	store := ctx.KVStore(k.storeKey)
 	registryKey := GetRegistryKey(lockProxyHash, assetHash, nativeChainId, nativeLockProxyHash, nativeAssetHash)
-	store.Set(registryKey, []byte("1"))
+	store.Set(registryKey, []byte(denom))
 
 	// GetBindChainIdKey is used in ContainToContractAddr to check when to return true
 	// this will allow the module to be called by the ccm keeper to handle the appropriate cross-chain txns
@@ -137,13 +137,23 @@ func (k Keeper) RegisterAsset(ctx sdk.Context, fromChainID uint64, fromContractA
 	return types.ErrRegisterAsset("asset registration disallowed")
 }
 
-// AssetIsRegistered returns whether the given assetID, chainID, denom, denom creator tuple has been registered.
-func (k Keeper) AssetIsRegistered(ctx sdk.Context, lockProxyHash []byte, assetHash []byte,
-	nativeChainId uint64, nativeLockProxyHash []byte, nativeAssetHash []byte) bool {
+// AssetIsRegistered returns whether the given lockProxy, assetID, chainID, nativeLockProxy, nativeAssetID tuple has been registered.
+func (k Keeper) AssetIsRegistered(ctx sdk.Context, lockProxy []byte, assetId []byte,
+	nativeChainId uint64, nativeLockProxy []byte, nativeAssetId []byte) bool {
 	store := ctx.KVStore(k.storeKey)
-	key := GetRegistryKey(lockProxyHash, assetHash, nativeChainId, nativeLockProxyHash, nativeAssetHash)
+	key := GetRegistryKey(lockProxy, assetId, nativeChainId, nativeLockProxy, nativeAssetId)
 	registryBytes := store.Get(key)
 	return len(registryBytes) != 0
+}
+
+// GetAssetDenom gets the denom for the given lockProxy, assetID, chainID, nativeLockProxy, nativeAssetID tuple.
+func (k Keeper) GetAssetDenom(ctx sdk.Context, lockProxy []byte, assetId []byte,
+	nativeChainId uint64, nativeLockProxy []byte, nativeAssetId []byte) string {
+	store := ctx.KVStore(k.storeKey)
+	key := GetRegistryKey(lockProxy, assetId, nativeChainId, nativeLockProxy, nativeAssetId)
+	registryBytes := store.Get(key)
+
+	return string(registryBytes)
 }
 
 // CreateCoinAndDelegateToProxy creates a new coin for a given creator and registers it to the given lock contract and asset on the native chain.
@@ -158,7 +168,7 @@ func (k Keeper) CreateCoinAndDelegateToProxy(ctx sdk.Context, creator sdk.AccAdd
 
 	k.ck.SetDenomCreator(ctx, denom, creator)
 
-	if err := k.updateRegistry(ctx, lockproxyHash, []byte(denom), nativeChainId, nativeLockProxyHash, nativeAssetHash); err != nil {
+	if err := k.updateRegistry(ctx, denom, lockproxyHash, []byte(denom), nativeChainId, nativeLockProxyHash, nativeAssetHash); err != nil {
 		return err
 	}
 
@@ -179,7 +189,7 @@ func (k Keeper) CreateCoinAndDelegateToProxy(ctx sdk.Context, creator sdk.AccAdd
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
 			types.EventTypeCreateAndDelegateCoinToProxy,
-			sdk.NewAttribute(types.AttributeKeySourceAssetDenom, denom),
+			sdk.NewAttribute(types.AttributeKeyDenom, denom),
 			sdk.NewAttribute(types.AttributeKeyCreator, creator.String()),
 		),
 	})
@@ -187,9 +197,7 @@ func (k Keeper) CreateCoinAndDelegateToProxy(ctx sdk.Context, creator sdk.AccAdd
 }
 
 // SyncRegisteredAsset syncs the registerAsset tx of an already registered asset to the native chain.
-func (k Keeper) SyncRegisteredAsset(ctx sdk.Context, syncer sdk.AccAddress, nativeChainID uint64, denom string, nativeAssetHash, lockProxyHash, nativeLockProxyHash []byte) error {
-	assetHash := []byte(denom)
-
+func (k Keeper) SyncRegisteredAsset(ctx sdk.Context, syncer sdk.AccAddress, nativeChainID uint64, assetHash, nativeAssetHash, lockProxyHash, nativeLockProxyHash []byte) error {
 	// ensure the asset is indeed registered
 	if !k.AssetIsRegistered(ctx, lockProxyHash, assetHash, nativeChainID, nativeLockProxyHash, nativeAssetHash) {
 		return types.ErrSyncRegisteredAsset(fmt.Sprintf("asset not yet registered %x, %x, %d, %x, %x", lockProxyHash, assetHash, nativeChainID, nativeLockProxyHash, nativeAssetHash))
@@ -218,7 +226,7 @@ func (k Keeper) SyncRegisteredAsset(ctx sdk.Context, syncer sdk.AccAddress, nati
 			sdk.NewAttribute(types.AttributeKeyAssetHash, hex.EncodeToString(assetHash)),
 			sdk.NewAttribute(types.AttributeKeyNativeAssetHash, hex.EncodeToString(nativeAssetHash)),
 			sdk.NewAttribute(types.AttributeKeyProxyHash, hex.EncodeToString(lockProxyHash)),
-			sdk.NewAttribute(types.AttributeKeyToChainProxyHash, hex.EncodeToString(nativeLockProxyHash)),
+			sdk.NewAttribute(types.AttributeKeyToLockProxy, hex.EncodeToString(nativeLockProxyHash)),
 		),
 	})
 
@@ -255,40 +263,48 @@ func (k Keeper) getNextNonce(ctx sdk.Context) sdk.Int {
 // LockAsset sends tokens to this module, releasing it on the toChain.
 // The tokens are burnt in this module to give the correct global supply.
 // CONTRACT: values and addresses should already be statically validated.
-func (k Keeper) LockAsset(ctx sdk.Context, lockProxyHash []byte, fromAddress sdk.AccAddress, sourceAssetDenom string,
-	toChainId uint64, toChainProxyHash []byte, toChainAssetHash []byte, toAddressBs []byte,
-	value sdk.Int, deductFeeInLock bool, feeAmount sdk.Int, feeAddress sdk.AccAddress) error {
-	if !k.LockProxyExists(ctx, lockProxyHash) {
-		return types.ErrLock(fmt.Sprintf("lockproxy does not exist: %x", lockProxyHash))
+func (k Keeper) LockAsset(ctx sdk.Context, denom string,
+	fromLockProxy, fromAssetId []byte, fromAddress sdk.AccAddress,
+	toChainId uint64, toLockProxy, toAssetId, toAddress []byte,
+	amount sdk.Int, deductFeeInLock bool, feeAmount sdk.Int, feeAddress sdk.AccAddress) error {
+	if !k.LockProxyExists(ctx, fromLockProxy) {
+		return types.ErrLock(fmt.Sprintf("lockproxy does not exist: %x", fromLockProxy))
+	}
+
+	if assetDenom := k.GetAssetDenom(ctx, fromLockProxy, fromAssetId, toChainId, toLockProxy, toAssetId); denom != assetDenom {
+		return types.ErrLock(fmt.Sprintf("asset is not registered to the denom: %s", denom))
 	}
 
 	nonce := k.getNextNonce(ctx)
 	args := types.TxArgs{
 		FromAddress:   fromAddress,
-		FromAssetHash: []byte(sourceAssetDenom),
-		ToAssetHash:   toChainAssetHash,
-		ToAddress:     toAddressBs,
-		Amount:        value.BigInt(),
+		FromAssetHash: fromAssetId,
+		ToAssetHash:   toAssetId,
+		ToAddress:     toAddress,
+		Amount:        amount.BigInt(),
 		FeeAmount:     feeAmount.BigInt(),
 		FeeAddress:    feeAddress,
 		Nonce:         nonce.BigInt(),
 	}
 
-	afterFeeAmount := value
+	amountAfterFees := amount
 	if deductFeeInLock {
-		afterFeeAmount = value.Sub(feeAmount)
-		feeCoins := sdk.NewCoins(sdk.NewCoin(sourceAssetDenom, feeAmount))
+		amountAfterFees = amount.Sub(feeAmount)
+		if !amountAfterFees.IsZero() {
+			return types.ErrLock("Requested amount must be more than zero after fees")
+		}
+		feeCoins := sdk.NewCoins(sdk.NewCoin(denom, feeAmount))
 		err := k.bk.SendCoins(ctx, fromAddress, feeAddress, feeCoins)
 		if err != nil {
-			return types.ErrLock(fmt.Sprintf("bankKeeper.SendCoins Error: from: %s, amount: %s", fromAddress.String(), feeCoins.String()))
+			return types.ErrLock(fmt.Sprintf("bankKeeper.SendCoins error: from: %s, amount: %s", fromAddress.String(), feeCoins.String()))
 		}
 
-		args.Amount = afterFeeAmount.BigInt()
+		args.Amount = amountAfterFees.BigInt()
 		args.FeeAmount = big.NewInt(0)
 	}
 
 	// send coin of sourceAssetDenom from fromAddress to module account address
-	amountCoins := sdk.NewCoins(sdk.NewCoin(sourceAssetDenom, afterFeeAmount))
+	amountCoins := sdk.NewCoins(sdk.NewCoin(denom, amountAfterFees))
 	if err := k.bk.SendCoinsFromAccountToModule(ctx, fromAddress, types.ModuleName, amountCoins); err != nil {
 		return types.ErrLock(fmt.Sprintf(
 			"Failed to send %s from account %s to module account %s (%s). Error: %v",
@@ -302,31 +318,31 @@ func (k Keeper) LockAsset(ctx sdk.Context, lockProxyHash []byte, fromAddress sdk
 
 	sink := polycommon.NewZeroCopySink(nil)
 	if err := args.Serialize(sink, 32); err != nil {
-		return types.ErrLock(fmt.Sprintf("TxArgs.Serialize error:%v", err))
+		return types.ErrLock(fmt.Sprintf("args.Serialize error:%v", err))
 	}
 
-	fromContractHash := lockProxyHash
-	if err := k.ck.CreateCrossChainTx(ctx, fromAddress, toChainId, fromContractHash, toChainProxyHash, "unlock", sink.Bytes()); err != nil {
+	if err := k.ck.CreateCrossChainTx(ctx, fromAddress, toChainId, fromLockProxy, toLockProxy, "unlock", sink.Bytes()); err != nil {
 		return types.ErrLock(fmt.Sprintf("ccmKeeper.CreateCrossChainTx error: toChainId: %d, fromContractHash: %x, toChainProxyHash: %x, args: %x",
-			toChainId, fromContractHash, toChainProxyHash, args))
+			toChainId, fromLockProxy, toLockProxy, args))
 	}
 
-	if !k.AssetIsRegistered(ctx, lockProxyHash, []byte(sourceAssetDenom), toChainId, toChainProxyHash, toChainAssetHash) {
+	if !k.AssetIsRegistered(ctx, fromLockProxy, fromAssetId, toChainId, toLockProxy, toAssetId) {
 		return types.ErrLock(fmt.Sprintf("asset not registered: lockProxyHash: %s, denom: %s, toChainId: %d, toChainProxyHash: %s, toChainAssetHash: %s",
-			string(lockProxyHash), sourceAssetDenom, toChainId, hex.EncodeToString(toChainProxyHash), hex.EncodeToString(toChainAssetHash)))
+			string(fromLockProxy), fromAssetId, toChainId, hex.EncodeToString(toLockProxy), hex.EncodeToString(toAssetId)))
 	}
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
 			types.EventTypeLock,
-			sdk.NewAttribute(types.AttributeKeyFromContractHash, hex.EncodeToString([]byte(sourceAssetDenom))),
-			sdk.NewAttribute(types.AttributeKeyToChainId, strconv.FormatUint(toChainId, 10)),
-			sdk.NewAttribute(types.AttributeKeyToChainProxyHash, hex.EncodeToString(toChainProxyHash)),
-			sdk.NewAttribute(types.AttributeKeyToChainAssetHash, hex.EncodeToString(toChainAssetHash)),
+			sdk.NewAttribute(types.AttributeKeyDenom, denom),
+			sdk.NewAttribute(types.AttributeKeyFromLockProxy, hex.EncodeToString(fromLockProxy)),
+			sdk.NewAttribute(types.AttributeKeyFromAssetId, hex.EncodeToString(fromAssetId)),
 			sdk.NewAttribute(types.AttributeKeyFromAddress, fromAddress.String()),
-			sdk.NewAttribute(types.AttributeKeyToAddress, hex.EncodeToString(toAddressBs)),
-			sdk.NewAttribute(types.AttributeKeyAmount, value.String()),
-			sdk.NewAttribute(types.AttributeKeyLockProxy, hex.EncodeToString(fromContractHash)),
+			sdk.NewAttribute(types.AttributeKeyToChainId, strconv.FormatUint(toChainId, 10)),
+			sdk.NewAttribute(types.AttributeKeyToLockProxy, hex.EncodeToString(toLockProxy)),
+			sdk.NewAttribute(types.AttributeKeyToAssetId, hex.EncodeToString(toAssetId)),
+			sdk.NewAttribute(types.AttributeKeyToAddress, hex.EncodeToString(toAddress)),
+			sdk.NewAttribute(types.AttributeKeyAmount, amount.String()),
 			sdk.NewAttribute(types.AttributeKeyFeeAmount, feeAmount.String()),
 			sdk.NewAttribute(types.AttributeKeyFeeAddress, feeAddress.String()),
 			sdk.NewAttribute(types.AttributeKeyNonce, nonce.String()),
@@ -341,7 +357,7 @@ func (k Keeper) LockAsset(ctx sdk.Context, lockProxyHash []byte, fromAddress sdk
 func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk.AccAddress, toContractAddr []byte, argsBs []byte) error {
 	args := new(types.TxArgs)
 	if err := args.Deserialize(polycommon.NewZeroCopySource(argsBs), 32); err != nil {
-		return types.ErrUnlock(fmt.Sprintf("TxArgs.Deserialize error:%s", err))
+		return types.ErrUnlock(fmt.Sprintf("args.Deserialize error:%s", err))
 	}
 	fromAssetHash := args.FromAssetHash
 	toAssetHash := args.ToAssetHash
@@ -350,13 +366,11 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk
 	feeAmount := sdk.NewIntFromBigInt(args.FeeAmount)
 	nonce := sdk.NewIntFromBigInt(args.Nonce)
 
-	if !k.AssetIsRegistered(ctx, toContractAddr, toAssetHash, fromChainId, fromContractAddr, fromAssetHash) {
+	toAssetDenom := k.GetAssetDenom(ctx, toContractAddr, toAssetHash, fromChainId, fromContractAddr, fromAssetHash)
+	if toAssetDenom == "" {
 		return types.ErrUnlock(fmt.Sprintf("asset not registered: toContractAddr: %s, toAssetHash: %s, fromChainId: %d, fromContractAddr: %s, fromAssetHash: %s",
 			string(toContractAddr), toAssetHash, fromChainId, hex.EncodeToString(fromContractAddr), hex.EncodeToString(fromAssetHash)))
 	}
-
-	// to asset hash should be the hex format string of source asset denom name, NOT Module account address
-	toAssetDenom := string(toAssetHash)
 
 	toAcctAddress := make(sdk.AccAddress, len(toAddress))
 	copy(toAcctAddress, toAddress)
@@ -401,11 +415,11 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
 			types.EventTypeUnlock,
-			sdk.NewAttribute(types.AttributeKeyToChainAssetHash, hex.EncodeToString([]byte(toAssetDenom))),
+			sdk.NewAttribute(types.AttributeKeyToAssetId, hex.EncodeToString([]byte(toAssetDenom))),
 			sdk.NewAttribute(types.AttributeKeyToAddress, toAcctAddress.String()),
 			sdk.NewAttribute(types.AttributeKeyAmount, amount.String()),
 			sdk.NewAttribute(types.AttributeKeyFromAddress, fromAcctAddress.String()),
-			sdk.NewAttribute(types.AttributeKeySourceAssetHash, hex.EncodeToString(fromAssetHash)),
+			sdk.NewAttribute(types.AttributeKeyFromAssetId, hex.EncodeToString(fromAssetHash)),
 			sdk.NewAttribute(types.AttributeKeyFeeAmount, feeAmount.String()),
 			sdk.NewAttribute(types.AttributeKeyFeeAddress, feeAddressAcc.String()),
 			sdk.NewAttribute(types.AttributeKeyNonce, nonce.String()),

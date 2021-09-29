@@ -78,9 +78,9 @@ func (k Keeper) Lock(c context.Context, req *types.MsgLock) (res *types.MsgLockR
 
 	ctx := sdk.UnwrapSDKContext(c)
 
-	if err := k.LockAsset(ctx, req.LockProxyHash, fromAddress, req.Denom,
-		req.ToChainId, req.ToChainProxyHash, req.ToChainAssetHash, req.ToAddressBytes,
-		req.Value, req.DeductFeeInLock, req.FeeAmount, feeAddress); err != nil {
+	if err := k.LockAsset(ctx, req.Denom, req.FromLockProxy, req.FromAssetId, fromAddress,
+		req.ToChainId, req.ToLockProxy, req.ToAssetId, req.ToAddress,
+		req.Amount, req.DeductFeeInLock, req.FeeAmount, feeAddress); err != nil {
 		return nil, err
 	}
 
