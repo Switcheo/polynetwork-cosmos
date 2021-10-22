@@ -30,7 +30,7 @@ type GenesisState struct {
 	Nonce github_com_cosmos_cosmos_sdk_types.Int `protobuf:"bytes,1,opt,name=nonce,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Int" json:"nonce"`
 	// Records chainIDs (value is always []byte("1") if exists)
 	ChainIds map[string][]byte `protobuf:"bytes,2,rep,name=chain_ids,json=chainIds,proto3" json:"chain_ids,omitempty" yaml:"chain_ids" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// Records registries (value is always []byte("1") if exists)
+	// Records registries (value is []byte(denom))
 	Registries map[string][]byte `protobuf:"bytes,3,rep,name=registries,proto3" json:"registries,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Records operators (value is operator address as bytes)
 	Operators map[string][]byte `protobuf:"bytes,4,rep,name=operators,proto3" json:"operators,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
