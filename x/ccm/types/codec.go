@@ -9,12 +9,14 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	// this line is used by starport scaffolding # 2
-
+	cdc.RegisterConcrete(&MsgProcessCrossChainTx{}, "ccm/ProcessCrossChainTx", nil)
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	// this line is used by starport scaffolding # 3
-	registry.RegisterImplementations((*sdk.Msg)(nil))
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgProcessCrossChainTx{},
+	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
