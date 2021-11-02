@@ -21,7 +21,7 @@ import (
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
+		cdc      codec.Codec
 		storeKey sdk.StoreKey
 		memKey   sdk.StoreKey
 		ak       types.AssetKeeper
@@ -33,7 +33,7 @@ type (
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	bk types.BankKeeper,
 	hsk types.HeaderSyncKeeper,
 	storeKey,
@@ -89,12 +89,12 @@ func (k Keeper) GetDenomCreator(ctx sdk.Context, denom string) (addr sdk.AccAddr
 }
 
 func (k Keeper) ExistDenom(ctx sdk.Context, denom string) (string, bool) {
-	storedSupplyCoins := k.bk.GetSupply(ctx).GetTotal()
+	storedSupplyCoin := k.bk.GetSupply(ctx, denom)
 	if len(k.GetDenomCreator(ctx, denom)) != 0 {
 		return fmt.Sprintf("ccmKeeper.GetDenomCreator(ctx,%s) is %s", denom, sdk.AccAddress(k.GetDenomCreator(ctx, denom)).String()), true
 	}
-	if !storedSupplyCoins.AmountOf(denom).Equal(sdk.ZeroInt()) {
-		return fmt.Sprintf("supply.AmountOf(%s) is %s", denom, storedSupplyCoins.AmountOf(denom).String()), true
+	if !storedSupplyCoin.Equal(sdk.ZeroInt()) {
+		return fmt.Sprintf("supply.AmountOf(%s) is %s", denom, storedSupplyCoin.String()), true
 	}
 	return "", false
 }

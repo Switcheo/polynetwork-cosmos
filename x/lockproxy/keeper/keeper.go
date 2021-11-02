@@ -20,7 +20,7 @@ import (
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
+		cdc      codec.Codec
 		ak       types.AccountKeeper
 		bk       types.BankKeeper
 		ck       types.CCMKeeper
@@ -39,7 +39,7 @@ var (
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	ck types.CCMKeeper,

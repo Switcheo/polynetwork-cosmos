@@ -19,7 +19,7 @@ import (
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
+		cdc      codec.Codec
 		ak       types.AccountKeeper
 		bk       types.BankKeeper
 		ck       types.CCMKeeper
@@ -29,7 +29,7 @@ type (
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	ck types.CCMKeeper,
@@ -216,7 +216,7 @@ func (k Keeper) GetDenomInfo(ctx sdk.Context, denom string) (denomInfo types.Den
 	denomInfo.Creator = operator.String()
 	denomInfo.Denom = denom
 	denomInfo.AssetHash = hex.EncodeToString([]byte(denom))
-	denomInfo.TotalSupply = k.bk.GetSupply(ctx).GetTotal().AmountOf(denom)
+	denomInfo.TotalSupply = k.bk.GetSupply(ctx, denom).Amount
 	redeemHash := store.Get(GetCreatorDenomToScriptHashKey(store.Get(GetDenomToCreatorKey(denom)), denom))
 	denomInfo.RedeemScriptHash = hex.EncodeToString(redeemHash)
 	denomInfo.RedeemScript = hex.EncodeToString(store.Get(GetScriptHashToRedeemScript(redeemHash)))
