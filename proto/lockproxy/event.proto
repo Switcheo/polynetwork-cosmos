@@ -1,0 +1,32 @@
+syntax = "proto3";
+package Switcheo.polynetworkcosmos.lockproxy;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
+
+message LockEvent {
+    string denom = 1;
+    string from_lock_proxy = 2 [(gogoproto.moretags) = "yaml:\"from_lock_proxy\""];
+    string from_asset_id = 3 [(gogoproto.moretags) = "yaml:\"from_asset_id\""];
+    string from_address = 4 [(gogoproto.moretags) = "yaml:\"from_address\""];
+    string to_chain_id = 5 [(gogoproto.moretags) = "yaml:\"to_chain_id\""];
+    string to_lock_proxy = 6 [(gogoproto.moretags) = "yaml:\"to_lock_proxy\""];
+    string to_asset_id = 7 [(gogoproto.moretags) = "yaml:\"to_asset_id\""];
+    string to_address = 8 [(gogoproto.moretags) = "yaml:\"to_address\""];
+    string amount = 9;
+    string fee_amount = 10 [(gogoproto.moretags) = "yaml:\"fee_amount\""];
+    string fee_address = 11 [(gogoproto.moretags) = "yaml:\"fee_address\""];
+    string nonce = 12;
+}
+
+message UnlockEvent {
+    string to_asset_id = 1 [(gogoproto.moretags) = "yaml:\"to_asset_id\""];
+    string to_address = 2 [(gogoproto.moretags) = "yaml:\"to_address\""];
+    string amount = 3;
+    string from_address = 4 [(gogoproto.moretags) = "yaml:\"from_address\""];
+    string from_asset_id = 5 [(gogoproto.moretags) = "yaml:\"from_asset_id\""];
+    string fee_amount = 6 [(gogoproto.moretags) = "yaml:\"fee_amount\""];
+    string fee_address = 7 [(gogoproto.moretags) = "yaml:\"fee_address\""];
+    string nonce = 8;
+}

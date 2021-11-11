@@ -331,22 +331,19 @@ func (k Keeper) LockAsset(ctx sdk.Context, denom string,
 			string(fromLockProxy), fromAssetId, toChainId, hex.EncodeToString(toLockProxy), hex.EncodeToString(toAssetId)))
 	}
 
-	ctx.EventManager().EmitEvents(sdk.Events{
-		sdk.NewEvent(
-			types.EventTypeLock,
-			sdk.NewAttribute(types.AttributeKeyDenom, denom),
-			sdk.NewAttribute(types.AttributeKeyFromLockProxy, hex.EncodeToString(fromLockProxy)),
-			sdk.NewAttribute(types.AttributeKeyFromAssetId, hex.EncodeToString(fromAssetId)),
-			sdk.NewAttribute(types.AttributeKeyFromAddress, fromAddress.String()),
-			sdk.NewAttribute(types.AttributeKeyToChainId, strconv.FormatUint(toChainId, 10)),
-			sdk.NewAttribute(types.AttributeKeyToLockProxy, hex.EncodeToString(toLockProxy)),
-			sdk.NewAttribute(types.AttributeKeyToAssetId, hex.EncodeToString(toAssetId)),
-			sdk.NewAttribute(types.AttributeKeyToAddress, hex.EncodeToString(toAddress)),
-			sdk.NewAttribute(types.AttributeKeyAmount, amount.String()),
-			sdk.NewAttribute(types.AttributeKeyFeeAmount, feeAmount.String()),
-			sdk.NewAttribute(types.AttributeKeyFeeAddress, feeAddress.String()),
-			sdk.NewAttribute(types.AttributeKeyNonce, nonce.String()),
-		),
+	ctx.EventManager().EmitTypedEvents(&types.LockEvent{
+		Denom:         denom,
+		FromLockProxy: hex.EncodeToString(fromLockProxy),
+		FromAssetId:   hex.EncodeToString(fromAssetId),
+		FromAddress:   fromAddress.String(),
+		ToChainId:     strconv.FormatUint(toChainId, 10),
+		ToLockProxy:   hex.EncodeToString(toLockProxy),
+		ToAssetId:     hex.EncodeToString(toAssetId),
+		ToAddress:     hex.EncodeToString(toAddress),
+		Amount:        amount.String(),
+		FeeAmount:     feeAmount.String(),
+		FeeAddress:    feeAddress.String(),
+		Nonce:         nonce.String(),
 	})
 
 	return nil
@@ -412,18 +409,15 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk
 			amountCoins.String(), k.ak.GetModuleAddress(types.ModuleName).String(), toAcctAddress.String(), err))
 	}
 
-	ctx.EventManager().EmitEvents(sdk.Events{
-		sdk.NewEvent(
-			types.EventTypeUnlock,
-			sdk.NewAttribute(types.AttributeKeyToAssetId, hex.EncodeToString([]byte(toAssetDenom))),
-			sdk.NewAttribute(types.AttributeKeyToAddress, toAcctAddress.String()),
-			sdk.NewAttribute(types.AttributeKeyAmount, amount.String()),
-			sdk.NewAttribute(types.AttributeKeyFromAddress, fromAcctAddress.String()),
-			sdk.NewAttribute(types.AttributeKeyFromAssetId, hex.EncodeToString(fromAssetHash)),
-			sdk.NewAttribute(types.AttributeKeyFeeAmount, feeAmount.String()),
-			sdk.NewAttribute(types.AttributeKeyFeeAddress, feeAddressAcc.String()),
-			sdk.NewAttribute(types.AttributeKeyNonce, nonce.String()),
-		),
+	ctx.EventManager().EmitTypedEvents(&types.UnlockEvent{
+		ToAssetId:   hex.EncodeToString([]byte(toAssetDenom)),
+		ToAddress:   toAcctAddress.String(),
+		Amount:      amount.String(),
+		FromAddress: fromAcctAddress.String(),
+		FromAssetId: hex.EncodeToString(fromAssetHash),
+		FeeAmount:   feeAmount.String(),
+		FeeAddress:  feeAddressAcc.String(),
+		Nonce:       nonce.String(),
 	})
 
 	k.AfterProxyUnlock(ctx, fromAcctAddress, toAcctAddress, amountCoins)
