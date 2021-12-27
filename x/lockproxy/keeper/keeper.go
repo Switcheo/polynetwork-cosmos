@@ -45,7 +45,7 @@ func NewKeeper(
 	ck types.CCMKeeper,
 	storeKey,
 	memKey sdk.StoreKey,
-	// this line is used by starport scaffolding # ibc/keeper/parameter
+// this line is used by starport scaffolding # ibc/keeper/parameter
 ) *Keeper {
 	return &Keeper{
 		cdc:      cdc,
@@ -290,7 +290,7 @@ func (k Keeper) LockAsset(ctx sdk.Context, denom string,
 	amountAfterFees := amount
 	if deductFeeInLock {
 		amountAfterFees = amount.Sub(feeAmount)
-		if !amountAfterFees.IsZero() {
+		if !amountAfterFees.IsPositive() {
 			return types.ErrLock("Requested amount must be more than zero after fees")
 		}
 		feeCoins := sdk.NewCoins(sdk.NewCoin(denom, feeAmount))
