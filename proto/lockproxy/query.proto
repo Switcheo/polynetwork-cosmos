@@ -1,5 +1,5 @@
 syntax = "proto3";
-package Switcheo.polynetworkcosmos.lockproxy;
+package Switcheo.carbon.lockproxy;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";

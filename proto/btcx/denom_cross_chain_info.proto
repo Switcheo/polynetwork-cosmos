@@ -1,5 +1,5 @@
 syntax = "proto3";
-package Switcheo.polynetworkcosmos.btcx;
+package Switcheo.carbon.btcx;
 
 import "gogoproto/gogo.proto";
 import "btcx/denom_info.proto";
