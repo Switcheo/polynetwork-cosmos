@@ -51,8 +51,6 @@ func btcx_initSupply(t *testing.T, app *simapp.SimApp, ctx sdk.Context) sdk.Coin
 	totalSupply := sdk.NewCoins(initTokens...)
 	app.BankKeeper.SetSupply(ctx, supply.NewSupply(totalSupply))
 
-	total := app.BankKeeper.GetSupply(ctx).GetTotal()
-
 	require.Equal(t, totalSupply, total, "supply should be initTokens")
 	return total
 }
@@ -155,7 +153,6 @@ func Test_btcx_MsgLock(t *testing.T) {
 	app, ctx, _ := createTestApp(true)
 	btcx_initSupply(t, app, ctx)
 
-	total := app.BankKeeper.GetSupply(ctx).GetTotal()
 	btcx1CoinStr := "100btcx1"
 	btcx1Coin, err := sdk.ParseCoinNormalized(btcx1CoinStr)
 	require.Nil(t, err)
@@ -167,7 +164,6 @@ func Test_btcx_MsgLock(t *testing.T) {
 	require.Nil(t, err)
 
 	app.BankKeeper.SetSupply(ctx, supply.NewSupply(total.Add(btcx1Coin)))
-	require.Equal(t, btcx1Coin.Amount, app.BankKeeper.GetSupply(ctx).GetTotal().AmountOf("btcx1"), "btcx1 amount should be 100")
 
 	err = app.BankKeeper.AddCoins(ctx, creator, sdk.Coins{btcx1Coin})
 	balance := app.BankKeeper.GetAllBalances(ctx, creator)

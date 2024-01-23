@@ -2,7 +2,6 @@ package types // noalias
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	bankexported "github.com/cosmos/cosmos-sdk/x/bank/exported"
 	polytype "github.com/polynetwork/poly/core/types"
 )
 
@@ -13,7 +12,6 @@ type HeaderSyncKeeper interface {
 
 // BankKeeper defines the expected bank keeper
 type BankKeeper interface {
-	GetSupply(ctx sdk.Context) (supply bankexported.SupplyI)
 }
 
 // UnlockKeeper defines the expected unlock keeper

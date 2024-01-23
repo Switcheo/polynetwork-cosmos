@@ -88,17 +88,6 @@ func (k Keeper) GetDenomCreator(ctx sdk.Context, denom string) (addr sdk.AccAddr
 	return ctx.KVStore(k.storeKey).Get(creator)
 }
 
-func (k Keeper) ExistDenom(ctx sdk.Context, denom string) (string, bool) {
-	storedSupplyCoins := k.bk.GetSupply(ctx).GetTotal()
-	if len(k.GetDenomCreator(ctx, denom)) != 0 {
-		return fmt.Sprintf("ccmKeeper.GetDenomCreator(ctx,%s) is %s", denom, sdk.AccAddress(k.GetDenomCreator(ctx, denom)).String()), true
-	}
-	if !storedSupplyCoins.AmountOf(denom).Equal(sdk.ZeroInt()) {
-		return fmt.Sprintf("supply.AmountOf(%s) is %s", denom, storedSupplyCoins.AmountOf(denom).String()), true
-	}
-	return "", false
-}
-
 func (k Keeper) CreateCrossChainTx(ctx sdk.Context, fromAddr sdk.AccAddress, toChainId uint64, fromContractHash, toContractHash []byte, method string, args []byte) error {
 	crossChainId, err := k.GetCrossChainId(ctx)
 	if err != nil {
