@@ -5,25 +5,26 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/tendermint/tendermint/crypto/tmhash"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/crypto/tmhash"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/ccm/types"
+	ttype "github.com/cometbft/cometbft/types"
 	"github.com/cosmos/cosmos-sdk/codec"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 	polytype "github.com/polynetwork/poly/core/types"
 	"github.com/polynetwork/poly/merkle"
 	ccmc "github.com/polynetwork/poly/native/service/cross_chain_manager/common"
-	ttype "github.com/tendermint/tendermint/types"
 	// this line is used by starport scaffolding # ibc/keeper/import
 )
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
-		storeKey sdk.StoreKey
-		memKey   sdk.StoreKey
+		cdc      codec.Codec
+		storeKey storetypes.StoreKey
+		memKey   storetypes.StoreKey
 		ak       types.AssetKeeper
 		bk       types.BankKeeper
 		hsk      types.HeaderSyncKeeper
@@ -33,11 +34,11 @@ type (
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	bk types.BankKeeper,
 	hsk types.HeaderSyncKeeper,
 	storeKey,
-	memKey sdk.StoreKey,
+	memKey storetypes.StoreKey,
 	// this line is used by starport scaffolding # ibc/keeper/parameter
 ) *Keeper {
 	return &Keeper{
@@ -86,6 +87,17 @@ func (k Keeper) GetDenomCreator(ctx sdk.Context, denom string) (addr sdk.AccAddr
 		return
 	}
 	return ctx.KVStore(k.storeKey).Get(creator)
+}
+
+func (k Keeper) ExistDenom(ctx sdk.Context, denom string) (string, bool) {
+	storedSupplyCoins := k.bk.GetSupply(ctx, denom)
+	if len(k.GetDenomCreator(ctx, denom)) != 0 {
+		return fmt.Sprintf("ccmKeeper.GetDenomCreator(ctx,%s) is %s", denom, sdk.AccAddress(k.GetDenomCreator(ctx, denom)).String()), true
+	}
+	if !storedSupplyCoins.Amount.Equal(sdk.ZeroInt()) {
+		return fmt.Sprintf("supply.AmountOf(%s) is %s", denom, storedSupplyCoins.Amount.String()), true
+	}
+	return "", false
 }
 
 func (k Keeper) CreateCrossChainTx(ctx sdk.Context, fromAddr sdk.AccAddress, toChainId uint64, fromContractHash, toContractHash []byte, method string, args []byte) error {

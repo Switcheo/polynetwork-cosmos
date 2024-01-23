@@ -23,11 +23,11 @@ import (
 	"fmt"
 	"testing"
 
+	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	supply "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/require"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	"github.com/Switcheo/polynetwork-cosmos/simapp"
 	"github.com/Switcheo/polynetwork-cosmos/testutil/testdata"
@@ -43,7 +43,7 @@ func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context, types.QueryClie
 	queryClient := types.NewQueryClient(queryHelper)
 	return app, ctx, queryClient
 }
-ererkeep
+
 func btcx_initSupply(t *testing.T, app *simapp.SimApp, ctx sdk.Context) sdk.Coins {
 	coinsStr := "1000000000btca,1000000000000000000btcb"
 	initTokens, err := sdk.ParseCoinsNormalized(coinsStr)

@@ -23,13 +23,13 @@ import (
 	"fmt"
 	"testing"
 
+	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 	vconfig "github.com/polynetwork/poly/consensus/vbft/config"
 	polytype "github.com/polynetwork/poly/core/types"
 	"github.com/stretchr/testify/assert"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	"github.com/Switcheo/polynetwork-cosmos/simapp"
 	"github.com/Switcheo/polynetwork-cosmos/x/headersync/types"

@@ -12,6 +12,7 @@ type HeaderSyncKeeper interface {
 
 // BankKeeper defines the expected bank keeper
 type BankKeeper interface {
+	GetSupply(ctx sdk.Context, denom string) sdk.Coin
 }
 
 // UnlockKeeper defines the expected unlock keeper

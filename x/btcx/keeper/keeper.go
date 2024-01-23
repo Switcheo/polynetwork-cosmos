@@ -9,32 +9,33 @@ import (
 	"strconv"
 
 	"github.com/btcsuite/btcutil"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 	"github.com/cosmos/cosmos-sdk/codec"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 )
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
+		cdc      codec.Codec
 		ak       types.AccountKeeper
 		bk       types.BankKeeper
 		ck       types.CCMKeeper
-		storeKey sdk.StoreKey
-		memKey   sdk.StoreKey
+		storeKey storetypes.StoreKey
+		memKey   storetypes.StoreKey
 	}
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	ck types.CCMKeeper,
 	storeKey,
-	memKey sdk.StoreKey) *Keeper {
+	memKey storetypes.StoreKey) *Keeper {
 
 	// ensure btcx module account is set
 	if addr := ak.GetModuleAddress(types.ModuleName); addr == nil {

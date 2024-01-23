@@ -9,10 +9,11 @@ import (
 	"math/big"
 	"strconv"
 
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types"
 	"github.com/cosmos/cosmos-sdk/codec"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 	// this line is used by starport scaffolding # ibc/keeper/import
@@ -20,12 +21,12 @@ import (
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
+		cdc      codec.Codec
 		ak       types.AccountKeeper
 		bk       types.BankKeeper
 		ck       types.CCMKeeper
-		storeKey sdk.StoreKey
-		memKey   sdk.StoreKey
+		storeKey storetypes.StoreKey
+		memKey   storetypes.StoreKey
 		hooks    types.LockProxyHooks
 		// this line is used by starport scaffolding # ibc/keeper/attribute
 	}
@@ -39,12 +40,12 @@ var (
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	ck types.CCMKeeper,
 	storeKey,
-	memKey sdk.StoreKey,
+	memKey storetypes.StoreKey,
 	// this line is used by starport scaffolding # ibc/keeper/parameter
 ) *Keeper {
 	return &Keeper{
