@@ -9,32 +9,33 @@ import (
 	"strconv"
 
 	"github.com/btcsuite/btcutil"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 	"github.com/cosmos/cosmos-sdk/codec"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 )
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
+		cdc      codec.Codec
 		ak       types.AccountKeeper
 		bk       types.BankKeeper
 		ck       types.CCMKeeper
-		storeKey sdk.StoreKey
-		memKey   sdk.StoreKey
+		storeKey storetypes.StoreKey
+		memKey   storetypes.StoreKey
 	}
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	ck types.CCMKeeper,
 	storeKey,
-	memKey sdk.StoreKey) *Keeper {
+	memKey storetypes.StoreKey) *Keeper {
 
 	// ensure btcx module account is set
 	if addr := ak.GetModuleAddress(types.ModuleName); addr == nil {
@@ -205,30 +206,6 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk
 		),
 	})
 	return nil
-}
-
-func (k Keeper) GetDenomInfo(ctx sdk.Context, denom string) (denomInfo types.DenomInfo) {
-	store := ctx.KVStore(k.storeKey)
-	operator := k.ck.GetDenomCreator(ctx, denom)
-	if len(operator) == 0 {
-		return denomInfo
-	}
-	denomInfo.Creator = operator.String()
-	denomInfo.Denom = denom
-	denomInfo.AssetHash = hex.EncodeToString([]byte(denom))
-	denomInfo.TotalSupply = k.bk.GetSupply(ctx).GetTotal().AmountOf(denom)
-	redeemHash := store.Get(GetCreatorDenomToScriptHashKey(store.Get(GetDenomToCreatorKey(denom)), denom))
-	denomInfo.RedeemScriptHash = hex.EncodeToString(redeemHash)
-	denomInfo.RedeemScript = hex.EncodeToString(store.Get(GetScriptHashToRedeemScript(redeemHash)))
-	return denomInfo
-}
-
-func (k Keeper) GetDenomCrossChainInfo(ctx sdk.Context, denom string, toChainId uint64) (denomInfo types.DenomCrossChainInfo) {
-	denomInfo.DenomInfo = k.GetDenomInfo(ctx, denom)
-	denomInfo.ToChainId = toChainId
-	store := ctx.KVStore(k.storeKey)
-	denomInfo.ToAssetHash = hex.EncodeToString(store.Get(GetBindAssetHashKey([]byte(denom), toChainId)))
-	return
 }
 
 func (k Keeper) ContainToContractAddr(ctx sdk.Context, toContractAddr []byte, fromChainId uint64) bool {

@@ -8,22 +8,23 @@ import (
 	"fmt"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
+	"github.com/cometbft/cometbft/libs/log"
 	"github.com/cosmos/cosmos-sdk/codec"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 	vconfig "github.com/polynetwork/poly/consensus/vbft/config"
 	polysig "github.com/polynetwork/poly/core/signature"
 	polytype "github.com/polynetwork/poly/core/types"
 	"github.com/polynetwork/poly/merkle"
-	"github.com/tendermint/tendermint/libs/log"
 	// this line is used by starport scaffolding # ibc/keeper/import
 )
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
-		storeKey sdk.StoreKey
-		memKey   sdk.StoreKey
+		cdc      codec.Codec
+		storeKey storetypes.StoreKey
+		memKey   storetypes.StoreKey
 		// this line is used by starport scaffolding # ibc/keeper/attribute
 	}
 )
@@ -35,9 +36,9 @@ var (
 )
 
 func NewKeeper(
-	cdc codec.Marshaler,
+	cdc codec.Codec,
 	storeKey,
-	memKey sdk.StoreKey,
+	memKey storetypes.StoreKey,
 	// this line is used by starport scaffolding # ibc/keeper/parameter
 ) *Keeper {
 	return &Keeper{

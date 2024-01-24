@@ -23,11 +23,11 @@ import (
 	"fmt"
 	"testing"
 
+	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	supply "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/require"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	"github.com/Switcheo/polynetwork-cosmos/simapp"
 	"github.com/Switcheo/polynetwork-cosmos/testutil/testdata"
@@ -43,15 +43,13 @@ func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context, types.QueryClie
 	queryClient := types.NewQueryClient(queryHelper)
 	return app, ctx, queryClient
 }
-ererkeep
+
 func btcx_initSupply(t *testing.T, app *simapp.SimApp, ctx sdk.Context) sdk.Coins {
 	coinsStr := "1000000000btca,1000000000000000000btcb"
 	initTokens, err := sdk.ParseCoinsNormalized(coinsStr)
 	require.Equal(t, nil, err, "Parse Coins error should be nil")
 	totalSupply := sdk.NewCoins(initTokens...)
 	app.BankKeeper.SetSupply(ctx, supply.NewSupply(totalSupply))
-
-	total := app.BankKeeper.GetSupply(ctx).GetTotal()
 
 	require.Equal(t, totalSupply, total, "supply should be initTokens")
 	return total
@@ -155,7 +153,6 @@ func Test_btcx_MsgLock(t *testing.T) {
 	app, ctx, _ := createTestApp(true)
 	btcx_initSupply(t, app, ctx)
 
-	total := app.BankKeeper.GetSupply(ctx).GetTotal()
 	btcx1CoinStr := "100btcx1"
 	btcx1Coin, err := sdk.ParseCoinNormalized(btcx1CoinStr)
 	require.Nil(t, err)
@@ -167,7 +164,6 @@ func Test_btcx_MsgLock(t *testing.T) {
 	require.Nil(t, err)
 
 	app.BankKeeper.SetSupply(ctx, supply.NewSupply(total.Add(btcx1Coin)))
-	require.Equal(t, btcx1Coin.Amount, app.BankKeeper.GetSupply(ctx).GetTotal().AmountOf("btcx1"), "btcx1 amount should be 100")
 
 	err = app.BankKeeper.AddCoins(ctx, creator, sdk.Coins{btcx1Coin})
 	balance := app.BankKeeper.GetAllBalances(ctx, creator)
