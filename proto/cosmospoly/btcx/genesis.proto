@@ -1,8 +1,8 @@
 syntax = "proto3";
-package Switcheo.carbon.btcx;
+package cosmospoly.btcx;
 
 // this line is used by starport scaffolding # genesis/proto/import
-import "btcx/denom_info.proto";
+import "cosmospoly/btcx/denom_info.proto";
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
 

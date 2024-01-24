@@ -1,5 +1,5 @@
 syntax = "proto3";
-package Switcheo.carbon.ccm;
+package cosmospoly.ccm;
 
 import "gogoproto/gogo.proto";
 

@@ -1,5 +1,5 @@
 syntax = "proto3";
-package Switcheo.carbon.headersync;
+package cosmospoly.headersync;
 
 import "gogoproto/gogo.proto";
 
