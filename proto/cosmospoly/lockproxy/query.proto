@@ -12,7 +12,7 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 service Query {
     // this line is used by starport scaffolding # 2
 	rpc Proxy(QueryGetProxyRequest) returns (QueryGetProxyResponse) {
-		option (google.api.http).get = "/Switcheo/polynetworkcosmos/lockproxy/Proxy/{operator_address}";
+		option (google.api.http).get = "/cosmospoly/lockproxy/Proxy/{operator_address}";
 	}
 }
 

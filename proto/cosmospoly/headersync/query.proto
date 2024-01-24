@@ -13,7 +13,7 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
 service Query {
     // this line is used by starport scaffolding # 2
   rpc ConsensusPeers(QueryGetConsensusPeersRequest) returns (QueryGetConsensusPeersResponse) {
-    option (google.api.http).get = "/Switcheo/polynetworkcosmos/headersync/ConsensusPeers/{chain_id}";
+    option (google.api.http).get = "/cosmospoly/headersync/ConsensusPeers/{chain_id}";
   }
 }
 
