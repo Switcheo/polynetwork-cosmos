@@ -3,6 +3,7 @@ module github.com/Switcheo/polynetwork-cosmos
 go 1.15
 
 require (
+	cosmossdk.io/api v0.3.1
 	cosmossdk.io/simapp v0.0.0-20230608160436-666c345ad23d
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
 	github.com/cometbft/cometbft v0.37.2
