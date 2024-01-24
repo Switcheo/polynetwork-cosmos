@@ -1,8 +1,8 @@
 syntax = "proto3";
-package cosmospoly.headersync;
+package Switcheo.carbon.headersync;
 
 import "gogoproto/gogo.proto";
-import "cosmospoly/headersync/consensus_peers.proto";
+import "Switcheo/carbon/headersync/consensus_peers.proto";
 
 // this line is used by starport scaffolding # genesis/proto/import
 

@@ -1,9 +1,9 @@
 syntax = "proto3";
-package cosmospoly.btcx;
+package Switcheo.carbon.btcx;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
-import "cosmospoly/btcx/denom_info.proto";
+import "Switcheo/carbon/btcx/denom_info.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
@@ -12,10 +12,10 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
 service Query {
     // this line is used by starport scaffolding # 2
 	rpc DenomInfo(QueryGetDenomInfoRequest) returns (QueryGetDenomInfoResponse) {
-		option (google.api.http).get = "/cosmospoly/btcx/DenomInfo/{denom}";
+		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}";
 	}
   rpc DenomCrossChainInfo(QueryGetDenomCrossChainInfoRequest) returns (QueryGetDenomCrossChainInfoResponse) {
-		option (google.api.http).get = "/cosmospoly/btcx/DenomInfo/{denom}/{chain_id}";
+		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}/{chain_id}";
 	}
 }
 

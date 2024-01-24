@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cosmospoly.headersync;
+package Switcheo.carbon.headersync;
 
 import "gogoproto/gogo.proto";
 // this line is used by starport scaffolding # proto/tx/import

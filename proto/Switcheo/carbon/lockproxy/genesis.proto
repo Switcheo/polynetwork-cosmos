@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cosmospoly.lockproxy;
+package Switcheo.carbon.lockproxy;
 
 import "gogoproto/gogo.proto";
 

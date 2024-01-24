@@ -1,10 +1,10 @@
 syntax = "proto3";
-package cosmospoly.headersync;
+package Switcheo.carbon.headersync;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "cosmospoly/headersync/consensus_peers.proto";
+import "Switcheo/carbon/headersync/consensus_peers.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
@@ -13,7 +13,7 @@ option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
 service Query {
     // this line is used by starport scaffolding # 2
   rpc ConsensusPeers(QueryGetConsensusPeersRequest) returns (QueryGetConsensusPeersResponse) {
-    option (google.api.http).get = "/cosmospoly/headersync/ConsensusPeers/{chain_id}";
+    option (google.api.http).get = "/Switcheo/polynetworkcosmos/headersync/ConsensusPeers/{chain_id}";
   }
 }
 
