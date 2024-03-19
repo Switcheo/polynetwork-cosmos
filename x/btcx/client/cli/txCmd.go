@@ -7,13 +7,13 @@ import (
 	"strconv"
 	"strings"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/spf13/cobra"
 
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
 )
 
@@ -134,7 +134,7 @@ $ %s tx %s lock btc-xxx 3 616f2a4a38396ff203ea01e6c070ae421bb8ce2d 123
 			if !ok {
 				return fmt.Errorf("read value as big int from args[3] failed")
 			}
-			value := sdk.NewIntFromBigInt(valueBigInt)
+			value := sdkmath.NewIntFromBigInt(valueBigInt)
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {

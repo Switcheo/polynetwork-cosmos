@@ -2,33 +2,36 @@ syntax = "proto3";
 package Switcheo.carbon.headersync;
 
 import "gogoproto/gogo.proto";
+import "cosmos/msg/v1/msg.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
-option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
+option go_package = "github.com/Switcheo/carbon/x/headersync/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+  option (cosmos.msg.v1.service) = true;
+  // this line is used by starport scaffolding # proto/tx/rpc
   rpc SyncGenesis(MsgSyncGenesis) returns (MsgSyncGenesisResponse);
   rpc SyncHeaders(MsgSyncHeaders) returns (MsgSyncHeadersResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
 message MsgSyncGenesis {
+  option (cosmos.msg.v1.signer) = "syncer";
   option (gogoproto.goproto_getters) = false;
 
   string syncer = 1;
-	string genesis_header = 2 [(gogoproto.moretags) = "yaml:\"genesis_header\""];
+  string genesis_header = 2;
 }
 
-message MsgSyncGenesisResponse { }
-
+message MsgSyncGenesisResponse {}
 
 message MsgSyncHeaders {
+  option (cosmos.msg.v1.signer) = "syncer";
   option (gogoproto.goproto_getters) = false;
 
   string syncer = 1;
   repeated string headers = 2;
 }
 
-message MsgSyncHeadersResponse { }
+message MsgSyncHeadersResponse {}

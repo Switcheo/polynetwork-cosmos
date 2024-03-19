@@ -30,7 +30,7 @@ import (
 
 func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context) {
 	app := simapp.Setup(isCheckTx)
-	ctx := app.BaseApp.NewContext(isCheckTx, tmproto.Header{})
+	ctx := app.BaseApp.NewContextLegacy(isCheckTx, tmproto.Header{})
 	return app, ctx
 }
 

@@ -6,38 +6,40 @@ import "google/api/annotations.proto";
 import "Switcheo/carbon/btcx/denom_info.proto";
 // this line is used by starport scaffolding # 1
 
-option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
+option go_package = "github.com/Switcheo/carbon/x/btcx/types";
 
 // Query defines the gRPC querier service.
 service Query {
-    // this line is used by starport scaffolding # 2
-	rpc DenomInfo(QueryGetDenomInfoRequest) returns (QueryGetDenomInfoResponse) {
-		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}";
-	}
-  rpc DenomCrossChainInfo(QueryGetDenomCrossChainInfoRequest) returns (QueryGetDenomCrossChainInfoResponse) {
-		option (google.api.http).get = "/Switcheo/polynetworkcosmos/btcx/DenomInfo/{denom}/{chain_id}";
-	}
+  // this line is used by starport scaffolding # 2
+  rpc DenomInfo(QueryGetDenomInfoRequest) returns (QueryGetDenomInfoResponse) {
+    option (google.api.http).get = "/carbon/btcx/v1/denom_info/{denom}";
+  }
+  rpc DenomCrossChainInfo(QueryGetDenomCrossChainInfoRequest)
+      returns (QueryGetDenomCrossChainInfoResponse) {
+    option (google.api.http).get =
+        "/carbon/btcx/v1/denom_info/{denom}/{chain_id}";
+  }
 }
 
 // this line is used by starport scaffolding # 3
 message QueryGetDenomInfoRequest {
   option (gogoproto.goproto_getters) = false;
-	string denom = 1;
+  string denom = 1;
 }
 
 message QueryGetDenomInfoResponse {
-	DenomInfo denom_info = 1 [(gogoproto.nullable) = false];
+  DenomInfo denom_info = 1 [ (gogoproto.nullable) = false ];
 }
 
 message QueryGetDenomCrossChainInfoRequest {
   option (gogoproto.goproto_getters) = false;
 
-	string denom = 1;
+  string denom = 1;
   uint64 chain_id = 2;
 }
 
 message QueryGetDenomCrossChainInfoResponse {
-	DenomInfo denom_info = 1 [(gogoproto.nullable) = false];
-	uint64 to_chain_id = 2;
-	string to_asset_hash = 3;
+  DenomInfo denom_info = 1 [ (gogoproto.nullable) = false ];
+  uint64 to_chain_id = 2;
+  string to_asset_hash = 3;
 }

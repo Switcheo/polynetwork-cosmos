@@ -7,10 +7,10 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"cosmossdk.io/log"
+	storetypes "cosmossdk.io/store/types"
 	"github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
-	"github.com/cometbft/cometbft/libs/log"
 	"github.com/cosmos/cosmos-sdk/codec"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 	vconfig "github.com/polynetwork/poly/consensus/vbft/config"
@@ -50,9 +50,9 @@ func NewKeeper(
 }
 
 // StoreIterator returns the iterator for the store
-func (k Keeper) StoreIterator(ctx sdk.Context, prefix []byte) sdk.Iterator {
+func (k Keeper) StoreIterator(ctx sdk.Context, prefix []byte) storetypes.Iterator {
 	store := ctx.KVStore(k.storeKey)
-	return sdk.KVStorePrefixIterator(store, prefix)
+	return storetypes.KVStorePrefixIterator(store, prefix)
 }
 
 func (k Keeper) Logger(ctx sdk.Context) log.Logger {

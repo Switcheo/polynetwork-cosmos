@@ -9,11 +9,12 @@ import (
 	"math/big"
 	"strconv"
 
-	"github.com/cometbft/cometbft/libs/log"
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 
+	storetypes "cosmossdk.io/store/types"
 	"github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types"
 	"github.com/cosmos/cosmos-sdk/codec"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 	// this line is used by starport scaffolding # ibc/keeper/import
@@ -64,14 +65,14 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 }
 
 // Store fetches the main kv store
-func (k Keeper) Store(ctx sdk.Context) sdk.KVStore {
+func (k Keeper) Store(ctx sdk.Context) storetypes.KVStore {
 	return ctx.KVStore(k.storeKey)
 }
 
 // StoreIterator returns the iterator for the store
-func (k Keeper) StoreIterator(ctx sdk.Context, prefix []byte) sdk.Iterator {
+func (k Keeper) StoreIterator(ctx sdk.Context, prefix []byte) storetypes.Iterator {
 	store := ctx.KVStore(k.storeKey)
-	return sdk.KVStorePrefixIterator(store, prefix)
+	return storetypes.KVStorePrefixIterator(store, prefix)
 }
 
 func (k Keeper) ContainToContractAddr(ctx sdk.Context, toContractAddr []byte, fromChainId uint64) bool {
@@ -234,17 +235,17 @@ func (k Keeper) SyncRegisteredAsset(ctx sdk.Context, syncer sdk.AccAddress, nati
 	return nil
 }
 
-func (k Keeper) GetNonce(ctx sdk.Context) sdk.Int {
+func (k Keeper) GetNonce(ctx sdk.Context) sdkmath.Int {
 	store := ctx.KVStore(k.storeKey)
 
-	nonce := sdk.ZeroInt()
+	nonce := sdkmath.ZeroInt()
 	nonceBz := store.Get(NonceKey)
 	nonce.Unmarshal(nonceBz)
 
 	return nonce
 }
 
-func (k Keeper) SetNonce(ctx sdk.Context, x sdk.Int) {
+func (k Keeper) SetNonce(ctx sdk.Context, x sdkmath.Int) {
 	store := ctx.KVStore(k.storeKey)
 	newNonceBz, err := x.Marshal()
 	if err != nil {
@@ -253,9 +254,9 @@ func (k Keeper) SetNonce(ctx sdk.Context, x sdk.Int) {
 	store.Set(NonceKey, newNonceBz)
 }
 
-func (k Keeper) getNextNonce(ctx sdk.Context) sdk.Int {
+func (k Keeper) getNextNonce(ctx sdk.Context) sdkmath.Int {
 	nonce := k.GetNonce(ctx)
-	newNonce := nonce.Add(sdk.NewInt(1))
+	newNonce := nonce.Add(sdkmath.NewInt(1))
 	k.SetNonce(ctx, newNonce)
 
 	return newNonce
@@ -267,7 +268,7 @@ func (k Keeper) getNextNonce(ctx sdk.Context) sdk.Int {
 func (k Keeper) LockAsset(ctx sdk.Context, denom string,
 	fromLockProxy, fromAssetId []byte, fromAddress sdk.AccAddress,
 	toChainId uint64, toLockProxy, toAssetId, toAddress []byte,
-	amount sdk.Int, deductFeeInLock bool, feeAmount sdk.Int, feeAddress sdk.AccAddress) error {
+	amount sdkmath.Int, deductFeeInLock bool, feeAmount sdkmath.Int, feeAddress sdk.AccAddress) error {
 	if !k.LockProxyExists(ctx, fromLockProxy) {
 		return types.ErrLock(fmt.Sprintf("lockproxy does not exist: %x", fromLockProxy))
 	}
@@ -363,9 +364,9 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk
 	fromAssetHash := args.FromAssetHash
 	toAssetHash := args.ToAssetHash
 	toAddress := args.ToAddress
-	amount := sdk.NewIntFromBigInt(args.Amount)
-	feeAmount := sdk.NewIntFromBigInt(args.FeeAmount)
-	nonce := sdk.NewIntFromBigInt(args.Nonce)
+	amount := sdkmath.NewIntFromBigInt(args.Amount)
+	feeAmount := sdkmath.NewIntFromBigInt(args.FeeAmount)
+	nonce := sdkmath.NewIntFromBigInt(args.Nonce)
 
 	toAssetDenom := k.GetAssetDenom(ctx, toContractAddr, toAssetHash, fromChainId, fromContractAddr, fromAssetHash)
 	if toAssetDenom == "" {
@@ -389,7 +390,7 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk
 
 	afterFeeAmount := amount
 	feeAddressAcc := sdk.AccAddress(args.FeeAddress)
-	if feeAmount.GT(sdk.ZeroInt()) {
+	if feeAmount.GT(sdkmath.ZeroInt()) {
 		if feeAmount.GT(amount) {
 			return types.ErrUnlock(fmt.Sprintf("feeAmount: %s must be less than or equal to amount: %s", feeAmount.String(), amount.String()))
 		}

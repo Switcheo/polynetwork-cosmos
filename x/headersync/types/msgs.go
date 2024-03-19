@@ -20,6 +20,7 @@ package types
 import (
 	"fmt"
 
+	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -45,10 +46,10 @@ func (msg *MsgSyncGenesis) Type() string { return TypeMsgSyncGenesis }
 func (msg *MsgSyncGenesis) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Syncer)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid syncer (%s), error: %v", msg.Syncer, err))
+		return errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid syncer (%s), error: %v", msg.Syncer, err))
 	}
 	if len(msg.GenesisHeader) == 0 {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "GenesisHeader should not be empty")
+		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "GenesisHeader should not be empty")
 	}
 	return nil
 }
@@ -83,10 +84,10 @@ func (msg *MsgSyncHeaders) Type() string { return TypeMsgSyncHeaders }
 func (msg *MsgSyncHeaders) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Syncer)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid syncer (%s), error: %v", msg.Syncer, err))
+		return errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid syncer (%s), error: %v", msg.Syncer, err))
 	}
 	if len(msg.Headers) == 0 {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Headers should not be empty")
+		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "Headers should not be empty")
 	}
 	return nil
 }

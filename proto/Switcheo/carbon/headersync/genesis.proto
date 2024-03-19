@@ -6,17 +6,25 @@ import "Switcheo/carbon/headersync/consensus_peers.proto";
 
 // this line is used by starport scaffolding # genesis/proto/import
 
-option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
+option go_package = "github.com/Switcheo/carbon/x/headersync/types";
 
 // GenesisState defines the headersync module's genesis state.
 message GenesisState {
   option (gogoproto.goproto_getters) = false;
 
   // Peers for each PoS chain by chain ID.
-  map<string, ConsensusPeers> consensus_peers = 1 [(gogoproto.moretags) = "yaml:\"consensus_peers\""];
+  map<string, ConsensusPeers> consensus_peers = 1;
 
-  // Header hash for blocks where consensus public keys is updated for PoS chain by chain ID.
-  map<string, bytes> checkpoint_hashes = 2 [(gogoproto.moretags) = "yaml:\"checkpoint_hashes\""];
+  // Header hash for blocks where consensus public keys is updated for PoS chain
+  // by chain ID.
+  map<string, bytes> checkpoint_hashes = 2;
+
+  // Peers for each Zion PoS chain by chain ID.
+  map<string, ZionConsensusPeers> zion_consensus_peers = 3;
+
+  // Header Hash for Zion blocks where consensus public keys is updated for PoS
+  // chain by chain ID.
+  map<string, bytes> zion_checkpoint_hashes = 4;
 
   // this line is used by starport scaffolding # genesis/proto/state
   // this line is used by starport scaffolding # ibc/genesis/proto

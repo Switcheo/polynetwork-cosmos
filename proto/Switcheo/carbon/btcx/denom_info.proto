@@ -4,7 +4,7 @@ package Switcheo.carbon.btcx;
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
-option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
+option go_package = "github.com/Switcheo/carbon/x/btcx/types";
 
 message DenomInfo {
   option (gogoproto.goproto_getters) = false;
@@ -12,12 +12,11 @@ message DenomInfo {
   string creator = 1;
   string id = 2;
   string denom = 3;
-  string asset_hash = 4 [(gogoproto.moretags) = "yaml:\"asset_hash\""];
+  string asset_hash = 4;
   string total_supply = 5 [
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
-    (gogoproto.moretags)   = "yaml:\"total_supply\"",
-    (gogoproto.nullable)   = false
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
   ];
-  string redeem_script = 6 [(gogoproto.moretags) = "yaml:\"redeem_script\""];
-  string redeem_script_hash = 7 [(gogoproto.moretags) = "yaml:\"redeem_script_hash\""];
+  string redeem_script = 6;
+  string redeem_script_hash = 7;
 }

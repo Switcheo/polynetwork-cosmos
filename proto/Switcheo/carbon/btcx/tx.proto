@@ -3,13 +3,15 @@ package Switcheo.carbon.btcx;
 
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
+import "cosmos/msg/v1/msg.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
-option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
+option go_package = "github.com/Switcheo/carbon/x/btcx/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+  option (cosmos.msg.v1.service) = true;
+  // this line is used by starport scaffolding # proto/tx/rpc
   rpc Create(MsgCreate) returns (MsgCreateResponse);
   rpc Bind(MsgBind) returns (MsgBindResponse);
   rpc Lock(MsgLock) returns (MsgLockResponse);
@@ -17,38 +19,40 @@ service Msg {
 
 // this line is used by starport scaffolding # proto/tx/message
 message MsgCreate {
+  option (cosmos.msg.v1.signer) = "creator";
   option (gogoproto.goproto_getters) = false;
 
   string creator = 1;
   string denom = 2;
-  string redeem_script = 3 [(gogoproto.moretags) = "yaml:\"redeem_script\""];
+  string redeem_script = 3;
 }
 
-message MsgCreateResponse { }
+message MsgCreateResponse {}
 
 message MsgBind {
+  option (cosmos.msg.v1.signer) = "creator";
   option (gogoproto.goproto_getters) = false;
 
   string creator = 1;
-	string source_asset_denom = 2 [(gogoproto.moretags) = "yaml:\"source_asset_denom\""];
-	uint64 to_chain_id = 3 [(gogoproto.moretags) = "yaml:\"to_chain_id\""];
-	bytes to_asset_hash = 4 [(gogoproto.moretags) = "yaml:\"to_asset_hash\""];
+  string source_asset_denom = 2;
+  uint64 to_chain_id = 3;
+  bytes to_asset_hash = 4;
 }
 
-message MsgBindResponse { }
+message MsgBindResponse {}
 
 message MsgLock {
+  option (cosmos.msg.v1.signer) = "from_address";
   option (gogoproto.goproto_getters) = false;
 
-	string from_address = 1 [(gogoproto.moretags) = "yaml:\"from_address\""];
-	string source_asset_denom = 2 [(gogoproto.moretags) = "yaml:\"source_asset_denom\""];
-	uint64 to_chain_id = 3 [(gogoproto.moretags) = "yaml:\"to_chain_id\""];
-	bytes to_address_bytes = 4 [(gogoproto.moretags) = "yaml:\"to_address_bytes\""];
+  string from_address = 1;
+  string source_asset_denom = 2;
+  uint64 to_chain_id = 3;
+  bytes to_address_bytes = 4;
   string value = 5 [
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
-    (gogoproto.moretags)   = "yaml:\"total_supply\"",
-    (gogoproto.nullable)   = false
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
   ];
 }
 
-message MsgLockResponse { }
+message MsgLockResponse {}
