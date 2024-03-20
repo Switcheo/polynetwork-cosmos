@@ -20,7 +20,6 @@ package keeper_test
 import (
 	"testing"
 
-	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
@@ -30,7 +29,7 @@ import (
 
 func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context) {
 	app := simapp.Setup(isCheckTx)
-	ctx := app.BaseApp.NewContextLegacy(isCheckTx, tmproto.Header{})
+	ctx := app.BaseApp.NewContext(isCheckTx)
 	return app, ctx
 }
 

@@ -23,7 +23,6 @@ import (
 	"fmt"
 	"testing"
 
-	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
@@ -48,7 +47,7 @@ var (
 func createTestApp(isCheckTx bool) (*simapp.SimApp, sdk.Context, types.QueryClient) {
 	app := simapp.Setup(isCheckTx)
 
-	ctx := app.BaseApp.NewContextLegacy(isCheckTx, tmproto.Header{})
+	ctx := app.BaseApp.NewContext(isCheckTx)
 	queryHelper := baseapp.NewQueryServerTestHelper(ctx, app.InterfaceRegistry())
 	types.RegisterQueryServer(queryHelper, app.HeadersyncKeeper)
 	queryClient := types.NewQueryClient(queryHelper)
