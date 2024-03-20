@@ -3,6 +3,7 @@ package ccm
 import (
 	"fmt"
 
+	errorsmod "cosmossdk.io/errors"
 	"github.com/Switcheo/polynetwork-cosmos/x/ccm/keeper"
 	"github.com/Switcheo/polynetwork-cosmos/x/ccm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -24,7 +25,7 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 
 		default:
 			errMsg := fmt.Sprintf("unrecognized %s message type: %T", types.ModuleName, msg)
-			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, errMsg)
+			return nil, errorsmod.Wrap(sdkerrors.ErrUnknownRequest, errMsg)
 		}
 	}
 }

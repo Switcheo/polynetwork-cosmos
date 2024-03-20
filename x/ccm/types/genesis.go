@@ -3,7 +3,7 @@ package types
 import (
 	fmt "fmt"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmath "cosmossdk.io/math"
 )
 
 // this line is used by starport scaffolding # ibc/genesistype/import
@@ -14,7 +14,7 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		CreatedTxCount:   sdk.ZeroInt(),
+		CreatedTxCount:   sdkmath.ZeroInt(),
 		CreatedTxDetails: make(map[string][]byte),
 		ReceivedTxIds:    make(map[string][]byte),
 		DenomCreators:    make(map[string]string),
@@ -26,7 +26,7 @@ func DefaultGenesis() *GenesisState {
 // Validate performs basic genesis state validation returning an error upon any
 // failure.
 func (gs GenesisState) Validate() error {
-	if !gs.CreatedTxCount.Equal(sdk.NewInt(int64(len(gs.CreatedTxDetails)))) {
+	if !gs.CreatedTxCount.Equal(sdkmath.NewInt(int64(len(gs.CreatedTxDetails)))) {
 		return fmt.Errorf(
 			"number of CreatedTxDetails should match CreatedTxCount in ccm genesis, is %d but expected %s",
 			len(gs.CreatedTxDetails), gs.CreatedTxCount.String())

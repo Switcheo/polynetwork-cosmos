@@ -5,26 +5,34 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
+import "Switcheo/carbon/lockproxy/lockproxy.proto";
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
+option (gogoproto.goproto_getters_all) = false;
 
 // Query defines the gRPC querier service.
 service Query {
-    // this line is used by starport scaffolding # 2
-	rpc Proxy(QueryGetProxyRequest) returns (QueryGetProxyResponse) {
-		option (google.api.http).get = "/Switcheo/polynetworkcosmos/lockproxy/Proxy/{operator_address}";
-	}
+  // this line is used by starport scaffolding # 2
+  rpc Proxy(QueryGetProxyRequest) returns (QueryGetProxyResponse) {
+    option (google.api.http).get =
+        "/carbon/lockproxy/v1/proxy/{operator_address}";
+  }
+  rpc WrapperMappings(QueryListWrapperMappingRequest)
+      returns (QueryListWrapperMappingResponse) {
+    option (google.api.http).get = "/carbon/lockproxy/v1/wrapper_mappings";
+  }
 }
 
 // this line is used by starport scaffolding # 3
-message QueryGetProxyRequest {
-  option (gogoproto.goproto_getters) = false;
+message QueryGetProxyRequest { string operator_address = 1; }
 
-	string operator_address = 1;
+message QueryGetProxyResponse { bytes proxy_hash = 1; }
+
+message QueryListWrapperMappingRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
-message QueryGetProxyResponse {
-  option (gogoproto.goproto_getters) = false;
-
-	bytes proxy_hash = 1;
+message QueryListWrapperMappingResponse {
+  repeated WrapperMapping wrapper_mappings = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

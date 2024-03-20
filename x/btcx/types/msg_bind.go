@@ -3,6 +3,7 @@ package types
 import (
 	"encoding/hex"
 
+	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -43,16 +44,16 @@ func (msg *MsgBind) GetSignBytes() []byte {
 func (msg *MsgBind) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s), error: %v", msg.Creator, err)
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s), error: %v", msg.Creator, err)
 	}
 	if err := sdk.ValidateDenom(msg.SourceAssetDenom); err != nil {
-		return sdkerrors.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
+		return errorsmod.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
 	}
 	if msg.ToChainId == 0 {
-		return sdkerrors.Wrapf(ErrInvalidChainIdType, "invalid chain id (%d)", msg.ToChainId)
+		return errorsmod.Wrapf(ErrInvalidChainIdType, "invalid chain id (%d)", msg.ToChainId)
 	}
 	if len(msg.ToAssetHash) == 0 {
-		return sdkerrors.Wrapf(ErrEmptyToAssetHashType, "invalid to asset hash (%s)", hex.EncodeToString(msg.ToAssetHash))
+		return errorsmod.Wrapf(ErrEmptyToAssetHashType, "invalid to asset hash (%s)", hex.EncodeToString(msg.ToAssetHash))
 	}
 	return nil
 }

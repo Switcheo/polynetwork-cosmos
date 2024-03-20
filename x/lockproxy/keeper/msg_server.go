@@ -93,3 +93,11 @@ func (k Keeper) Lock(c context.Context, req *types.MsgLock) (res *types.MsgLockR
 
 	return &types.MsgLockResponse{}, nil
 }
+
+func (k MsgServer) SetWrapperMapping(c context.Context, msg *types.MsgSetWrapperMapping) (res *types.MsgSetWrapperMappingResponse, err error) {
+	return &types.MsgSetWrapperMappingResponse{}, nil
+}
+
+func (k MsgServer) DeleteWrapperMapping(c context.Context, msg *types.MsgDeleteWrapperMapping) (res *types.MsgDeleteWrapperMappingResponse, err error) {
+	return &types.MsgDeleteWrapperMappingResponse{}, nil
+}

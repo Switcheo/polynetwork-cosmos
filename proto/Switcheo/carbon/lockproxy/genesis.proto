@@ -2,6 +2,7 @@ syntax = "proto3";
 package Switcheo.carbon.lockproxy;
 
 import "gogoproto/gogo.proto";
+import "Switcheo/carbon/lockproxy/lockproxy.proto";
 
 // this line is used by starport scaffolding # genesis/proto/import
 
@@ -13,18 +14,21 @@ message GenesisState {
 
   // An auto-incrementing nonce for withdrawals.
   string nonce = 1 [
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
-    (gogoproto.nullable)   = false
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
   ];
 
   // Records chainIDs (value is always []byte("1") if exists)
-	map<string, bytes> chain_ids = 2 [(gogoproto.moretags) = "yaml:\"chain_ids\""];
+  map<string, bytes> chain_ids = 2;
 
   // Records registries (value is []byte(denom))
-	map<string, bytes> registries = 3;
+  map<string, bytes> registries = 3;
 
   // Records operators (value is operator address as bytes)
-	map<string, bytes> operators = 4;
+  map<string, bytes> operators = 4;
+
+  // Records wrapper mappings
+  repeated WrapperMapping wrapper_mappings = 5 [ (gogoproto.nullable) = false ];
 
   // this line is used by starport scaffolding # genesis/proto/state
   // this line is used by starport scaffolding # ibc/genesis/proto

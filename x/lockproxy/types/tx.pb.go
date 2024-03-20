@@ -5,9 +5,10 @@ package types
 
 import (
 	context "context"
+	cosmossdk_io_math "cosmossdk.io/math"
 	fmt "fmt"
 	_ "github.com/cosmos/cosmos-sdk/types"
-	github_com_cosmos_cosmos_sdk_types "github.com/cosmos/cosmos-sdk/types"
+	_ "github.com/cosmos/cosmos-sdk/types/msgservice"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	grpc1 "github.com/cosmos/gogoproto/grpc"
 	proto "github.com/cosmos/gogoproto/proto"
@@ -107,10 +108,10 @@ var xxx_messageInfo_MsgCreateResponse proto.InternalMessageInfo
 type MsgBind struct {
 	Creator             string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Denom               string `protobuf:"bytes,2,opt,name=denom,proto3" json:"denom,omitempty"`
-	LockProxyHash       []byte `protobuf:"bytes,3,opt,name=lock_proxy_hash,json=lockProxyHash,proto3" json:"lock_proxy_hash,omitempty" yaml:"lock_proxy_hash"`
-	NativeChainId       uint64 `protobuf:"varint,4,opt,name=native_chain_id,json=nativeChainId,proto3" json:"native_chain_id,omitempty" yaml:"native_chain_id"`
-	NativeLockProxyHash []byte `protobuf:"bytes,5,opt,name=native_lock_proxy_hash,json=nativeLockProxyHash,proto3" json:"native_lock_proxy_hash,omitempty" yaml:"native_lock_proxy_hash"`
-	NativeAssetHash     []byte `protobuf:"bytes,6,opt,name=native_asset_hash,json=nativeAssetHash,proto3" json:"native_asset_hash,omitempty" yaml:"native_asset_hash"`
+	LockProxyHash       []byte `protobuf:"bytes,3,opt,name=lock_proxy_hash,json=lockProxyHash,proto3" json:"lock_proxy_hash,omitempty"`
+	NativeChainId       uint64 `protobuf:"varint,4,opt,name=native_chain_id,json=nativeChainId,proto3" json:"native_chain_id,omitempty"`
+	NativeLockProxyHash []byte `protobuf:"bytes,5,opt,name=native_lock_proxy_hash,json=nativeLockProxyHash,proto3" json:"native_lock_proxy_hash,omitempty"`
+	NativeAssetHash     []byte `protobuf:"bytes,6,opt,name=native_asset_hash,json=nativeAssetHash,proto3" json:"native_asset_hash,omitempty"`
 }
 
 func (m *MsgBind) Reset()         { *m = MsgBind{} }
@@ -183,18 +184,18 @@ func (m *MsgBindResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgBindResponse proto.InternalMessageInfo
 
 type MsgLock struct {
-	Denom           string                                 `protobuf:"bytes,1,opt,name=denom,proto3" json:"denom,omitempty"`
-	FromLockProxy   []byte                                 `protobuf:"bytes,2,opt,name=from_lock_proxy,json=fromLockProxy,proto3" json:"from_lock_proxy,omitempty" yaml:"from_lock_proxy"`
-	FromAddress     string                                 `protobuf:"bytes,3,opt,name=from_address,json=fromAddress,proto3" json:"from_address,omitempty" yaml:"from_address"`
-	FromAssetId     []byte                                 `protobuf:"bytes,4,opt,name=from_asset_id,json=fromAssetId,proto3" json:"from_asset_id,omitempty" yaml:"from_asset_id"`
-	ToChainId       uint64                                 `protobuf:"varint,5,opt,name=to_chain_id,json=toChainId,proto3" json:"to_chain_id,omitempty" yaml:"to_chain_id"`
-	ToLockProxy     []byte                                 `protobuf:"bytes,6,opt,name=to_lock_proxy,json=toLockProxy,proto3" json:"to_lock_proxy,omitempty" yaml:"to_lock_proxy"`
-	ToAssetId       []byte                                 `protobuf:"bytes,7,opt,name=to_asset_id,json=toAssetId,proto3" json:"to_asset_id,omitempty" yaml:"to_asset_id"`
-	ToAddress       []byte                                 `protobuf:"bytes,8,opt,name=to_address,json=toAddress,proto3" json:"to_address,omitempty" yaml:"to_address"`
-	Amount          github_com_cosmos_cosmos_sdk_types.Int `protobuf:"bytes,9,opt,name=amount,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Int" json:"amount" yaml:"amount"`
-	DeductFeeInLock bool                                   `protobuf:"varint,10,opt,name=deduct_fee_in_lock,json=deductFeeInLock,proto3" json:"deduct_fee_in_lock,omitempty"`
-	FeeAmount       github_com_cosmos_cosmos_sdk_types.Int `protobuf:"bytes,11,opt,name=fee_amount,json=feeAmount,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Int" json:"fee_amount" yaml:"fee_amount"`
-	FeeAddress      string                                 `protobuf:"bytes,12,opt,name=fee_address,json=feeAddress,proto3" json:"fee_address,omitempty" yaml:"fee_address"`
+	Denom           string                `protobuf:"bytes,1,opt,name=denom,proto3" json:"denom,omitempty"`
+	FromLockProxy   []byte                `protobuf:"bytes,2,opt,name=from_lock_proxy,json=fromLockProxy,proto3" json:"from_lock_proxy,omitempty"`
+	FromAddress     string                `protobuf:"bytes,3,opt,name=from_address,json=fromAddress,proto3" json:"from_address,omitempty"`
+	FromAssetId     []byte                `protobuf:"bytes,4,opt,name=from_asset_id,json=fromAssetId,proto3" json:"from_asset_id,omitempty"`
+	ToChainId       uint64                `protobuf:"varint,5,opt,name=to_chain_id,json=toChainId,proto3" json:"to_chain_id,omitempty"`
+	ToLockProxy     []byte                `protobuf:"bytes,6,opt,name=to_lock_proxy,json=toLockProxy,proto3" json:"to_lock_proxy,omitempty"`
+	ToAssetId       []byte                `protobuf:"bytes,7,opt,name=to_asset_id,json=toAssetId,proto3" json:"to_asset_id,omitempty"`
+	ToAddress       []byte                `protobuf:"bytes,8,opt,name=to_address,json=toAddress,proto3" json:"to_address,omitempty"`
+	Amount          cosmossdk_io_math.Int `protobuf:"bytes,9,opt,name=amount,proto3,customtype=cosmossdk.io/math.Int" json:"amount"`
+	DeductFeeInLock bool                  `protobuf:"varint,10,opt,name=deduct_fee_in_lock,json=deductFeeInLock,proto3" json:"deduct_fee_in_lock,omitempty"`
+	FeeAmount       cosmossdk_io_math.Int `protobuf:"bytes,11,opt,name=fee_amount,json=feeAmount,proto3,customtype=cosmossdk.io/math.Int" json:"fee_amount"`
+	FeeAddress      string                `protobuf:"bytes,12,opt,name=fee_address,json=feeAddress,proto3" json:"fee_address,omitempty"`
 }
 
 func (m *MsgLock) Reset()         { *m = MsgLock{} }
@@ -266,6 +267,158 @@ func (m *MsgLockResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgLockResponse proto.InternalMessageInfo
 
+type MsgSetWrapperMapping struct {
+	Creator             string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ChainId             uint64 `protobuf:"varint,2,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty"`
+	FromContractAddress string `protobuf:"bytes,3,opt,name=from_contract_address,json=fromContractAddress,proto3" json:"from_contract_address,omitempty"`
+	ToContractAddress   string `protobuf:"bytes,4,opt,name=to_contract_address,json=toContractAddress,proto3" json:"to_contract_address,omitempty"`
+	LockType            uint64 `protobuf:"varint,5,opt,name=lock_type,json=lockType,proto3" json:"lock_type,omitempty"`
+}
+
+func (m *MsgSetWrapperMapping) Reset()         { *m = MsgSetWrapperMapping{} }
+func (m *MsgSetWrapperMapping) String() string { return proto.CompactTextString(m) }
+func (*MsgSetWrapperMapping) ProtoMessage()    {}
+func (*MsgSetWrapperMapping) Descriptor() ([]byte, []int) {
+	return fileDescriptor_77c0dfd37a38af34, []int{6}
+}
+func (m *MsgSetWrapperMapping) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgSetWrapperMapping) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgSetWrapperMapping.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgSetWrapperMapping) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSetWrapperMapping.Merge(m, src)
+}
+func (m *MsgSetWrapperMapping) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgSetWrapperMapping) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSetWrapperMapping.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgSetWrapperMapping proto.InternalMessageInfo
+
+type MsgSetWrapperMappingResponse struct {
+}
+
+func (m *MsgSetWrapperMappingResponse) Reset()         { *m = MsgSetWrapperMappingResponse{} }
+func (m *MsgSetWrapperMappingResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgSetWrapperMappingResponse) ProtoMessage()    {}
+func (*MsgSetWrapperMappingResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_77c0dfd37a38af34, []int{7}
+}
+func (m *MsgSetWrapperMappingResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgSetWrapperMappingResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgSetWrapperMappingResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgSetWrapperMappingResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSetWrapperMappingResponse.Merge(m, src)
+}
+func (m *MsgSetWrapperMappingResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgSetWrapperMappingResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSetWrapperMappingResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgSetWrapperMappingResponse proto.InternalMessageInfo
+
+type MsgDeleteWrapperMapping struct {
+	Creator         string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ChainId         uint64 `protobuf:"varint,2,opt,name=chainId,proto3" json:"chainId,omitempty"`
+	ContractAddress string `protobuf:"bytes,3,opt,name=contract_address,json=contractAddress,proto3" json:"contract_address,omitempty"`
+}
+
+func (m *MsgDeleteWrapperMapping) Reset()         { *m = MsgDeleteWrapperMapping{} }
+func (m *MsgDeleteWrapperMapping) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteWrapperMapping) ProtoMessage()    {}
+func (*MsgDeleteWrapperMapping) Descriptor() ([]byte, []int) {
+	return fileDescriptor_77c0dfd37a38af34, []int{8}
+}
+func (m *MsgDeleteWrapperMapping) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteWrapperMapping) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteWrapperMapping.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteWrapperMapping) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteWrapperMapping.Merge(m, src)
+}
+func (m *MsgDeleteWrapperMapping) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteWrapperMapping) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteWrapperMapping.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteWrapperMapping proto.InternalMessageInfo
+
+type MsgDeleteWrapperMappingResponse struct {
+}
+
+func (m *MsgDeleteWrapperMappingResponse) Reset()         { *m = MsgDeleteWrapperMappingResponse{} }
+func (m *MsgDeleteWrapperMappingResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteWrapperMappingResponse) ProtoMessage()    {}
+func (*MsgDeleteWrapperMappingResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_77c0dfd37a38af34, []int{9}
+}
+func (m *MsgDeleteWrapperMappingResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteWrapperMappingResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteWrapperMappingResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteWrapperMappingResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteWrapperMappingResponse.Merge(m, src)
+}
+func (m *MsgDeleteWrapperMappingResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteWrapperMappingResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteWrapperMappingResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteWrapperMappingResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgCreate)(nil), "Switcheo.carbon.lockproxy.MsgCreate")
 	proto.RegisterType((*MsgCreateResponse)(nil), "Switcheo.carbon.lockproxy.MsgCreateResponse")
@@ -273,6 +426,10 @@ func init() {
 	proto.RegisterType((*MsgBindResponse)(nil), "Switcheo.carbon.lockproxy.MsgBindResponse")
 	proto.RegisterType((*MsgLock)(nil), "Switcheo.carbon.lockproxy.MsgLock")
 	proto.RegisterType((*MsgLockResponse)(nil), "Switcheo.carbon.lockproxy.MsgLockResponse")
+	proto.RegisterType((*MsgSetWrapperMapping)(nil), "Switcheo.carbon.lockproxy.MsgSetWrapperMapping")
+	proto.RegisterType((*MsgSetWrapperMappingResponse)(nil), "Switcheo.carbon.lockproxy.MsgSetWrapperMappingResponse")
+	proto.RegisterType((*MsgDeleteWrapperMapping)(nil), "Switcheo.carbon.lockproxy.MsgDeleteWrapperMapping")
+	proto.RegisterType((*MsgDeleteWrapperMappingResponse)(nil), "Switcheo.carbon.lockproxy.MsgDeleteWrapperMappingResponse")
 }
 
 func init() {
@@ -280,54 +437,59 @@ func init() {
 }
 
 var fileDescriptor_77c0dfd37a38af34 = []byte{
-	// 753 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x55, 0x5f, 0x6b, 0xd3, 0x50,
-	0x14, 0x6f, 0xb6, 0xb6, 0x5b, 0x6f, 0x5b, 0x46, 0xb3, 0x39, 0x63, 0xd1, 0xa6, 0x5e, 0x44, 0x8a,
-	0x73, 0x0d, 0x53, 0x51, 0x19, 0x03, 0x59, 0x07, 0xb2, 0x82, 0x03, 0xb9, 0xc2, 0x04, 0x11, 0x4a,
-	0x9a, 0xdc, 0xb5, 0x61, 0x6b, 0x6e, 0xc9, 0xbd, 0xfb, 0xd3, 0x6f, 0xe0, 0xa3, 0xe0, 0x17, 0xf0,
-	0xe3, 0xec, 0x71, 0x8f, 0xe2, 0x43, 0x90, 0xed, 0x49, 0x1f, 0xf3, 0x09, 0xe4, 0xfe, 0x49, 0x93,
-	0x54, 0xe6, 0xf4, 0xa9, 0xb9, 0xe7, 0xfc, 0xce, 0xef, 0xfc, 0xce, 0xef, 0xa4, 0x37, 0x00, 0xbe,
-	0x3b, 0xf5, 0x98, 0x33, 0xc4, 0xc4, 0x72, 0xec, 0xa0, 0x4f, 0x7c, 0xeb, 0x88, 0x38, 0x87, 0xe3,
-	0x80, 0x9c, 0x4d, 0x2c, 0x76, 0xd6, 0x1e, 0x07, 0x84, 0x11, 0xfd, 0x4e, 0x8c, 0x69, 0x4b, 0x4c,
-	0x7b, 0x8a, 0xa9, 0xaf, 0x0c, 0xc8, 0x80, 0x08, 0x94, 0xc5, 0x9f, 0x64, 0x41, 0xbd, 0xe1, 0x10,
-	0x3a, 0x22, 0xd4, 0xea, 0xdb, 0x14, 0x5b, 0x27, 0x1b, 0x7d, 0xcc, 0xec, 0x0d, 0xcb, 0x21, 0x9e,
-	0x2f, 0xf3, 0x70, 0x0d, 0x94, 0xf6, 0xe8, 0x60, 0x27, 0xc0, 0x36, 0xc3, 0xba, 0x01, 0x16, 0x1c,
-	0xfe, 0x44, 0x02, 0x43, 0x6b, 0x6a, 0xad, 0x12, 0x8a, 0x8f, 0x9b, 0xf9, 0x4f, 0x5f, 0xcd, 0x1c,
-	0x5c, 0x06, 0xb5, 0x29, 0x18, 0x61, 0x3a, 0x26, 0x3e, 0xc5, 0xf0, 0xe7, 0x1c, 0x58, 0xd8, 0xa3,
-	0x83, 0x8e, 0xe7, 0xbb, 0xd7, 0x13, 0xe8, 0x2b, 0xa0, 0xe0, 0x62, 0x9f, 0x8c, 0x8c, 0x39, 0x11,
-	0x97, 0x07, 0xbd, 0x03, 0x96, 0xf8, 0x00, 0x3d, 0x31, 0x41, 0x6f, 0x68, 0xd3, 0xa1, 0x31, 0xdf,
-	0xd4, 0x5a, 0x95, 0x4e, 0x3d, 0x0a, 0xcd, 0xd5, 0x89, 0x3d, 0x3a, 0xda, 0x84, 0x33, 0x00, 0x88,
-	0xaa, 0x3c, 0xf2, 0x96, 0x07, 0x76, 0x6d, 0x3a, 0xe4, 0x1c, 0xbe, 0xcd, 0xbc, 0x13, 0xdc, 0x73,
-	0x86, 0xb6, 0xe7, 0xf7, 0x3c, 0xd7, 0xc8, 0x37, 0xb5, 0x56, 0x3e, 0xcd, 0x31, 0x03, 0x80, 0xa8,
-	0x2a, 0x23, 0x3b, 0x3c, 0xd0, 0x75, 0xf5, 0x7d, 0xb0, 0xaa, 0x20, 0xb3, 0x72, 0x0a, 0x42, 0xce,
-	0xfd, 0x28, 0x34, 0xef, 0x65, 0xa8, 0xfe, 0x50, 0xb5, 0x2c, 0x13, 0x6f, 0x32, 0xda, 0x76, 0x41,
-	0x4d, 0xe1, 0x6d, 0x4a, 0x31, 0x93, 0x94, 0x45, 0x41, 0x79, 0x37, 0x0a, 0x4d, 0x23, 0x43, 0x99,
-	0x40, 0x20, 0x52, 0x23, 0x6d, 0xf3, 0x10, 0x67, 0x52, 0x0b, 0xa8, 0x81, 0x25, 0x65, 0xf5, 0xd4,
-	0xfe, 0x5f, 0x05, 0x61, 0x3f, 0xef, 0x9b, 0x98, 0xac, 0xcd, 0x98, 0x7c, 0x10, 0x90, 0x51, 0x4a,
-	0xb2, 0x58, 0x42, 0xc6, 0xe4, 0x19, 0x00, 0x44, 0x55, 0x1e, 0x99, 0x0e, 0xa3, 0x6f, 0x82, 0x8a,
-	0x80, 0xd8, 0xae, 0x1b, 0x60, 0x4a, 0xc5, 0x96, 0x4a, 0x9d, 0xdb, 0x51, 0x68, 0x2e, 0xa7, 0x08,
-	0x54, 0x16, 0xa2, 0x32, 0x3f, 0x6e, 0xcb, 0x93, 0xbe, 0x05, 0xaa, 0x32, 0x2b, 0xe6, 0x53, 0xeb,
-	0xa9, 0x74, 0x8c, 0x28, 0x34, 0x57, 0xd2, 0xc5, 0x2a, 0x1d, 0x57, 0xf3, 0x63, 0xd7, 0xd5, 0x9f,
-	0x83, 0x32, 0x23, 0xc9, 0x6a, 0x0b, 0x62, 0xb5, 0xab, 0x51, 0x68, 0xea, 0xb2, 0x36, 0x95, 0x84,
-	0xa8, 0xc4, 0x48, 0xbc, 0xd2, 0x2d, 0x50, 0x65, 0x24, 0x3d, 0x73, 0x71, 0xb6, 0x6b, 0x26, 0x0d,
-	0x51, 0x99, 0x91, 0x64, 0x5e, 0xd9, 0x75, 0xaa, 0x78, 0x41, 0xd4, 0x66, 0xbb, 0x26, 0x7a, 0x4b,
-	0x8c, 0xc4, 0x6a, 0x9f, 0x01, 0xc0, 0x53, 0xca, 0xa5, 0x45, 0x51, 0x76, 0x2b, 0x0a, 0xcd, 0x5a,
-	0x52, 0x16, 0x7b, 0xc4, 0xab, 0x94, 0x43, 0xef, 0x41, 0xd1, 0x1e, 0x91, 0x63, 0x9f, 0x19, 0x25,
-	0xe1, 0xeb, 0xab, 0xf3, 0xd0, 0xcc, 0x7d, 0x0f, 0xcd, 0x87, 0x03, 0x8f, 0x0d, 0x8f, 0xfb, 0x6d,
-	0x87, 0x8c, 0x2c, 0xf5, 0x3f, 0x96, 0x3f, 0xeb, 0xd4, 0x3d, 0xb4, 0xd8, 0x64, 0x8c, 0x69, 0xbb,
-	0xeb, 0xb3, 0x28, 0x34, 0xab, 0x92, 0x5f, 0xb2, 0x40, 0xa4, 0xe8, 0xf4, 0x35, 0xa0, 0xbb, 0xd8,
-	0x3d, 0x76, 0x58, 0xef, 0x00, 0xe3, 0x9e, 0xe7, 0x8b, 0x81, 0x0d, 0xd0, 0xd4, 0x5a, 0x8b, 0x68,
-	0x49, 0x66, 0x5e, 0x63, 0xdc, 0xf5, 0xc5, 0xdb, 0xd3, 0x07, 0x80, 0xa3, 0x94, 0x92, 0xb2, 0x50,
-	0xb2, 0xf3, 0xdf, 0x4a, 0xd4, 0xa4, 0x09, 0x13, 0x44, 0xa5, 0x03, 0x8c, 0xb7, 0xa5, 0xa0, 0x17,
-	0xa0, 0x2c, 0x32, 0xca, 0xa0, 0x8a, 0x68, 0x92, 0xf2, 0x35, 0x95, 0x84, 0x88, 0xcb, 0x51, 0x16,
-	0x65, 0xde, 0x7f, 0xae, 0x36, 0x7e, 0xff, 0x9f, 0x7c, 0x99, 0x03, 0xf3, 0x7b, 0x74, 0xa0, 0x7f,
-	0x04, 0x45, 0x75, 0x8b, 0x3d, 0x68, 0x5f, 0x7b, 0x49, 0xb6, 0xa7, 0xd7, 0x57, 0xfd, 0xf1, 0xbf,
-	0xa0, 0xe2, 0x2e, 0xfa, 0x3e, 0xc8, 0x8b, 0x0b, 0x0e, 0xfe, 0xbd, 0x8a, 0x63, 0xea, 0x8f, 0x6e,
-	0xc6, 0xa4, 0x79, 0x85, 0xf7, 0x37, 0xf0, 0x72, 0xcc, 0x4d, 0xbc, 0x69, 0x57, 0x3a, 0xe8, 0xfc,
-	0xb2, 0xa1, 0x5d, 0x5c, 0x36, 0xb4, 0x1f, 0x97, 0x0d, 0xed, 0xf3, 0x55, 0x23, 0x77, 0x71, 0xd5,
-	0xc8, 0x7d, 0xbb, 0x6a, 0xe4, 0x3e, 0xbc, 0x4c, 0x6d, 0x72, 0xfa, 0xc1, 0x19, 0x93, 0xa3, 0x89,
-	0x8f, 0xd9, 0x29, 0x09, 0x0e, 0xd7, 0xd5, 0x7a, 0xcf, 0xd2, 0x9f, 0x1f, 0xbe, 0xdf, 0x7e, 0x51,
-	0x7c, 0x31, 0x9e, 0xfe, 0x0e, 0x00, 0x00, 0xff, 0xff, 0xea, 0xc1, 0xe4, 0xd2, 0xa8, 0x06, 0x00,
+	// 833 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x55, 0xcd, 0x4e, 0xeb, 0x46,
+	0x14, 0x8e, 0x21, 0x7f, 0x3e, 0x49, 0x14, 0xe2, 0x84, 0x12, 0xd2, 0xe2, 0x84, 0xa8, 0xaa, 0xd2,
+	0x14, 0xd9, 0x02, 0x54, 0x21, 0xa1, 0x6e, 0x80, 0x0a, 0x35, 0x52, 0x23, 0x55, 0xa6, 0x6a, 0xa5,
+	0xaa, 0x52, 0xe4, 0xd8, 0x83, 0x63, 0x41, 0x3c, 0x96, 0x67, 0xa0, 0x64, 0x51, 0xa9, 0xea, 0xa2,
+	0xaa, 0xba, 0xea, 0x23, 0x54, 0x7d, 0x02, 0x1e, 0x83, 0x25, 0xcb, 0xab, 0xbb, 0x40, 0x57, 0xb0,
+	0x60, 0x71, 0x5f, 0xe1, 0x2e, 0xae, 0x66, 0x3c, 0x36, 0x21, 0x24, 0x01, 0x56, 0xb1, 0xcf, 0xf9,
+	0xce, 0x39, 0xdf, 0xf7, 0xcd, 0xc9, 0x18, 0x9a, 0x47, 0xbf, 0xb9, 0xd4, 0x1a, 0x20, 0xac, 0x5b,
+	0x66, 0xd0, 0xc7, 0x9e, 0x7e, 0x8a, 0xad, 0x13, 0x3f, 0xc0, 0x17, 0x23, 0x9d, 0x5e, 0x68, 0x7e,
+	0x80, 0x29, 0x56, 0x56, 0x23, 0x8c, 0x16, 0x62, 0xb4, 0x18, 0x53, 0xab, 0x38, 0xd8, 0xc1, 0x1c,
+	0xa5, 0xb3, 0xa7, 0xb0, 0xa0, 0xa6, 0x5a, 0x98, 0x0c, 0x31, 0xd1, 0xfb, 0x26, 0x41, 0xfa, 0xf9,
+	0x66, 0x1f, 0x51, 0x73, 0x53, 0xb7, 0xb0, 0xeb, 0x89, 0xfc, 0x8a, 0xc8, 0x0f, 0x89, 0xa3, 0x9f,
+	0x6f, 0xb2, 0x9f, 0x30, 0xd1, 0xdc, 0x01, 0xb9, 0x4b, 0x9c, 0x83, 0x00, 0x99, 0x14, 0x29, 0x55,
+	0xc8, 0x58, 0xec, 0x09, 0x07, 0x55, 0xa9, 0x21, 0xb5, 0x64, 0x23, 0x7a, 0xdd, 0x5d, 0xfa, 0xfb,
+	0xbf, 0x7a, 0xe2, 0xcf, 0xfb, 0xcb, 0x76, 0x14, 0x69, 0x96, 0xa1, 0x14, 0x17, 0x1a, 0x88, 0xf8,
+	0xd8, 0x23, 0xa8, 0xf9, 0x41, 0x82, 0x4c, 0x97, 0x38, 0xfb, 0xae, 0x67, 0xcf, 0x6e, 0xa6, 0x54,
+	0x20, 0x65, 0x23, 0x0f, 0x0f, 0xab, 0x0b, 0x3c, 0x1e, 0xbe, 0x28, 0x5f, 0x40, 0x91, 0xa9, 0xec,
+	0x71, 0x99, 0xbd, 0x81, 0x49, 0x06, 0xd5, 0xc5, 0x86, 0xd4, 0xca, 0x1b, 0x05, 0x16, 0xfe, 0x81,
+	0x45, 0xbf, 0x33, 0xc9, 0x80, 0xe1, 0x3c, 0x93, 0xba, 0xe7, 0xa8, 0x67, 0x0d, 0x4c, 0xd7, 0xeb,
+	0xb9, 0x76, 0x35, 0xd9, 0x90, 0x5a, 0x49, 0xa3, 0x10, 0x86, 0x0f, 0x58, 0xb4, 0x63, 0x2b, 0xdb,
+	0xf0, 0x89, 0xc0, 0x4d, 0xb6, 0x4d, 0xf1, 0xb6, 0xe5, 0x30, 0xfb, 0xfd, 0xa3, 0xe6, 0x6d, 0x28,
+	0x89, 0x22, 0x93, 0x10, 0x44, 0x43, 0x7c, 0x9a, 0xe3, 0xc5, 0xd4, 0x3d, 0x16, 0x67, 0xd8, 0x29,
+	0x9e, 0x94, 0xa0, 0x28, 0xd4, 0xc7, 0x8e, 0xbc, 0x5f, 0xe4, 0x8e, 0xb0, 0x29, 0x0f, 0xba, 0xa5,
+	0x09, 0xdd, 0xc7, 0x01, 0x1e, 0x8e, 0xb1, 0xe4, 0xbe, 0xe4, 0x8d, 0x02, 0x0b, 0xc7, 0xf4, 0x94,
+	0x75, 0xc8, 0x73, 0x9c, 0x69, 0xdb, 0x01, 0x22, 0x84, 0x9b, 0x23, 0x1b, 0x39, 0x16, 0xdb, 0x0b,
+	0x43, 0x4a, 0x13, 0x0a, 0x21, 0x84, 0x73, 0x17, 0xc6, 0xe4, 0x05, 0x86, 0xc5, 0x3a, 0xb6, 0xa2,
+	0x42, 0x8e, 0xe2, 0x07, 0xeb, 0x52, 0xdc, 0x3a, 0x99, 0xe2, 0xc8, 0xb6, 0x26, 0x14, 0x28, 0x1e,
+	0x27, 0x13, 0xaa, 0xcf, 0x51, 0xfc, 0x40, 0x25, 0xec, 0x11, 0x4f, 0xc9, 0x70, 0x84, 0x4c, 0x71,
+	0x34, 0x63, 0x0d, 0x80, 0xe5, 0x05, 0xd1, 0x6c, 0x9c, 0x16, 0x34, 0xbf, 0x86, 0xb4, 0x39, 0xc4,
+	0x67, 0x1e, 0xad, 0xca, 0x4c, 0xc3, 0xfe, 0xda, 0xd5, 0x4d, 0x3d, 0xf1, 0xf6, 0xa6, 0xbe, 0x1c,
+	0x2e, 0x29, 0xb1, 0x4f, 0x34, 0x17, 0xeb, 0x43, 0x93, 0x0e, 0xb4, 0x8e, 0x47, 0x0d, 0x01, 0x56,
+	0xbe, 0x02, 0xc5, 0x46, 0xf6, 0x99, 0x45, 0x7b, 0xc7, 0x08, 0xf5, 0x5c, 0x8f, 0x93, 0xac, 0x42,
+	0x43, 0x6a, 0x65, 0x8d, 0x62, 0x98, 0x39, 0x44, 0xa8, 0xe3, 0x71, 0xaf, 0xbf, 0x01, 0x60, 0x28,
+	0x31, 0x27, 0xf7, 0x92, 0x39, 0xf2, 0x31, 0x42, 0x7b, 0xe1, 0xa8, 0x3a, 0xe4, 0x78, 0xb5, 0x50,
+	0x90, 0xe7, 0x56, 0xb3, 0x86, 0x42, 0xc2, 0xee, 0x72, 0x74, 0xf6, 0x8f, 0xce, 0x44, 0x2c, 0x00,
+	0x23, 0x10, 0x2f, 0xc0, 0x8d, 0x04, 0x95, 0x2e, 0x71, 0x8e, 0x10, 0xfd, 0x39, 0x30, 0x7d, 0x1f,
+	0x05, 0x5d, 0xd3, 0xf7, 0x5d, 0xcf, 0x99, 0xf3, 0xff, 0x58, 0x85, 0x6c, 0x7c, 0x3e, 0x0b, 0xfc,
+	0x7c, 0x32, 0x96, 0x38, 0x9d, 0x2d, 0x58, 0xe6, 0x03, 0x2d, 0xec, 0xd1, 0xc0, 0xb4, 0xe8, 0xc4,
+	0x36, 0x94, 0x59, 0xf2, 0x40, 0xe4, 0x22, 0xbb, 0x35, 0x28, 0xb3, 0x13, 0x9f, 0xac, 0x48, 0xf2,
+	0x8a, 0x12, 0xc5, 0x93, 0xf8, 0x4f, 0x41, 0xe6, 0xc7, 0x4f, 0x47, 0x3e, 0x12, 0xfb, 0x91, 0x65,
+	0x81, 0x1f, 0x47, 0x3e, 0x9a, 0xb2, 0xf4, 0x2a, 0x7c, 0x36, 0x4d, 0x5f, 0x6c, 0xc0, 0x3f, 0x12,
+	0xac, 0x74, 0x89, 0xf3, 0x2d, 0x3a, 0x45, 0x14, 0xbd, 0xd8, 0x03, 0x96, 0x09, 0x35, 0x4f, 0x5a,
+	0xf0, 0x25, 0x2c, 0xcd, 0x50, 0x5f, 0xb4, 0x1e, 0x2b, 0x99, 0x42, 0x76, 0x1d, 0xea, 0x33, 0xb8,
+	0x44, 0x7c, 0xb7, 0xfe, 0x4f, 0xc2, 0x62, 0x97, 0x38, 0xca, 0xaf, 0x90, 0x16, 0xd7, 0xe2, 0xe7,
+	0xda, 0xcc, 0xeb, 0x58, 0x8b, 0xef, 0xc0, 0xda, 0xc6, 0x4b, 0x50, 0xd1, 0x14, 0xe5, 0x27, 0x48,
+	0xf2, 0x5b, 0xb2, 0x39, 0xbf, 0x8a, 0x61, 0x6a, 0xed, 0xe7, 0x31, 0xe3, 0x7d, 0xf9, 0xfe, 0x3f,
+	0xd3, 0x97, 0x61, 0x9e, 0xeb, 0x3b, 0xbe, 0xc6, 0xca, 0xef, 0x50, 0x7a, 0xba, 0xc2, 0xfa, 0xfc,
+	0x06, 0x4f, 0x0a, 0x6a, 0x3b, 0xaf, 0x2c, 0x88, 0xc7, 0xff, 0x25, 0x41, 0x65, 0xea, 0x06, 0x6d,
+	0xcd, 0xef, 0x38, 0xad, 0xa6, 0xb6, 0xfb, 0xfa, 0x9a, 0x88, 0x48, 0x2d, 0xf5, 0xc7, 0xfd, 0x65,
+	0x5b, 0xda, 0x3f, 0xbc, 0xba, 0x55, 0xa5, 0xeb, 0x5b, 0x55, 0x7a, 0x77, 0xab, 0x4a, 0xff, 0xde,
+	0xa9, 0x89, 0xeb, 0x3b, 0x35, 0xf1, 0xe6, 0x4e, 0x4d, 0xfc, 0xb2, 0xe1, 0xb8, 0x74, 0x70, 0xd6,
+	0xd7, 0x2c, 0x3c, 0xd4, 0x27, 0xbf, 0xf4, 0x17, 0xe3, 0xdf, 0xfa, 0x91, 0x8f, 0x48, 0x3f, 0xcd,
+	0xbf, 0xc2, 0xdb, 0x1f, 0x03, 0x00, 0x00, 0xff, 0xff, 0xbd, 0x7b, 0x4e, 0x85, 0x15, 0x08, 0x00,
 	0x00,
 }
 
@@ -347,6 +509,8 @@ type MsgClient interface {
 	Create(ctx context.Context, in *MsgCreate, opts ...grpc.CallOption) (*MsgCreateResponse, error)
 	Bind(ctx context.Context, in *MsgBind, opts ...grpc.CallOption) (*MsgBindResponse, error)
 	Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error)
+	SetWrapperMapping(ctx context.Context, in *MsgSetWrapperMapping, opts ...grpc.CallOption) (*MsgSetWrapperMappingResponse, error)
+	DeleteWrapperMapping(ctx context.Context, in *MsgDeleteWrapperMapping, opts ...grpc.CallOption) (*MsgDeleteWrapperMappingResponse, error)
 }
 
 type msgClient struct {
@@ -384,12 +548,32 @@ func (c *msgClient) Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOpti
 	return out, nil
 }
 
+func (c *msgClient) SetWrapperMapping(ctx context.Context, in *MsgSetWrapperMapping, opts ...grpc.CallOption) (*MsgSetWrapperMappingResponse, error) {
+	out := new(MsgSetWrapperMappingResponse)
+	err := c.cc.Invoke(ctx, "/Switcheo.carbon.lockproxy.Msg/SetWrapperMapping", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteWrapperMapping(ctx context.Context, in *MsgDeleteWrapperMapping, opts ...grpc.CallOption) (*MsgDeleteWrapperMappingResponse, error) {
+	out := new(MsgDeleteWrapperMappingResponse)
+	err := c.cc.Invoke(ctx, "/Switcheo.carbon.lockproxy.Msg/DeleteWrapperMapping", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// this line is used by starport scaffolding # proto/tx/rpc
 	Create(context.Context, *MsgCreate) (*MsgCreateResponse, error)
 	Bind(context.Context, *MsgBind) (*MsgBindResponse, error)
 	Lock(context.Context, *MsgLock) (*MsgLockResponse, error)
+	SetWrapperMapping(context.Context, *MsgSetWrapperMapping) (*MsgSetWrapperMappingResponse, error)
+	DeleteWrapperMapping(context.Context, *MsgDeleteWrapperMapping) (*MsgDeleteWrapperMappingResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -404,6 +588,12 @@ func (*UnimplementedMsgServer) Bind(ctx context.Context, req *MsgBind) (*MsgBind
 }
 func (*UnimplementedMsgServer) Lock(ctx context.Context, req *MsgLock) (*MsgLockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Lock not implemented")
+}
+func (*UnimplementedMsgServer) SetWrapperMapping(ctx context.Context, req *MsgSetWrapperMapping) (*MsgSetWrapperMappingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWrapperMapping not implemented")
+}
+func (*UnimplementedMsgServer) DeleteWrapperMapping(ctx context.Context, req *MsgDeleteWrapperMapping) (*MsgDeleteWrapperMappingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWrapperMapping not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -464,6 +654,42 @@ func _Msg_Lock_Handler(srv interface{}, ctx context.Context, dec func(interface{
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_SetWrapperMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSetWrapperMapping)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SetWrapperMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Switcheo.carbon.lockproxy.Msg/SetWrapperMapping",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SetWrapperMapping(ctx, req.(*MsgSetWrapperMapping))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteWrapperMapping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteWrapperMapping)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteWrapperMapping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Switcheo.carbon.lockproxy.Msg/DeleteWrapperMapping",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteWrapperMapping(ctx, req.(*MsgDeleteWrapperMapping))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "Switcheo.carbon.lockproxy.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -479,6 +705,14 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Lock",
 			Handler:    _Msg_Lock_Handler,
+		},
+		{
+			MethodName: "SetWrapperMapping",
+			Handler:    _Msg_SetWrapperMapping_Handler,
+		},
+		{
+			MethodName: "DeleteWrapperMapping",
+			Handler:    _Msg_DeleteWrapperMapping_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -761,6 +995,148 @@ func (m *MsgLockResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgSetWrapperMapping) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgSetWrapperMapping) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgSetWrapperMapping) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LockType != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.LockType))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.ToContractAddress) > 0 {
+		i -= len(m.ToContractAddress)
+		copy(dAtA[i:], m.ToContractAddress)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ToContractAddress)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.FromContractAddress) > 0 {
+		i -= len(m.FromContractAddress)
+		copy(dAtA[i:], m.FromContractAddress)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.FromContractAddress)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.ChainId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.ChainId))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgSetWrapperMappingResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgSetWrapperMappingResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgSetWrapperMappingResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteWrapperMapping) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteWrapperMapping) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteWrapperMapping) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ContractAddress) > 0 {
+		i -= len(m.ContractAddress)
+		copy(dAtA[i:], m.ContractAddress)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ContractAddress)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.ChainId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.ChainId))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteWrapperMappingResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteWrapperMappingResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteWrapperMappingResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -887,6 +1263,71 @@ func (m *MsgLock) Size() (n int) {
 }
 
 func (m *MsgLockResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgSetWrapperMapping) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.ChainId != 0 {
+		n += 1 + sovTx(uint64(m.ChainId))
+	}
+	l = len(m.FromContractAddress)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.ToContractAddress)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.LockType != 0 {
+		n += 1 + sovTx(uint64(m.LockType))
+	}
+	return n
+}
+
+func (m *MsgSetWrapperMappingResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgDeleteWrapperMapping) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.ChainId != 0 {
+		n += 1 + sovTx(uint64(m.ChainId))
+	}
+	l = len(m.ContractAddress)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgDeleteWrapperMappingResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1768,6 +2209,423 @@ func (m *MsgLockResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgLockResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgSetWrapperMapping) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgSetWrapperMapping: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgSetWrapperMapping: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainId", wireType)
+			}
+			m.ChainId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ChainId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FromContractAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FromContractAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ToContractAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ToContractAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LockType", wireType)
+			}
+			m.LockType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LockType |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgSetWrapperMappingResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgSetWrapperMappingResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgSetWrapperMappingResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteWrapperMapping) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteWrapperMapping: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteWrapperMapping: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainId", wireType)
+			}
+			m.ChainId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ChainId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ContractAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ContractAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteWrapperMappingResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteWrapperMappingResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteWrapperMappingResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

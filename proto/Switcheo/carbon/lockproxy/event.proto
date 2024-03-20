@@ -1,0 +1,32 @@
+syntax = "proto3";
+package Switcheo.carbon.lockproxy;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
+
+message LockEvent {
+  string denom = 1;
+  string from_lock_proxy = 2;
+  string from_asset_id = 3;
+  string from_address = 4;
+  string to_chain_id = 5;
+  string to_lock_proxy = 6;
+  string to_asset_id = 7;
+  string to_address = 8;
+  string amount = 9;
+  string fee_amount = 10;
+  string fee_address = 11;
+  string nonce = 12;
+}
+
+message UnlockEvent {
+  string to_asset_id = 1;
+  string to_address = 2;
+  string amount = 3;
+  string from_address = 4;
+  string from_asset_id = 5;
+  string fee_amount = 6;
+  string fee_address = 7;
+  string nonce = 8;
+}

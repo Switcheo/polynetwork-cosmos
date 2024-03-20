@@ -3,63 +3,92 @@ package Switcheo.carbon.lockproxy;
 
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
+import "cosmos/msg/v1/msg.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+  option (cosmos.msg.v1.service) = true;
+  // this line is used by starport scaffolding # proto/tx/rpc
   rpc Create(MsgCreate) returns (MsgCreateResponse);
   rpc Bind(MsgBind) returns (MsgBindResponse);
   rpc Lock(MsgLock) returns (MsgLockResponse);
+  rpc SetWrapperMapping(MsgSetWrapperMapping)
+      returns (MsgSetWrapperMappingResponse);
+  rpc DeleteWrapperMapping(MsgDeleteWrapperMapping)
+      returns (MsgDeleteWrapperMappingResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
 message MsgCreate {
+  option (cosmos.msg.v1.signer) = "creator";
   option (gogoproto.goproto_getters) = false;
 
   string creator = 1;
 }
 
-message MsgCreateResponse { }
+message MsgCreateResponse {}
 
 message MsgBind {
+  option (cosmos.msg.v1.signer) = "creator";
   option (gogoproto.goproto_getters) = false;
 
   string creator = 1;
   string denom = 2;
-  bytes lock_proxy_hash = 3 [(gogoproto.moretags) = "yaml:\"lock_proxy_hash\""];
-  uint64 native_chain_id = 4 [(gogoproto.moretags) = "yaml:\"native_chain_id\""];
-  bytes native_lock_proxy_hash = 5 [(gogoproto.moretags) = "yaml:\"native_lock_proxy_hash\""];
-  bytes native_asset_hash = 6 [(gogoproto.moretags) = "yaml:\"native_asset_hash\""];
+  bytes lock_proxy_hash = 3;
+  uint64 native_chain_id = 4;
+  bytes native_lock_proxy_hash = 5;
+  bytes native_asset_hash = 6;
 }
 
-message MsgBindResponse { }
+message MsgBindResponse {}
 
 message MsgLock {
+  option (cosmos.msg.v1.signer) = "from_address";
   option (gogoproto.goproto_getters) = false;
 
   string denom = 1;
-  bytes from_lock_proxy = 2 [(gogoproto.moretags) = "yaml:\"from_lock_proxy\""];
-  string from_address = 3 [(gogoproto.moretags) = "yaml:\"from_address\""];
-  bytes from_asset_id = 4 [(gogoproto.moretags) = "yaml:\"from_asset_id\""];
-	uint64 to_chain_id = 5 [(gogoproto.moretags) = "yaml:\"to_chain_id\""];
-	bytes to_lock_proxy = 6 [(gogoproto.moretags) = "yaml:\"to_lock_proxy\""];
-	bytes to_asset_id = 7 [(gogoproto.moretags) = "yaml:\"to_asset_id\""];
-	bytes to_address = 8 [(gogoproto.moretags) = "yaml:\"to_address\""];
+  bytes from_lock_proxy = 2;
+  string from_address = 3;
+  bytes from_asset_id = 4;
+  uint64 to_chain_id = 5;
+  bytes to_lock_proxy = 6;
+  bytes to_asset_id = 7;
+  bytes to_address = 8;
   string amount = 9 [
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
-    (gogoproto.moretags)   = "yaml:\"amount\"",
-    (gogoproto.nullable)   = false
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
   ];
-	bool deduct_fee_in_lock = 10;
-	string fee_amount = 11 [
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
-    (gogoproto.moretags)   = "yaml:\"fee_amount\"",
-    (gogoproto.nullable)   = false
+  bool deduct_fee_in_lock = 10;
+  string fee_amount = 11 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
   ];
-	string fee_address = 12  [(gogoproto.moretags) = "yaml:\"fee_address\""];
+  string fee_address = 12;
 }
 
-message MsgLockResponse { }
+message MsgLockResponse {}
+
+message MsgSetWrapperMapping {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (gogoproto.goproto_getters) = false;
+
+  string creator = 1;
+  uint64 chain_id = 2;
+  string from_contract_address = 3;
+  string to_contract_address = 4;
+  uint64 lock_type = 5;
+}
+message MsgSetWrapperMappingResponse {}
+
+message MsgDeleteWrapperMapping {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (gogoproto.goproto_getters) = false;
+
+  string creator = 1;
+  uint64 chainId = 2;
+  string contract_address = 3;
+}
+message MsgDeleteWrapperMappingResponse {}

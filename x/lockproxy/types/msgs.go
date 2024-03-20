@@ -20,6 +20,8 @@ package types
 import (
 	"fmt"
 
+	errorsmod "cosmossdk.io/errors"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -39,7 +41,7 @@ func (msg *MsgCreate) Type() string { return "Create" }
 func (msg *MsgCreate) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid submitter (%s), error: %v", msg.Creator, err))
+		return errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid submitter (%s), error: %v", msg.Creator, err))
 	}
 	return nil
 }
@@ -82,7 +84,7 @@ func (msg *MsgBind) Type() string { return "Bind" }
 func (msg *MsgBind) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid submitter (%s), error: %v", msg.Creator, err))
+		return errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid submitter (%s), error: %v", msg.Creator, err))
 	}
 	err = sdk.ValidateDenom(msg.Denom)
 	if err != nil {
@@ -120,7 +122,7 @@ func (msg *MsgBind) GetSignBytes() []byte {
 func NewMsgLock(denom string,
 	fromLockProxy, fromAssetId []byte, fromAddress string,
 	toChainId uint64, toLockProxy, toAssetId, toAddress []byte,
-	amount sdk.Int, deductFeeInLock bool, feeAmount sdk.Int, feeAddress string) *MsgLock {
+	amount sdkmath.Int, deductFeeInLock bool, feeAmount sdkmath.Int, feeAddress string) *MsgLock {
 	return &MsgLock{
 		Denom:           denom,
 		FromLockProxy:   fromLockProxy,
@@ -156,7 +158,7 @@ func (msg *MsgLock) ValidateBasic() error {
 	}
 	_, err := sdk.AccAddressFromBech32(msg.FromAddress)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid from address (%s), error: %v", msg.FromAddress, err))
+		return errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid from address (%s), error: %v", msg.FromAddress, err))
 	}
 	if msg.ToChainId <= 0 {
 		return ErrInvalidChainId(msg.ToChainId)
@@ -182,7 +184,7 @@ func (msg *MsgLock) ValidateBasic() error {
 		}
 		_, err = sdk.AccAddressFromBech32(msg.FeeAddress)
 		if err != nil {
-			return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid fee address (%s), error: %v", msg.FeeAddress, err))
+			return errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("Invalid fee address (%s), error: %v", msg.FeeAddress, err))
 		}
 	}
 	return nil

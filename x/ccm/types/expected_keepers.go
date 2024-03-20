@@ -1,6 +1,8 @@
 package types // noalias
 
 import (
+	context "context"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polytype "github.com/polynetwork/poly/core/types"
 )
@@ -12,7 +14,7 @@ type HeaderSyncKeeper interface {
 
 // BankKeeper defines the expected bank keeper
 type BankKeeper interface {
-	GetSupply(ctx sdk.Context, denom string) sdk.Coin
+	GetSupply(ctx context.Context, denom string) sdk.Coin
 }
 
 // UnlockKeeper defines the expected unlock keeper

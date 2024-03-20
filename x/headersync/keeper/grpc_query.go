@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 
+	errorsmod "cosmossdk.io/errors"
 	"github.com/Switcheo/polynetwork-cosmos/x/headersync/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -20,7 +21,7 @@ func (k Keeper) ConsensusPeers(c context.Context, req *types.QueryGetConsensusPe
 
 	peers, err := k.GetConsensusPeers(ctx, req.ChainId)
 	if err != nil {
-		return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidRequest, "Failed to get consensus peers for chainID: %d, error: %v", req.ChainId, err)
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "Failed to get consensus peers for chainID: %d, error: %v", req.ChainId, err)
 	}
 
 	res = &types.QueryGetConsensusPeersResponse{

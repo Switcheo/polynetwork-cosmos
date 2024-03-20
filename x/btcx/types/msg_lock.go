@@ -3,6 +3,8 @@ package types
 import (
 	"encoding/hex"
 
+	errorsmod "cosmossdk.io/errors"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -10,7 +12,7 @@ import (
 var _ sdk.Msg = &MsgLock{}
 
 // NewMsgLock returns a new MsgLock
-func NewMsgLock(fromAddress string, sourceAssetDenom string, toChainId uint64, toAddress []byte, value sdk.Int) *MsgLock {
+func NewMsgLock(fromAddress string, sourceAssetDenom string, toChainId uint64, toAddress []byte, value sdkmath.Int) *MsgLock {
 	return &MsgLock{fromAddress, sourceAssetDenom, toChainId, toAddress, value}
 }
 
@@ -43,19 +45,19 @@ func (msg *MsgLock) GetSignBytes() []byte {
 func (msg *MsgLock) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.FromAddress)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid from address (%s), error: %v", msg.FromAddress, err)
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid from address (%s), error: %v", msg.FromAddress, err)
 	}
 	if err := sdk.ValidateDenom(msg.SourceAssetDenom); err != nil {
-		return sdkerrors.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
+		return errorsmod.Wrapf(ErrBindAssetHashType, "invalid source asset denom (%s), error: %v", msg.SourceAssetDenom, err)
 	}
 	if msg.ToChainId == 0 {
-		return sdkerrors.Wrapf(ErrInvalidChainIdType, "invalid chain id (%d)", msg.ToChainId)
+		return errorsmod.Wrapf(ErrInvalidChainIdType, "invalid chain id (%d)", msg.ToChainId)
 	}
 	if len(msg.ToAddressBytes) == 0 {
-		return sdkerrors.Wrapf(ErrEmptyToAssetHashType, "invalid to address (%s)", hex.EncodeToString(msg.ToAddressBytes))
+		return errorsmod.Wrapf(ErrEmptyToAssetHashType, "invalid to address (%s)", hex.EncodeToString(msg.ToAddressBytes))
 	}
 	if msg.Value.IsNegative() {
-		return sdkerrors.Wrapf(ErrLockType, "invalid value (%s)", msg.Value)
+		return errorsmod.Wrapf(ErrLockType, "invalid value (%s)", msg.Value)
 	}
 	return nil
 }

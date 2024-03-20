@@ -8,12 +8,13 @@ import (
 	"math/big"
 	"strconv"
 
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 	"github.com/btcsuite/btcutil"
-	"github.com/cometbft/cometbft/libs/log"
 
+	storetypes "cosmossdk.io/store/types"
 	"github.com/Switcheo/polynetwork-cosmos/x/btcx/types"
 	"github.com/cosmos/cosmos-sdk/codec"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	polycommon "github.com/polynetwork/poly/common"
 )
@@ -107,14 +108,14 @@ func (k Keeper) BindAsset(ctx sdk.Context, creator sdk.AccAddress, sourceAssetDe
 	return nil
 }
 
-func (k Keeper) LockAsset(ctx sdk.Context, fromAddr sdk.AccAddress, sourceAssetDenom string, toChainId uint64, toAddr []byte, amount sdk.Int) error {
+func (k Keeper) LockAsset(ctx sdk.Context, fromAddr sdk.AccAddress, sourceAssetDenom string, toChainId uint64, toAddr []byte, amount sdkmath.Int) error {
 	// transfer back to btc
 	store := ctx.KVStore(k.storeKey)
 	toAssetHash := store.Get(GetBindAssetHashKey([]byte(sourceAssetDenom), toChainId))
 	if toAssetHash == nil {
 		return types.ErrLock(fmt.Sprintf("Invoke Lock of `btcx` module for denom: %s is illgeal due to toAssetHash empty for chainID: %d", sourceAssetDenom, toChainId))
 	}
-	if amount.GTE(sdk.NewIntFromUint64(math.MaxUint64)) {
+	if amount.GTE(sdkmath.NewIntFromUint64(math.MaxUint64)) {
 		return types.ErrLock(fmt.Sprintf("Invoke Lock of `btcx` module, amount: %s too big than MaxUint64", amount.String()))
 	}
 	sink := polycommon.NewZeroCopySink(nil)
@@ -188,7 +189,7 @@ func (k Keeper) Unlock(ctx sdk.Context, fromChainId uint64, fromContractAddr sdk
 	toDenom := string(toContractAddr)
 
 	toAccAddr := sdk.AccAddress(args.ToBtcAddress)
-	amount := sdk.NewIntFromBigInt(big.NewInt(0).SetUint64(args.Amount))
+	amount := sdkmath.NewIntFromBigInt(big.NewInt(0).SetUint64(args.Amount))
 	coins := sdk.NewCoins(sdk.NewCoin(toDenom, amount))
 	if err := k.bk.MintCoins(ctx, types.ModuleName, coins); err != nil {
 		return types.ErrUnlock(fmt.Sprintf("MintCoins from Addr: %s, Error: %v", toAccAddr.String(), err))

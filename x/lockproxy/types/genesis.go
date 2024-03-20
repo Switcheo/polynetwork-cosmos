@@ -1,7 +1,7 @@
 package types
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmath "cosmossdk.io/math"
 )
 
 // this line is used by starport scaffolding # genesis/types/import
@@ -13,7 +13,7 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		Nonce:      sdk.ZeroInt(),
+		Nonce:      sdkmath.ZeroInt(),
 		ChainIds:   make(map[string][]byte),
 		Registries: make(map[string][]byte),
 		Operators:  make(map[string][]byte),
