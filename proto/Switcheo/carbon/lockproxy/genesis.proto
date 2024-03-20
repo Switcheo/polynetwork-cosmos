@@ -6,7 +6,7 @@ import "Switcheo/carbon/lockproxy/lockproxy.proto";
 
 // this line is used by starport scaffolding # genesis/proto/import
 
-option go_package = "github.com/Switcheo/carbon/x/lockproxy/types";
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 
 // GenesisState defines the lockproxy module's genesis state.
 message GenesisState {

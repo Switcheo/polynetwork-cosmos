@@ -4,7 +4,7 @@ package Switcheo.carbon.btcx;
 // this line is used by starport scaffolding # genesis/proto/import
 import "Switcheo/carbon/btcx/denom_info.proto";
 
-option go_package = "github.com/Switcheo/carbon/x/btcx/types";
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/btcx/types";
 
 // GenesisState defines the btcx module's genesis state.
 message GenesisState {

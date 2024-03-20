@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "Switcheo/carbon/headersync/consensus_peers.proto";
 // this line is used by starport scaffolding # 1
 
-option go_package = "github.com/Switcheo/carbon/x/headersync/types";
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/headersync/types";
 
 // Query defines the gRPC querier service.
 service Query {

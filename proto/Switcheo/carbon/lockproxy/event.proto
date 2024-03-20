@@ -3,7 +3,7 @@ package Switcheo.carbon.lockproxy;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/Switcheo/carbon/x/lockproxy/types";
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 
 message LockEvent {
   string denom = 1;

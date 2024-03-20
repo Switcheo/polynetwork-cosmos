@@ -7,7 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
 import "Switcheo/carbon/lockproxy/lockproxy.proto";
 
-option go_package = "github.com/Switcheo/carbon/x/lockproxy/types";
+option go_package = "github.com/Switcheo/polynetwork-cosmos/x/lockproxy/types";
 option (gogoproto.goproto_getters_all) = false;
 
 // Query defines the gRPC querier service.
